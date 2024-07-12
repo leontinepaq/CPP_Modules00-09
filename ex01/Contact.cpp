@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Contact_class.cpp                                  :+:      :+:    :+:   */
+/*   Contact.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:27:21 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/12 15:48:50 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:44:24 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	Contact::fill_contact(int *index)
 	Contact tmp_Contact;
 
 	std::cout << "\nNEW CONTACT:" << std::endl;
-	std::cout << "  Please enter the following information "
+	std::cout << "> Please enter the following information "
 		<< "(no field should be empty):" << std::endl;
 	if (Contact::enter_field("first name", &tmp_Contact.first_name)
 		|| Contact::enter_field("last name", &tmp_Contact.last_name)
@@ -85,10 +85,10 @@ void	Contact::display_contact_list(int index)
 void	Contact::display_contact_information(void)
 {
 	std::cout << "\nCONTACT INFORMATION:" << std::endl;
-	std::cout << "  - first name: " << this->first_name << std::endl;
-	std::cout << "  - last name: " << this->last_name << std::endl;
-	std::cout << "  - nickname: " << this->nickname << std::endl;
-	std::cout << "  - phone number: " << this->phone_number << std::endl;
-	std::cout << "  - darkest secret: " << this->darkest_secret << std::endl;
+	std::cout << "   - first name: " << this->first_name << std::endl;
+	std::cout << "   - last name: " << this->last_name << std::endl;
+	std::cout << "   - nickname: " << this->nickname << std::endl;
+	std::cout << "   - phone number: " << this->phone_number << std::endl;
+	std::cout << "   - darkest secret: " << this->darkest_secret << std::endl;
 	return ;
 }
