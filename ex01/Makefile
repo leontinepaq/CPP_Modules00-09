@@ -1,7 +1,7 @@
 NAME =						phonebook
-SRCS =						phonebook.cpp\
-							Contact_class.cpp\
-							PhoneBook_class.cpp
+SRCS =						main.cpp\
+							Contact.cpp\
+							PhoneBook.cpp
 OBJS = 						$(SRCS:.cpp=.o)
 DEP =						$(OBJS:%.o=%.d)
 CC = 						clang++
@@ -20,7 +20,7 @@ $(NAME):					$(OBJS)
 
 
 %.o:						%.cpp
-							@echo "$(LIB_COLOR)[phonebook] $(NO_COLOR)Compiling $(OBJ_COLOR)$(notdir $<)$(NO_COLOR)"
+							@echo "$(LIB_COLOR)[$(NAME)] $(NO_COLOR)Compiling $(OBJ_COLOR)$(notdir $<)$(NO_COLOR)"
 							@$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 clean:						
