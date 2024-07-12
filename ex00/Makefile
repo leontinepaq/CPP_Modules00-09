@@ -6,16 +6,19 @@ CC = 						clang++
 CPPFLAGS =					-MMD
 CFLAGS =					-Wall -Werror -Wextra -g3 -std=c++98
 OBJ_COLOR =					\033[0;34m
+LIB_COLOR =					\033[1;36m
 NO_COLOR =					\033[0m
 BOLD =						\033[1m
 
 all:						$(NAME)
 
 $(NAME):					$(OBJS)
+							@echo "$(LIB_COLOR)[$(NAME)] Compiling$(NO_COLOR) $(LIB_COLOR)binary$(NO_COLOR)"
 							@$(CC) $(CPPFLAGS) $(CFLAGS) -o $(NAME) $(OBJS)
 
 
 %.o:						%.cpp
+							@echo "$(LIB_COLOR)[phonebook] $(NO_COLOR)Compiling $(OBJ_COLOR)$(notdir $<)$(NO_COLOR)"
 							@$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 clean:						
