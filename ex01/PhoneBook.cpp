@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PhoneBook_class.cpp                                :+:      :+:    :+:   */
+/*   PhoneBook.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:26:58 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/12 17:02:46 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:50:54 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 PhoneBook::PhoneBook(void)
 {
-	this->contact_to_write = 0;
+	this->current_index = 0;
 	return ;
 }
 
@@ -24,7 +24,7 @@ PhoneBook::~PhoneBook(void)
 }
 void	PhoneBook::add(void)
 {
-	this->contacts[this->contact_to_write].fill_contact(&this->contact_to_write);
+	this->contacts[this->current_index].fill_contact(&this->current_index);
 	return ;
 }
 

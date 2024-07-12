@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 16:56:42 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/12 16:01:16 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:50:54 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ class PhoneBook
 		void	search(void);
 	
 	private:
-		int		contact_to_write;
+		int		current_index;
 		void	display_list_contacts(void);
 		void	select_contact(void);
 };
