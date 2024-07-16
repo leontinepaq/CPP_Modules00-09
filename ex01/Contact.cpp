@@ -6,11 +6,11 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:27:21 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/12 17:44:24 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:53:44 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "phonebook.hpp"
+#include "Contact.hpp"
 
 Contact::Contact(void)
 {
@@ -29,15 +29,37 @@ bool	Contact::is_empty(void)
 	return (false);
 }
 
+int	check_input_field(std::string buff, std::string field)
+{
+	std::istringstream iss(buff);
+	if (buff == "")
+	{
+		std::cout << "> Field \"" << field << "\" cannot be empty" << std::endl;
+		return (EXIT_FAILURE);
+	}
+	for (size_t i = 0; i < buff.length(); i++)
+	{
+		if (!isgraph(buff[i]) && buff[i] != ' ')
+		{
+			std::cout << "> Field \"" << field << "\" cannot contain non-printable characters" << std::endl;
+			return (EXIT_FAILURE);
+		}	
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	Contact::enter_field(std::string field, std::string *buff)
 {
 	std::cout << "   - " << field << ": ";
-    std::getline(std::cin, *buff);
-    if (*buff != "")
-   
-		return (EXIT_SUCCESS);
-	std::cout << "> Field \"" << field << "\" cannot be empty" << std::endl;
-	return (EXIT_FAILURE);
+	if (!std::getline(std::cin, *buff))
+	{
+		if (std::cin.eof())
+			std::cout << "\n> EOF detected\n";
+		return (EXIT_FAILURE);
+	}
+	if (check_input_field(*buff, field))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 void	Contact::fill_contact(int *index)

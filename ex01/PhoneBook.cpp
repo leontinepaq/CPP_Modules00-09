@@ -6,11 +6,11 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:26:58 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/12 17:50:54 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:53:53 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "phonebook.hpp"
+#include "PhoneBook.hpp"
 
 PhoneBook::PhoneBook(void)
 {
@@ -49,7 +49,12 @@ void	PhoneBook::select_contact(void)
 
 	std::cout << "DISPLAY CONTACT:" << std::endl;
 	std::cout << "> Please enter the index of the contact you want to display: ";
-	std::getline(std::cin, input);
+	if (!std::getline(std::cin, input))
+	{
+		if (std::cin.eof())
+			std::cout << "\n> EOF detected\n" << std::endl;
+		return ;
+	}
 	std::istringstream iss(input);
     if (!(iss >> index) || !iss.eof()
 		|| index < 0 || index >= 8 || this->contacts[index].is_empty())

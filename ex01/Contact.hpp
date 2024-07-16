@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phonebook.hpp                                      :+:      :+:    :+:   */
+/*   Contact.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 16:56:42 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/12 17:50:54 by lpaquatt         ###   ########.fr       */
+/*   Created: 2024/07/16 13:51:38 by lpaquatt          #+#    #+#             */
+/*   Updated: 2024/07/16 13:54:30 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHONEBOOK_HPP
-# define PHONEBOOK_HPP
+#ifndef CONTACT_H
+# define CONTACT_H
 
 # include <iostream>
 # include <cstdlib>
@@ -39,21 +39,5 @@ class Contact
 		int			enter_field(std::string field, std::string *buff);
 		void		display_field(std::string field_value);
 };
-
-class PhoneBook
-{
-	public:
-		PhoneBook(void);
-		~PhoneBook(void);
-		Contact	contacts[8];
-		void	add(void);
-		void	search(void);
-	
-	private:
-		int		current_index;
-		void	display_list_contacts(void);
-		void	select_contact(void);
-};
-
 
 #endif
