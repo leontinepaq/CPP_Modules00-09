@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:20:34 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/19 19:17:35 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:26:38 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static int	getLevel(std::string level)
 			return (i);
 	return (-1);
 }
-
 
 int main(int ac, char **av)
 {
