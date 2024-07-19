@@ -1,4 +1,4 @@
-NAME =						brainz
+NAME =						mySed
 SRCS_F =					main.cpp \
 							Sed.cpp
 OBJS_F = 					$(SRCS_F:.cpp=.o)
