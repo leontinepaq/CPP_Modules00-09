@@ -1,0 +1,6 @@
+*.o
+*.d
+brainz
+mySed
+harl
+HarlFilter
