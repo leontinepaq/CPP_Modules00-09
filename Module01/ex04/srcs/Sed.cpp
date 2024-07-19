@@ -6,12 +6,11 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:34:00 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/19 16:52:43 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:54:48 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Sed.hpp"
-
 
 Sed::Sed(std::string &filename, std::string &s1, std::string &s2)
 {
@@ -66,7 +65,6 @@ int Sed::replaceLine()
 {
 	size_t		index = 0;
 	std::string	newLine;
-	
 
 	while (line[index])
 	{
@@ -93,7 +91,7 @@ int Sed::copyReplace()
 		this->replaceLine();
 		this->outfile << this->line;
 		if (!this->infile.eof())
-		 	this->outfile << std::endl;
+			this->outfile << std::endl;
 	}
 	return (EXIT_SUCCESS);
 }
