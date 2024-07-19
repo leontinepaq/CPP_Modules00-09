@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:34:00 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/19 16:47:32 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:52:43 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int Sed::copyReplace()
 		 	this->outfile << std::endl;
 	}
 	return (EXIT_SUCCESS);
-
 }
 
 int Sed::mySed(std::string &filename, std::string &s1, std::string &s2)
