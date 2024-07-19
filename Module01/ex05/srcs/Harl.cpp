@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:04:13 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/19 18:07:18 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:25:11 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ Harl::~Harl()
 
 void	Harl::complain(std::string level)
 {
-	void (Harl::*ptr[4])(void) = {&Harl::debug, &Harl::info, &Harl::warning, &Harl::error};
-	std::string levels[4] = {"DEBUG","INFO","WARNING","ERROR"};
+	void (Harl::*ptr[NB_LEVELS])(void) = {&Harl::debug, &Harl::info, &Harl::warning, &Harl::error};
+	std::string levels[NB_LEVELS] = LEVELS;
 	
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < NB_LEVELS; i++)
 	{
 		if (level == levels[i])
 		{
@@ -57,4 +57,3 @@ void	Harl::error(void)
 {
 	std::cout << "This is unacceptable ! I want to speak to the manager now." << std::endl;
 }
-

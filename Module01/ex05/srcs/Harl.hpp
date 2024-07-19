@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:01:08 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/19 17:05:00 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:24:43 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 #include <iostream>
 #include <string>
+
+# define NB_LEVELS	4
+# define LEVELS		{"DEBUG","INFO","WARNING","ERROR"}
 
 class Harl
 {
