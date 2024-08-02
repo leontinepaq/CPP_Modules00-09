@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:27:21 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/16 13:53:44 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/02 13:34:13 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,95 +22,98 @@ Contact::~Contact(void)
 	return ;
 }
 
-bool	Contact::is_empty(void)
+bool	Contact::isEmpty(void)
 {
-	if (this->first_name == "")
+	if (this->firstName == "")
 		return (true);
 	return (false);
 }
 
-int	check_input_field(std::string buff, std::string field)
+static int	checkInputField(std::string buff, std::string field)
 {
 	std::istringstream iss(buff);
 	if (buff == "")
 	{
-		std::cout << "> Field \"" << field << "\" cannot be empty" << std::endl;
+		std::cout << RED << "> Field \"" << field << "\" cannot be empty" 
+			<< RESET << std::endl;
 		return (EXIT_FAILURE);
 	}
 	for (size_t i = 0; i < buff.length(); i++)
 	{
 		if (!isgraph(buff[i]) && buff[i] != ' ')
 		{
-			std::cout << "> Field \"" << field << "\" cannot contain non-printable characters" << std::endl;
+			std::cout << RED << "> Field \"" << field << "\" cannot contain non-printable characters"
+				<< RESET << std::endl;
 			return (EXIT_FAILURE);
 		}	
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	Contact::enter_field(std::string field, std::string *buff)
+int	Contact::enterField(std::string field, std::string *buff)
 {
-	std::cout << "   - " << field << ": ";
+	std::cout << BLUE << "   - " << field << ": " << RESET;
 	if (!std::getline(std::cin, *buff))
 	{
 		if (std::cin.eof())
-			std::cout << "\n> EOF detected\n";
+			std::cout << RED << "\n> EOF detected" << RESET << std::endl;
 		return (EXIT_FAILURE);
 	}
-	if (check_input_field(*buff, field))
+	if (checkInputField(*buff, field))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-void	Contact::fill_contact(int *index)
+void	Contact::fillContact(int *index)
 {
 	Contact tmp_Contact;
 
-	std::cout << "\nNEW CONTACT:" << std::endl;
-	std::cout << "> Please enter the following information "
-		<< "(no field should be empty):" << std::endl;
-	if (Contact::enter_field("first name", &tmp_Contact.first_name)
-		|| Contact::enter_field("last name", &tmp_Contact.last_name)
-		|| Contact::enter_field("nickname", &tmp_Contact.nickname)
-		|| Contact::enter_field("phone number", &tmp_Contact.phone_number)
-		|| Contact::enter_field("darkest secret", &tmp_Contact.darkest_secret))
+	std::cout << PINK << "\nNEW CONTACT:" << std::endl;
+	std::cout << BLUE << "> Please enter the following information "
+		<< "(no field should be empty):" << RESET << std::endl;
+	if (Contact::enterField("first name", &tmp_Contact.firstName)
+		|| Contact::enterField("last name", &tmp_Contact.lastName)
+		|| Contact::enterField("nickname", &tmp_Contact.nickname)
+		|| Contact::enterField("phone number", &tmp_Contact.phoneNumber)
+		|| Contact::enterField("darkest secret", &tmp_Contact.darkestSecret))
 	{
-		std::cout << "> Contact not added\n" << std::endl;
+		std::cout << RED << "> Contact not added\n" << RESET << std::endl;
 		return ;
 	}
 	*this = tmp_Contact;
-	*index = (*index + 1) % 8;
-	std::cout << "> Contact successfully added to your phonebook\n" << std::endl;
+	*index = (*index + 1) % MAX_CONTACTS;
+	std::cout << GREEN << "> Contact successfully added to your phonebook\n" 
+		<< RESET << std::endl;
 	return ;
 }
 
-void	Contact::display_field(std::string field_value)
+void	Contact::displayField(std::string field_value)
 {
-	std::cout << "|";
+	std::cout << LIGHT_BLUE << "|" << RESET;
 	if (field_value.length() > 10)
 		std::cout << field_value.substr(0, 9) << ".";
 	else
 		std::cout << std::setw(10) << field_value;
 }
-void	Contact::display_contact_list(int index)
+void	Contact::displayContactRow(int index)
 {
-	if (this->is_empty())
+	if (this->isEmpty())
 		return ;
 	std::cout << std::setw(10) << index;
-	this->display_field(this->first_name);
-	this->display_field(this->last_name);
-	this->display_field(this->nickname);
+	this->displayField(this->firstName);
+	this->displayField(this->lastName);
+	this->displayField(this->nickname);
 	std::cout << std::endl;
 	return ;
 }
 
-void	Contact::display_contact_information(void)
+void	Contact::displayContactInformation(void)
 {
-	std::cout << "\nCONTACT INFORMATION:" << std::endl;
-	std::cout << "   - first name: " << this->first_name << std::endl;
-	std::cout << "   - last name: " << this->last_name << std::endl;
-	std::cout << "   - nickname: " << this->nickname << std::endl;
-	std::cout << "   - phone number: " << this->phone_number << std::endl;
-	std::cout << "   - darkest secret: " << this->darkest_secret << std::endl;
+	std::cout << PINK << "\nCONTACT INFORMATION:" << RESET << std::endl;
+	std::cout << LIGHT_BLUE << "   - first name: " << RESET << this->firstName << std::endl;
+	std::cout << LIGHT_BLUE << "   - last name: " << RESET <<  this->lastName << std::endl;
+	std::cout << LIGHT_BLUE << "   - nickname: " << RESET <<  this->nickname << std::endl;
+	std::cout << LIGHT_BLUE << "   - phone number: " << RESET <<  this->phoneNumber << std::endl;
+	std::cout << LIGHT_BLUE << "   - darkest secret: " << RESET <<  this->darkestSecret << std::endl;
 	return ;
 }

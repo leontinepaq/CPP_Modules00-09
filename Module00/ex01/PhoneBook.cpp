@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:26:58 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/16 13:53:53 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/02 13:34:13 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 PhoneBook::PhoneBook(void)
 {
-	this->current_index = 0;
+	this->currentIndex = 0;
 	return ;
 }
 
@@ -24,53 +24,55 @@ PhoneBook::~PhoneBook(void)
 }
 void	PhoneBook::add(void)
 {
-	this->contacts[this->current_index].fill_contact(&this->current_index);
+	this->contacts[this->currentIndex].fillContact(&this->currentIndex);
 	return ;
 }
 
-void	PhoneBook::display_list_contacts(void)
+void	PhoneBook::displayListContacts(void)
 {
-	std::cout << "\nLIST OF CONTACTS:" << std::endl;
+	std::cout << PINK << "\nLIST OF CONTACTS:" << RESET << std::endl;
+	std::cout << LIGHT_BLUE;
 	std::cout << "---------------------------------------------" << std::endl;
 	std::cout << std::setw(10) << "Index" << "|";
 	std::cout << std::setw(10) << "First name" << "|";
 	std::cout << std::setw(10) << "Last name" << "|";
 	std::cout << std::setw(10) << "Nickname" << std::endl;
 	std::cout << "---------------------------------------------" << std::endl;
-	for (int i = 0; i < 8; i++)
-		this->contacts[i].display_contact_list(i);
+	std::cout << RESET;
+	for (int i = 0; i < MAX_CONTACTS; i++)
+		this->contacts[i].displayContactRow(i);
 	std::cout << std::endl;
 }
 
-void	PhoneBook::select_contact(void)
+void	PhoneBook::selectContact(void)
 {
-	int		index;
+	int			index;
 	std::string	input;
 
-	std::cout << "DISPLAY CONTACT:" << std::endl;
-	std::cout << "> Please enter the index of the contact you want to display: ";
+	std::cout << PINK << "DISPLAY CONTACT:" << RESET << std::endl;
+	std::cout << BLUE << "> Please enter the index of the contact you want to display: " << RESET;
 	if (!std::getline(std::cin, input))
 	{
 		if (std::cin.eof())
-			std::cout << "\n> EOF detected\n" << std::endl;
+			std::cout << RED << "\n> EOF detected\n" << RESET << std::endl;
 		return ;
 	}
 	std::istringstream iss(input);
     if (!(iss >> index) || !iss.eof()
-		|| index < 0 || index >= 8 || this->contacts[index].is_empty())
+		|| index < 0 || index >= MAX_CONTACTS || this->contacts[index].isEmpty())
     {
-        std::cout << "> Invalid index - no contact to display\n" << std::endl;
+        std::cout << RED << "> Invalid index - no contact to display\n" 
+			<< RESET << std::endl;
         return;
     }	
-	this->contacts[index].display_contact_information();
+	this->contacts[index].displayContactInformation();
 	std::cout << std::endl;
 	return ;
 }
 
 void	PhoneBook::search(void)
 {
-	this->display_list_contacts();
-	this->select_contact();
+	this->displayListContacts();
+	this->selectContact();
 	return ;
 }
-

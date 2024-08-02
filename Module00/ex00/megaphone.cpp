@@ -6,26 +6,26 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 13:39:10 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/11 14:45:06 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:19:15 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include <cstdlib>
-#include <cctype>
+#include <string>
 
 int	main(int ac, char **av)
 {
 	if (ac == 1)
 	{
 		std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << std::endl;
-		return (EXIT_SUCCESS);
+		return (0);
 	}
 	for (int i = 1; i < ac; i++)
-		for (int j = 0; av[i][j]; j++)
-			std::cout << static_cast<char>(std::toupper(static_cast<unsigned char>(av[i][j])));
+	{
+		std::string str = av[i];
+		 for (std::string::iterator it=str.begin(); it!=str.end(); it++)
+    		std::cout << (char)toupper(*it);
+	}
 	std::cout << std::endl;
-	return (EXIT_SUCCESS);
+	return (0);
 }
-
-			// std::cout << (char)toupper(av[i][j]);
