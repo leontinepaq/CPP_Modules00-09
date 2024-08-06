@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:56:55 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/06 15:58:41 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:35:52 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,16 @@ void ScavTrap::attack(const std::string& targetName)
 		<< BLUE << "! It causes " << LIGHT_BLUE << _attackDamage 
 		<< BLUE << " points of damage !" << RESET << std::endl;
 	_energyPoints--;
+}
+
+void ScavTrap::guardGate(void)
+{
+	if (_hitPoints == 0)
+	{
+		std::cout << RED << "ScavTrap " << _name 
+		<< " can't guard the gate, it is already dead." << RESET << std::endl;
+		return ;
+	}
+	std::cout << GREEN << "ScavTrap " << _name 
+		<< " is now in Gate keeper mode." << RESET << std::endl;
 }

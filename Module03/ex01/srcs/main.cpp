@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 12:08:33 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/06 16:30:02 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:36:52 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ int main(void)
 	scav.beRepaired(2);
 	std::cout << std::endl;
 	scav.displayStatus();
+	std::cout << std::endl;
+
+	std::cout << YELLOW << "GUARD GATE" << RESET << std::endl;
+	scav.guardGate();
 	std::cout << std::endl;
 
 	return (0);
