@@ -6,13 +6,13 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 12:14:07 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/01 14:12:40 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:35:21 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
 
-const float Fixed::epsilon = 0.004f;
+const float Fixed::epsilon =  Fixed(1).toFloat();// 0.004f;
 
 Fixed::Fixed(void)
 {
@@ -75,6 +75,7 @@ const Fixed Fixed::operator--(int)
 	return tmp;
 }
 
+// a changer
 const Fixed Fixed::operator+(const Fixed &src) const
 {
 	return Fixed(this->toFloat() + src.toFloat());
