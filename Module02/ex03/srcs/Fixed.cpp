@@ -6,13 +6,11 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 12:14:07 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/06 13:35:21 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/06 23:47:21 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
-
-const float Fixed::epsilon =  Fixed(1).toFloat();// 0.004f;
 
 Fixed::Fixed(void)
 {
@@ -48,7 +46,7 @@ Fixed &Fixed::operator=(const Fixed &src)
 //pre-increment
 const Fixed &Fixed::operator++(void)
 {
-	this->setRawBits(this->getRawBits() + floatToFixedValue(epsilon));
+	this->setRawBits(this->getRawBits() + 1);
 	return *this;
 }
 
@@ -56,14 +54,14 @@ const Fixed &Fixed::operator++(void)
 const Fixed Fixed::operator++(int)
 {
 	Fixed tmp = Fixed(this->toFloat());
-	this->setRawBits(this->getRawBits() + floatToFixedValue(epsilon));
+	this->setRawBits(this->getRawBits() + 1);
 	return tmp;
 }
 
 //pre-decrement
 const Fixed &Fixed::operator--(void)
 {
-	this->setRawBits(this->getRawBits() - floatToFixedValue(epsilon));
+	this->setRawBits(this->getRawBits() - 1);
 	return *this;
 }
 
@@ -71,34 +69,45 @@ const Fixed &Fixed::operator--(void)
 const Fixed Fixed::operator--(int)
 {
 	Fixed tmp(*this);
-	this->setRawBits(this->getRawBits() - floatToFixedValue(epsilon));
+	this->setRawBits(this->getRawBits() - 1);
 	return tmp;
 }
 
-// a changer
 const Fixed Fixed::operator+(const Fixed &src) const
 {
-	return Fixed(this->toFloat() + src.toFloat());
+	Fixed res;
+
+	res.setRawBits(this->getRawBits() + src.getRawBits());
+	return res;
 }
 
 const Fixed Fixed::operator-(const Fixed &src) const
 {
-	return Fixed(this->toFloat() - src.toFloat());
+	Fixed res;
+
+	res.setRawBits(this->getRawBits() - src.getRawBits());
+	return res;
 }
 
 const Fixed Fixed::operator*(const Fixed &src) const
 {
-	return Fixed(this->toFloat() * src.toFloat());
+	Fixed res;
+	
+	res.setRawBits((this->getRawBits() * src.getRawBits()) >> Fixed::nb_bits);
+	return res;
 }
 
 const Fixed Fixed::operator/(const Fixed &src) const
 {
-	if (src.toFloat() == 0)
+	Fixed res;
+
+	if (src.getRawBits() == 0)
 	{
 		std::cerr << "Division by zero" << std::endl;
 		return Fixed(0);
 	}
-	return Fixed(this->toFloat() / src.toFloat());
+	res.setRawBits((this->getRawBits() << Fixed::nb_bits) / src.getRawBits());
+	return res;
 }
 
 bool Fixed::operator>(const Fixed &src) const
@@ -193,4 +202,19 @@ const Fixed &Fixed::max(const Fixed &a, const Fixed &b)
 	if (a > b)
 		return a;
 	return b;
+}
+
+void Fixed::printBits(void)
+{
+	std::string bits;
+	int n = this->getRawBits();
+
+	for (int i = 0; i < 32; i++)
+	{
+		if (i == this->nb_bits)
+			bits.insert(0, 1, '|');
+		bits.insert(0, 1, (n & 1) + '0');
+		n >>= 1;
+	}
+	std::cout << bits << std::endl;
 }

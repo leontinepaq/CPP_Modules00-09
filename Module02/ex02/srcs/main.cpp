@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 12:12:33 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/01 14:20:01 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/06 23:48:47 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,23 @@ int main( void )
 
 	std::cout << LIGHT_BLUE << "Pre-increment and post-increment" << RESET << std::endl;
 	a = Fixed(0);
-	std::cout << "epsilon = " << Fixed::epsilon << std::endl;
 	std::cout << "a = " << a << std::endl;
 	std::cout << "++a = " << ++a << std::endl;
 	std::cout << "a = " << a << std::endl;
 	std::cout << "a++ = " << a++ << std::endl;
 	std::cout << "a = " << a << std::endl;
+	std::cout << "--a = " << --a << std::endl;
 	std::cout << std::endl;
 
-	std::cout << LIGHT_BLUE << "Pre-decrement and post-decrement" << RESET << std::endl;
-	b = Fixed(0);
+	std::cout << LIGHT_BLUE << "Increment in bits" << RESET << std::endl;
+	b = Fixed(3);
 	std::cout << "b = " << b << std::endl;
-	std::cout << "--b = " << --b << std::endl;
-	std::cout << "b = " << b << std::endl;
-	std::cout << "b-- = " << b-- << std::endl;
-	std::cout << "b = " << b << std::endl;
+	std::cout << "In bits:" << std::endl;
+	std::cout << "b = ";
+	b.printBits();
+	++b;
+	std::cout << "++b = ";
+	b.printBits();
 	std::cout << std::endl;
 
 	std::cout << LIGHT_BLUE << "Min and max" << RESET << std::endl;
