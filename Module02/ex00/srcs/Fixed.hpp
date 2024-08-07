@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 12:12:37 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/29 12:42:37 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:35:50 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ class Fixed
 		Fixed(const Fixed &src);
 		Fixed &operator=(const Fixed &src);
 		~Fixed();
-		int getRawBits( void ) const;
-		void setRawBits( int const raw );
+		int		getRawBits( void ) const;
+		void	setRawBits( int const raw );
+		void	printBits(void);
+
 };
 
 #endif
