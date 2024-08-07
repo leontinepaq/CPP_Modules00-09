@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 17:40:35 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/17 17:58:08 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:19:29 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 class Weapon
 {
 	private:
-		std::string	type;
+		std::string	_type;
 
 	public:
 		Weapon(std::string type);
