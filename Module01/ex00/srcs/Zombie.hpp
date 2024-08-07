@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:47:30 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/07 12:18:21 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:14:27 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 class Zombie
 {
 	private:
-		std::string name;
+		std::string _name;
 
 	public:
 		Zombie(std::string name);
