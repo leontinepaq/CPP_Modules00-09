@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:47:30 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/17 17:12:15 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:16:21 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ class Zombie
 		void setName(std::string name);
 
 	private:
-		std::string name;
+		std::string _name;
 };
 
 class	PreventNull {};
