@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 12:14:07 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/31 11:16:52 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:04:53 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,19 @@ float Fixed::toFloat(void) const
 int Fixed::toInt(void) const
 {
 	return this->getRawBits() >> this->nb_bits;
+}
+
+void Fixed::printBits(void) const
+{
+	std::string bits;
+	int n = this->getRawBits();
+
+	for (int i = 0; i < 32; i++)
+	{
+		if (i == this->nb_bits)
+			bits.insert(0, 1, '|');
+		bits.insert(0, 1, (n & 1) + '0');
+		n >>= 1;
+	}
+	std::cout << bits << std::endl;
 }

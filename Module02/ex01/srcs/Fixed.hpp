@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 12:12:37 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/29 14:37:30 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:04:42 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,22 @@ class Fixed
 	private:
 		int value;
 		static const int nb_bits = 8;
+		int getRawBits(void) const;
+		void setRawBits(int const raw);
+
 	public:
 		Fixed();
 		Fixed (int const value);
 		Fixed (float const value);
 		Fixed(const Fixed &src);
-		Fixed &operator=(const Fixed &src);
-		friend std::ostream &operator<<(std::ostream &os, const Fixed &src);
 		~Fixed();
-		int getRawBits( void ) const;
-		void setRawBits( int const raw );
-		float toFloat( void ) const;
-		int toInt( void ) const;
+		Fixed	&operator=(const Fixed &src);
+		float	toFloat( void ) const;
+		int		toInt( void ) const;
+		void	printBits(void) const;
+
 };
+
+std::ostream &operator<<(std::ostream &os, const Fixed &src);
 
 #endif
