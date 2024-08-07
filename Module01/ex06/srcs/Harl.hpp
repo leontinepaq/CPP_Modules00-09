@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:01:08 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/19 19:18:09 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:25:22 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 # define NB_LEVELS	4
 # define LEVELS		{"DEBUG","INFO","WARNING","ERROR"}
-# define FCT_PTRS	{&Harl::debug, &Harl::info, &Harl::warning, &Harl::error}
 
 class Harl
 {

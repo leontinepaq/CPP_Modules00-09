@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:04:13 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/19 19:17:21 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:25:15 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,32 @@ Harl::~Harl()
 {
 }
 
-void	Harl::complain(std::string level)
+static int	getLevel(std::string level)
 {
-	void (Harl::*ptr[NB_LEVELS])(void) = FCT_PTRS;
-	std::string levels[NB_LEVELS] = LEVELS;
+	std::string levels_str[NB_LEVELS] = LEVELS;
 	
-	bool levelReached = false;
 	for (int i = 0; i < NB_LEVELS; i++)
+		if (level == levels_str[i])
+			return (i);
+	return (-1);
+}
+
+void Harl::complain(std::string level)
+{
+	switch (getLevel(level))
 	{
-		if (level == levels[i] || levelReached == true)
-		{
-			(this->*ptr[i])();
-			levelReached = true;	
-		}
+		case 0:
+			debug();
+		case 1:
+			info();
+		case 2:
+			warning();
+		case 3:
+			error();
+			break;
+		default:
+			std::cout << "[ Probably complaining about insignificant problems ]" << std::endl;
+			break;
 	}
 }
 
