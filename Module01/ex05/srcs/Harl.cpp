@@ -6,17 +6,17 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:04:13 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/19 19:25:11 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:45:22 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Harl.hpp"
 
-Harl::Harl()
+Harl::Harl(void)
 {
 }
 
-Harl::~Harl()
+Harl::~Harl(void)
 {
 }
 
@@ -24,7 +24,7 @@ void	Harl::complain(std::string level)
 {
 	void (Harl::*ptr[NB_LEVELS])(void) = {&Harl::debug, &Harl::info, &Harl::warning, &Harl::error};
 	std::string levels[NB_LEVELS] = LEVELS;
-	
+
 	for (int i = 0; i < NB_LEVELS; i++)
 	{
 		if (level == levels[i])

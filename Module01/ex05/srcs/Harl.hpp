@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:01:08 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/19 19:24:43 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:45:02 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 class Harl
 {
 	public:
-		Harl();
-		~Harl();
+		Harl(void);
+		~Harl(void);
 		void	complain(std::string level);
 
 	private:
