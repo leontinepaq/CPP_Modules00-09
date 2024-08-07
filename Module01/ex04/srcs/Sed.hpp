@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:27:15 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/07/19 16:41:11 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:08:07 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <cstdlib>
-#include <sys/stat.h>
-
+// #include <sys/stat.h>
 
 class Sed
 {
@@ -26,18 +24,16 @@ class Sed
 		static int mySed(std::string &filename, std::string &s1, std::string &s2);
 		
 	private:
-		std::ifstream	infile;
-		std::ofstream	outfile;
-		std::string		filename;
-		std::string		s1;
-		std::string		s2;
-		std::string		line;
+		std::ifstream	_inStream;
+		std::ofstream	_outStream;
+		std::string		_filename;
+		std::string		_s1;
+		std::string		_s2;
 
 		Sed(std::string &filename, std::string &s1, std::string &s2);
 		~Sed();
-		int 	openFiles();
-		int		copyReplace();
-		int		replaceLine();
+		int 	openFiles(void);
+		int		copyReplace(void);
 };
 
 #endif
