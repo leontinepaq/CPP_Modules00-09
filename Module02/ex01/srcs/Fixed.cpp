@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 12:14:07 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/07 12:04:53 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:31:01 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 Fixed::Fixed(void)
 {
 	std::cout << "Default constructor called" << std::endl;
-	this->setRawBits(0);
+	setRawBits(0);
 }
 
 Fixed::Fixed(int const value)
 {
 	std::cout << "Int constructor called" << std::endl;
-	this->setRawBits(value << Fixed::nb_bits);
+	setRawBits(value << Fixed::_nb_bits);
 }
 
 Fixed::Fixed(float const value)
 {
 	std::cout << "Float constructor called" << std::endl;
-	this->value = roundf(value * (1 << Fixed::nb_bits));
+	_value = roundf(value * (1 << Fixed::_nb_bits));
 }
 
 Fixed::Fixed(const Fixed &src)
@@ -39,7 +39,7 @@ Fixed::Fixed(const Fixed &src)
 Fixed &Fixed::operator=(const Fixed &src)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
-	this->setRawBits(src.getRawBits());
+	setRawBits(src.getRawBits());
 	return *this;
 }
 
@@ -56,32 +56,32 @@ Fixed::~Fixed(void)
 
 int Fixed::getRawBits(void) const
 {
-	return this->value;
+	return _value;
 }
 
 void Fixed::setRawBits(int const raw)
 {
-	this->value = raw;
+	_value = raw;
 }
 
 float Fixed::toFloat(void) const
 {
-	return ((float)this->getRawBits() / (1 << this->nb_bits));
+	return ((float)getRawBits() / (1 << _nb_bits));
 }
 
 int Fixed::toInt(void) const
 {
-	return this->getRawBits() >> this->nb_bits;
+	return getRawBits() >> _nb_bits;
 }
 
 void Fixed::printBits(void) const
 {
 	std::string bits;
-	int n = this->getRawBits();
+	int n = getRawBits();
 
 	for (int i = 0; i < 32; i++)
 	{
-		if (i == this->nb_bits)
+		if (i == _nb_bits)
 			bits.insert(0, 1, '|');
 		bits.insert(0, 1, (n & 1) + '0');
 		n >>= 1;

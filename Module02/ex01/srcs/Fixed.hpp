@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 12:12:37 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/07 12:04:42 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:30:34 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 class Fixed 
 {
 	private:
-		int value;
-		static const int nb_bits = 8;
-		int getRawBits(void) const;
-		void setRawBits(int const raw);
+		int					_value;
+		static const int	_nb_bits = 8;
+		int		getRawBits(void) const;
+		void	setRawBits(int const raw);
 
 	public:
 		Fixed();

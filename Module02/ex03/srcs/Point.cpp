@@ -6,21 +6,21 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:26:59 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/06 20:26:03 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:37:48 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Point.hpp"
 
-Point::Point() : x(0), y(0)
+Point::Point() : _x(0), _y(0)
 {
 }
 
-Point::Point(const float x, const float y) : x(x), y(y)
+Point::Point(const float x, const float y) : _x(x), _y(y)
 {
 }
 
-Point::Point(const Point &src) : x(src.x), y(src.y)
+Point::Point(const Point &src) : _x(src._x), _y(src._y)
 {
 }
 
@@ -37,17 +37,17 @@ Point::~Point()
 
 bool Point::operator==(const Point &src) const
 {
-	return (this->getX() == src.getX() && this->getY() == src.getY());
+	return (getX() == src.getX() && getY() == src.getY());
 }
 
 Fixed const Point::getX() const
 {
-	return this->x;
+	return _x;
 }
 
 Fixed const Point::getY() const
 {
-	return this->y;
+	return _y;
 }
 
 std::ostream &operator<<(std::ostream &os, const Point &src)

@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 12:14:07 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/07 11:35:57 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:29:45 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 Fixed::Fixed(void)
 {
 	std::cout << GREEN << "Default constructor called" << RESET << std::endl;
-	this->setRawBits(0);
+	setRawBits(0);
 }
 
 Fixed::Fixed(const Fixed &src)
@@ -34,7 +34,7 @@ Fixed::Fixed(const Fixed &src)
 Fixed &Fixed::operator=(const Fixed &src)
 {
 	std::cout << BLUE << "Copy assignment operator called" << RESET << std::endl;
-	this->setRawBits(src.getRawBits());
+	setRawBits(src.getRawBits());
 	return *this;
 }
 
@@ -46,22 +46,22 @@ Fixed::~Fixed(void)
 int Fixed::getRawBits(void) const
 {
 	std::cout << MAGENTA << "getRawBits member function called" << RESET << std::endl;
-	return this->value;
+	return _value;
 }
 
 void Fixed::setRawBits( int const raw )
 {
-	this->value = raw;
+	_value = raw;
 }
 
 void Fixed::printBits(void)
 {
 	std::string bits;
-	int n = this->getRawBits();
+	int n = getRawBits();
 
 	for (int i = 0; i < 32; i++)
 	{
-		if (i == this->nb_bits)
+		if (i == _nb_bits)
 			bits.insert(0, 1, '|');
 		bits.insert(0, 1, (n & 1) + '0');
 		n >>= 1;

@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:27:02 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/06 20:27:51 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:37:15 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 class Point
 {
 	private :
-		Fixed const x;
-		Fixed const y;
+		Fixed const _x;
+		Fixed const _y;
 	
 	public :
 		Point();
