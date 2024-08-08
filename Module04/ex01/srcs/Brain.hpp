@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 17:13:35 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 17:46:38 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:29:13 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ class Brain
 		Brain(const Brain &src);
 		Brain& operator=(const Brain &src);
 		~Brain();
+		void setIdea(int i, std::string idea);
+		std::string getIdea(int i) const;		
+
 	private:
 		std::string _ideas[100];
 };

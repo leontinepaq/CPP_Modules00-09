@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 17:13:25 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 17:50:28 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:30:27 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,13 @@ Brain& Brain::operator=(const Brain &src)
 Brain::~Brain()
 {
 	std::cout << BLUE "[Brain]" GREY " Destructor called" << std::endl;
+}
+
+void Brain::setIdea(int i, std::string idea)
+{
+	_ideas[i] = idea;
+}
+std::string Brain::getIdea(int i) const
+{
+	return _ideas[i];
 }

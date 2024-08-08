@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:31:21 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 17:53:55 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:33:39 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ class Dog : public Animal
 		Dog& operator=(const Dog &src);
 		~Dog();
 		void	makeSound(void) const;
+		Brain *getBrain(void) const;
 
 	private:
 		Brain *_brain;

@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:31:53 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 17:57:48 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:33:47 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,9 @@ Dog::~Dog()
 void	Dog::makeSound(void) const
 {
 	std::cout << GREEN "Wouf wouf" RESET << std::endl;
+}
+
+Brain *Dog::getBrain(void) const
+{
+	return _brain;
 }

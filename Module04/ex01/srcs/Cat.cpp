@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:59:36 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 17:56:31 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:33:56 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,9 @@ Cat::~Cat()
 void	Cat::makeSound(void) const
 {
 	std::cout << PURPLE "Miaouuu" RESET << std::endl;
+}
+
+Brain *Cat::getBrain(void) const
+{
+	return _brain;
 }
