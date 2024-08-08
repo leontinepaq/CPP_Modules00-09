@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:54:46 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/06 15:56:56 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:10:18 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@
 class ClapTrap 
 {
 	protected:
-		std::string	_name;
+		std::string		_name;
 		unsigned int	_hitPoints;
 		unsigned int	_energyPoints;
 		unsigned int	_attackDamage;
 		unsigned int	_maxHitPoints;
 		
 	public:
+		ClapTrap(void);
 		ClapTrap(std::string name);
 		~ClapTrap(void);
 		ClapTrap(const ClapTrap &src);

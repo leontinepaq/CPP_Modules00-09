@@ -6,11 +6,16 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:43:40 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/06 16:51:53 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:08:24 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "FragTrap.hpp"
+
+FragTrap::FragTrap(void) : ClapTrap()
+{
+	std::cout << GREY << "A default FragTrap is created" << RESET << std::endl;
+}
 
 FragTrap::FragTrap(std::string name) : ClapTrap(name)
 {

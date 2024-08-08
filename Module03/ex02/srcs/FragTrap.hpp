@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:41:44 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/06 16:48:20 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:08:31 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 class FragTrap : public ClapTrap
 {
 	public:
+		FragTrap(void);
 		FragTrap(std::string name);
 		~FragTrap(void);
 		FragTrap(const FragTrap &src);

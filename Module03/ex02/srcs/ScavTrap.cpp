@@ -6,11 +6,16 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:56:55 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/06 16:35:52 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:08:44 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScavTrap.hpp"
+
+ScavTrap::ScavTrap(void) : ClapTrap()
+{
+	std::cout << GREY << "A default ScavTrap is created" << RESET << std::endl;
+}
 
 ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
 {

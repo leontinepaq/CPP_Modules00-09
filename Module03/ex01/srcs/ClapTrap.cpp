@@ -6,11 +6,16 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 11:54:08 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/06 16:29:00 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:07:06 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
+
+ClapTrap::ClapTrap(void) : _name("default"), _hitPoints(10), _energyPoints(10), _attackDamage(0)
+{
+	std::cout << GREY << "A default ClapTrap is created" << RESET << std::endl;
+}
 
 ClapTrap::ClapTrap(std::string name) : _name(name), _hitPoints(10), _energyPoints(10), _attackDamage(0), _maxHitPoints(10)
 {
