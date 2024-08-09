@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:35:54 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 18:41:53 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:30:46 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,28 @@ int main(void)
 	std::cout << WHITE "Creating Idefix the dog" << std::endl;
 	const Animal* idefix = new Dog();
 	std::cout << WHITE "Creating Felix the cat" << std::endl;
+	
 	Cat* felix = new Cat();
 	std::cout << WHITE "Felix has an idea: " RESET;
-	felix->getBrain()->setIdea(0, "I want to eat fish");
-	std::cout << felix->getBrain()->getIdea(0) << std::endl;
+	felix->setIdea(0, "I want to eat fish");
+	std::cout << felix->getIdea(0) << std::endl;
 	std::cout << std::endl;
 
 	std::cout << YELLOW "COPY" RESET << std::endl;
 	std::cout << WHITE "Creating Garfield, a copy of Felix" << std::endl;
-	Cat* Garfield = new Cat(*felix);	
-	std::cout << WHITE "Garfield has the same idea as Felix: " RESET;
-	std::cout << Garfield->getBrain()->getIdea(0) << std::endl;
-	std::cout << WHITE "Garfield changes his mind" RESET << std::endl;
-	Garfield->getBrain()->setIdea(0, "I want to eat pizza !!!");
-	std::cout << WHITE "Garfield's new idea: " RESET;
-	std::cout << Garfield->getBrain()->getIdea(0) << std::endl;
-	std::cout << WHITE "Felix's idea is still the same: " RESET;
-	std::cout << felix->getBrain()->getIdea(0) << std::endl;
-	std::cout << std::endl;
 	
+	Cat* Garfield = new Cat(*felix);
+	
+	std::cout << WHITE "Garfield has the same idea as Felix: " RESET;
+	std::cout << Garfield->getIdea(0) << std::endl;
+	std::cout << WHITE "Garfield changes his mind" RESET << std::endl;
+	Garfield->setIdea(0, "I want to eat pizza !!!");
+	std::cout << WHITE "Garfield's new idea: " RESET;
+	std::cout << Garfield->getIdea(0) << std::endl;
+	std::cout << WHITE "Felix's idea is still the same: " RESET;
+	std::cout << felix->getIdea(0) << std::endl;
+	std::cout << std::endl;
+
 	std::cout << YELLOW "DELETING ANIMALS" RESET << std::endl;
 	std::cout << WHITE "Deleting Idefix" << std::endl;
 	delete idefix;
@@ -51,7 +54,6 @@ int main(void)
 
 	return 0;
 }
-
 
 // int main(void)
 // {

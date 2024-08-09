@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:59:36 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 18:33:56 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:36:24 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ Cat::Cat()
 Cat::Cat(const Cat &src)
 {
 	std::cout << PURPLE "[Cat]" GREY " Copy constructor called" RESET << std::endl;
-	*this = src;
+	_type = src._type;
+	_brain = new Brain(*src._brain);
 }
 
 
@@ -32,10 +33,9 @@ Cat& Cat::operator=(const Cat &src)
 {
 	std::cout << PURPLE "[Cat]" GREY " Assignment operator called" RESET << std::endl;
 	_type = src._type;
-	_brain = new Brain(*src._brain);
+	*_brain = *src._brain;
 	return *this;
 }
-
 
 Cat::~Cat()
 {
@@ -48,7 +48,12 @@ void	Cat::makeSound(void) const
 	std::cout << PURPLE "Miaouuu" RESET << std::endl;
 }
 
-Brain *Cat::getBrain(void) const
+void	Cat::setIdea(int i, std::string idea)
 {
-	return _brain;
+	_brain->setIdea(i, idea);
+}
+
+std::string Cat::getIdea(int i) const
+{
+	return _brain->getIdea(i);
 }

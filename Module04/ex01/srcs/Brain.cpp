@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 17:13:25 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 18:30:27 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:36:52 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ Brain::Brain()
 Brain::Brain(const Brain &src)
 {
 	std::cout << BLUE "[Brain]" GREY " Copy constructor called" << std::endl;
-	*this = src;
+	for (int i = 0; i < 100; i++)
+		_ideas[i] = src._ideas[i];
 }
 
 Brain& Brain::operator=(const Brain &src)

@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:31:53 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 18:33:47 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:41:37 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,16 @@ Dog::Dog()
 Dog::Dog(const Dog &src)
 {
 	std::cout << GREEN "[Dog]" GREY " Copy constructor called" RESET << std::endl;
-	*this = src;
+	*_brain = *src._brain;
+	_type = src._type;
 }
 
 
 Dog& Dog::operator=(const Dog &src)
 {
 	std::cout << GREEN "[Dog]" GREY " Assignment operator called" RESET << std::endl;
-	_type = src._type;
 	_brain = new Brain(*src._brain);
+	_type = src._type;
 	return *this;
 }
 
@@ -48,7 +49,13 @@ void	Dog::makeSound(void) const
 	std::cout << GREEN "Wouf wouf" RESET << std::endl;
 }
 
-Brain *Dog::getBrain(void) const
+void Dog::setIdea(int i, std::string idea)
 {
-	return _brain;
+	_brain->setIdea(i, idea);
 }
+
+std::string Dog::getIdea(int i) const
+{
+	return _brain->getIdea(i);
+}
+
