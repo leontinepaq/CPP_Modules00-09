@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:31:53 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/09 14:41:37 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/13 02:55:56 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Dog::Dog()
 }
 
 
-Dog::Dog(const Dog &src)
+Dog::Dog(const Dog &src) : Animal(src)
 {
 	std::cout << GREEN "[Dog]" GREY " Copy constructor called" RESET << std::endl;
 	*_brain = *src._brain;

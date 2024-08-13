@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:31:53 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 17:07:39 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:06:06 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ Dog::Dog()
 }
 
 
-Dog::Dog(const Dog &src)
+Dog::Dog(const Dog &src) : Animal(src)
 {
-	*this = src;
 	std::cout << GREEN "[Dog]" GREY " Copy constructor called" RESET << std::endl;
+	_type = src._type;
 }
 
 
 Dog& Dog::operator=(const Dog &src)
 {
-	_type = src._type;
 	std::cout << GREEN "[Dog]" GREY " Assignment operator called" RESET << std::endl;
+	_type = src._type;
 	return *this;
 }
 

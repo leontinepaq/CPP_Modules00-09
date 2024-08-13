@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:43:59 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/09 15:17:53 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:07:34 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 AAnimal::AAnimal()
 {
 	std::cout << ORANGE "[Animal]" GREY " Default constructor called" RESET << std::endl;
-	_type = "unclassified";
+	_type = "unclassified animal";
 }
 
 
 AAnimal::AAnimal(const AAnimal &src)
 {
 	std::cout << ORANGE "[Animal]" GREY " Copy constructor called" RESET << std::endl;
-	*this = src;
+	_type = src._type;
 }
 
 

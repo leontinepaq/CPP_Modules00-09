@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:59:36 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 17:07:44 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:06:12 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,22 @@
 
 Cat::Cat()
 {
-	_type = "cat";
 	std::cout << PURPLE "[Cat]" GREY " Default constructor called" RESET << std::endl;
+	_type = "cat";
 }
 
 
-Cat::Cat(const Cat &src)
+Cat::Cat(const Cat &src) : Animal(src)
 {
-	*this = src;
 	std::cout << PURPLE "[Cat]" GREY " Copy constructor called" RESET << std::endl;
+	_type = src._type;
 }
 
 
 Cat& Cat::operator=(const Cat &src)
 {
-	_type = src._type;
 	std::cout << PURPLE "[Cat]" GREY " Assignment operator called" RESET << std::endl;
+	_type = src._type;
 	return *this;
 }
 

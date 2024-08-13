@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:55:25 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 16:52:38 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:53:18 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ class Cat : public Animal
 		Cat &operator=(const Cat &copy);
 		~Cat(void);
 		void 	makeSound(void) const;
-
-	protected:
-		std::string _type;
 };
 
 #endif

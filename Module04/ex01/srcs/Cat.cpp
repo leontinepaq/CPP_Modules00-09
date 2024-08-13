@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:59:36 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/09 14:36:24 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/13 02:54:27 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Cat::Cat()
 }
 
 
-Cat::Cat(const Cat &src)
+Cat::Cat(const Cat &src) : Animal(src)
 {
 	std::cout << PURPLE "[Cat]" GREY " Copy constructor called" RESET << std::endl;
 	_type = src._type;

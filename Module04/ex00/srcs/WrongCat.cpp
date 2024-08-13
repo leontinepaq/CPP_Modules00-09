@@ -15,22 +15,22 @@
 
 WrongCat::WrongCat()
 {
-	_type = "Wrongcat";
 	std::cout << PURPLE "[WrongCat]" GREY " Default constructor called" RESET << std::endl;
+	_type = "Wrongcat";
 }
 
 
-WrongCat::WrongCat(const WrongCat &src)
+WrongCat::WrongCat(const WrongCat &src) : WrongAnimal(src)
 {
-	*this = src;
 	std::cout << PURPLE "[WrongCat]" GREY " Copy constructor called" RESET << std::endl;
+	_type = src._type;
 }
 
 
 WrongCat& WrongCat::operator=(const WrongCat &src)
 {
-	_type = src._type;
 	std::cout << PURPLE "[WrongCat]" GREY " Assignment operator called" RESET << std::endl;
+	_type = src._type;
 	return *this;
 }
 

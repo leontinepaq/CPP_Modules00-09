@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:35:54 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 17:08:18 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:26:52 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main()
 	const Animal* randomAnimal = new Animal();
 	std::cout << WHITE "Creating Idefix the dog" << std::endl;
 	const Animal* idefix = new Dog();
-	std::cout << WHITE "Creating a Felix the cat" << std::endl;
+	std::cout << WHITE "Creating Felix the cat" << std::endl;
 	const Animal* felix = new Cat();
 	std::cout << std::endl;
 
@@ -61,4 +61,3 @@ int main()
 
 	return 0;
 }
-

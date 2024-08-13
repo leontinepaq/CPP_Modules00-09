@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:48:25 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 17:07:27 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/13 02:47:31 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ WrongAnimal::WrongAnimal()
 WrongAnimal::WrongAnimal(const WrongAnimal &src)
 {
 	std::cout << RED "[WrongAnimal]" GREY " Copy constructor called" RESET << std::endl;
-	*this = src;
+	_type = src._type;
 }
 
 

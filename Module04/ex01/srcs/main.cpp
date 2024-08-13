@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:35:54 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/09 14:30:46 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:04:16 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,37 +21,51 @@ int main(void)
 	std::cout << WHITE "Creating Idefix the dog" << std::endl;
 	const Animal* idefix = new Dog();
 	std::cout << WHITE "Creating Felix the cat" << std::endl;
-	
 	Cat* felix = new Cat();
+	std::cout << std::endl;
+
+	std::cout << YELLOW "GIVING AN IDEA TO FELIX" RESET << std::endl;
 	std::cout << WHITE "Felix has an idea: " RESET;
 	felix->setIdea(0, "I want to eat fish");
 	std::cout << felix->getIdea(0) << std::endl;
 	std::cout << std::endl;
 
-	std::cout << YELLOW "COPY" RESET << std::endl;
+	std::cout << YELLOW "COPYING FELIX" RESET << std::endl;
 	std::cout << WHITE "Creating Garfield, a copy of Felix" << std::endl;
-	
-	Cat* Garfield = new Cat(*felix);
-	
+	Cat* garfield = new Cat(*felix);	
 	std::cout << WHITE "Garfield has the same idea as Felix: " RESET;
-	std::cout << Garfield->getIdea(0) << std::endl;
+	std::cout << garfield->getIdea(0) << std::endl;
+	std::cout << std::endl;
+
+	std::cout << YELLOW "CHANGING GARFIELD'S IDEA" RESET << std::endl;
 	std::cout << WHITE "Garfield changes his mind" RESET << std::endl;
-	Garfield->setIdea(0, "I want to eat pizza !!!");
+	garfield->setIdea(0, "I want to eat pizza !!!");
 	std::cout << WHITE "Garfield's new idea: " RESET;
-	std::cout << Garfield->getIdea(0) << std::endl;
+	std::cout << garfield->getIdea(0) << std::endl;
 	std::cout << WHITE "Felix's idea is still the same: " RESET;
 	std::cout << felix->getIdea(0) << std::endl;
 	std::cout << std::endl;
 
+	std::cout << YELLOW "ASSIGNING FELIX TO A NEW INSTANCE" RESET << std::endl;
+	std::cout << WHITE "Creating Grosminet" << std::endl;
+	Cat grosminet;
+	std::cout << WHITE "Assigning Felix to Grosminet" << std::endl;
+	grosminet = *felix;
+	std::cout << WHITE "Grosminet's idea: " RESET;
+	std::cout << grosminet.getIdea(0) << std::endl;
+	std::cout << std::endl;
+	
 	std::cout << YELLOW "DELETING ANIMALS" RESET << std::endl;
 	std::cout << WHITE "Deleting Idefix" << std::endl;
 	delete idefix;
 	std::cout << WHITE "Deleting Felix" << std::endl;
 	delete felix;
-	std::cout << WHITE "Deleting Felix copy" << std::endl;
-	delete Garfield;
+	std::cout << WHITE "Deleting Garfield" << std::endl;
+	delete garfield;
 	std::cout << std::endl;
-
+	
+	std::cout << WHITE "Grosminet's idea: " RESET;
+	std::cout << grosminet.getIdea(0) << std::endl;
 	return 0;
 }
 

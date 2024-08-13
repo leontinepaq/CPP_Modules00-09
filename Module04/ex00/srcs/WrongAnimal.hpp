@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:39:12 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 17:00:30 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/13 02:51:46 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ class WrongAnimal
 		WrongAnimal &operator=(const WrongAnimal &copy);
 		~WrongAnimal(void);
 		std::string		getType(void) const;
-		void 	makeSound(void) const;
+		void 			makeSound(void) const;
 
 	protected:
 		std::string _type;
