@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:23:04 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/09 18:15:47 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/13 01:56:34 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@
 # define PURPLE		"\033[1;38;5;129m"
 # define RESET		"\033[0m"
 
+#define SHOW_CONSTRUCTORS 1
+#define SHOW_ALL_MESSAGES 1
+
+# define NB_MATERIA 4
+
 class ICharacter;
 
 class AMateria
@@ -38,7 +43,7 @@ class AMateria
 		AMateria();
 		AMateria(std::string const & type);
 		AMateria(const AMateria &src);
-		AMateria& operator=(const AMateria &src);
+		// AMateria& operator=(const AMateria &src);*ice = *cure;
 		virtual ~AMateria();
 		std::string const	&getType() const;
 		virtual AMateria	*clone() const = 0;

@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:02:36 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/09 18:03:35 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/13 02:11:06 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,23 @@
 
 class Character : public ICharacter
 {	
-	protected:
-		size_t	getNbMateria() const;
+	private:
+		std::string	_name;
+		AMateria	*_inventory[NB_MATERIA];
 
 	public:
-		Character();
+		Character(void);
 		Character(std::string name);
 		Character(const Character &src);
 		Character& operator=(const Character &src);
-		~Character();
-		std::string const	&getName() const;
+		~Character(void);
+		std::string const	&getName(void) const;
+		size_t				getNbMateria(void) const;
 		void				equip(AMateria* m);
 		void				unequip(int idx);
 		void				use(int idx, ICharacter& target);
-
-
+		void				displayInventory(void) const;
+		bool				_inInventory(AMateria *m) const;
 };
 
 #endif

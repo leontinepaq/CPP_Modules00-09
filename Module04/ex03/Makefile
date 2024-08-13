@@ -1,5 +1,6 @@
 NAME =						materia
 SRCS_F =					main.cpp \
+							mainFunctions.cpp \
 							AMateria.cpp \
 							MateriaSource.cpp \
 							Ice.cpp \
