@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:01:39 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/13 02:08:28 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/13 02:23:06 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,24 +104,24 @@ void Character::equip(AMateria* m)
 		std::cout << RED << "Invalid materia" RESET << std::endl;
 		return ;
 	}
-	if (getNbMateria() == NB_MATERIA)
+	for (size_t i = 0; i < NB_MATERIA; i++)
 	{
-		std::cout << RED << _name << "'s inventory is full, you can't equip it." RESET << std::endl;
-		std::cout << ORANGE << "The materia falls on the ground." RESET << std::endl;
-		if(!_inInventory(m))
-			delete m;	
-		return ;
+		if (!_inventory[i])
+		{
+			if (SHOW_ALL_MESSAGES)
+				std::cout << ORANGE << _name << " now have " << m->getType() << " in the pocket "
+					<< i << " of its inventory." RESET << std::endl;
+			if (_inInventory(m))
+				_inventory[i] = m->clone();
+			else
+				_inventory[i] = m;
+			return ;
+		}
 	}
-	size_t i = 0;
-	while (_inventory[i])
-		i++;
-	if (SHOW_ALL_MESSAGES)
-		std::cout << ORANGE << _name << " now have " << m->getType() << " in the pocket "
-			<< i << " of its inventory." RESET << std::endl;
-	if (_inInventory(m))
-		_inventory[i] = m->clone();
-	else
-		_inventory[i] = m;
+	std::cout << RED << _name << "'s inventory is full, you can't equip it." RESET << std::endl;
+	std::cout << ORANGE << "The materia falls on the ground." RESET << std::endl;
+	if(!_inInventory(m))
+		delete m;
 }
 
 void Character::unequip(int idx)
@@ -168,4 +168,3 @@ void Character::displayInventory(void) const
 			std::cout << ORANGE "- Pocket " << i << ": empty" RESET << std::endl;
 	}
 }
-

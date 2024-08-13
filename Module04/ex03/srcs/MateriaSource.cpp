@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:26:17 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/12 23:43:16 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/13 02:27:40 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ MateriaSource::MateriaSource(void)
 	for (size_t i = 0; i < NB_MATERIA; i++)
 		_inventory[i] = 0;
 }
-
 
 MateriaSource::MateriaSource(const MateriaSource &src)
 {
@@ -76,7 +75,7 @@ void MateriaSource::learnMateria(AMateria *materia)
 			if (SHOW_ALL_MESSAGES)
 				std::cout << PURPLE "A new materia '" << materia->getType() << "' is stored in your spell book (page " << i << ")!" RESET << std::endl;
 			_inventory[i] = materia->clone();
-			delete materia; //if not in my inventory
+			delete materia;
 			return ;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:23:04 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/13 01:56:34 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/13 02:40:20 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ class ICharacter;
 
 class AMateria
 {
+	private:
+		AMateria& operator=(const AMateria &src); // should not be used (https://www.developpez.net/forums/d2092233/c-cpp/cpp/classe-abstraite-operateur/)
+	
 	protected:
 		std::string	_type;
 		
@@ -43,7 +46,6 @@ class AMateria
 		AMateria();
 		AMateria(std::string const & type);
 		AMateria(const AMateria &src);
-		// AMateria& operator=(const AMateria &src);*ice = *cure;
 		virtual ~AMateria();
 		std::string const	&getType() const;
 		virtual AMateria	*clone() const = 0;
