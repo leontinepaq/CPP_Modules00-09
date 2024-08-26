@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:34:00 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/07 14:10:32 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/26 21:51:41 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	Sed::copyReplace(void)
 
 	streamBuf = _inStream.rdbuf();
 	tmp[size] = 0;
-	while (streamBuf->in_avail() > size)
+	while (streamBuf->in_avail() >= size)
 	{
 		streamBuf->sgetn(tmp, size);
 		if(_s1.compare(tmp) == 0)
