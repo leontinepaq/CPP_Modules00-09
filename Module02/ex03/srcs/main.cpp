@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 12:12:33 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/07 11:24:56 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:44:27 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #define RESET "\033[0m"
 
 #ifndef MAIN_NB
-# define MAIN_NB 0
+# define MAIN_NB 1
 #endif
 
 bool bsp( Point const a, Point const b, Point const c, Point const point);
