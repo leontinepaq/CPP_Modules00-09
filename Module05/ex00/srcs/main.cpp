@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 22:56:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/28 00:58:53 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/28 01:26:05 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ void	followBureaucratCareer(std::string name, int initGrade)
 	try
 	{
 		Bureaucrat bureaucrat(name, initGrade);
-		std::cout << GREEN << "Bureaucrat " << bureaucrat.getName() << " created with grade " << bureaucrat.getGrade() << RESET << std::endl;
+		std::cout << GREEN "Bureaucrat " << bureaucrat.getName()
+			<< " created with grade " << bureaucrat.getGrade() << RESET << std::endl;
 		std::string answer;
 		while (1)
 		{
-			std ::cout << CYAN << "Status: " << bureaucrat << RESET << std::endl;
+			std ::cout << CYAN "Status: " << bureaucrat << RESET << std::endl;
 			
-			std::cout << "> What do you want to do with this bureaucrat? (i: increment grade, d: decrement grade, e: end career): ";
+			std::cout << "> What do you want to do with this bureaucrat?"
+				" (i: increment grade, d: decrement grade, e: end career): ";
 			std::getline(std::cin, answer);
 			if (answer == "i")
 				bureaucrat.incrementGrade();
@@ -35,20 +37,20 @@ void	followBureaucratCareer(std::string name, int initGrade)
 	}
 	catch (std::exception & e)
 	{
-		std::cerr << RED << "Exception catched: " << e.what() << RESET << std::endl;
+		std::cerr << RED "Exception catched: " << e.what() << RESET << std::endl;
 	}
 }
 
 int	main(void)
 {
-	std::cout << YELLOW << "Welcome to the Bureaucrat career simulator!" << RESET << std::endl;
+	std::cout << YELLOW "Welcome to the Bureaucrat career simulator!" RESET << std::endl;
 	while (1)
 	{
 		std::string name;
 		int grade;
 		std::string answer;
 
-		std::cout << YELLOW << "Let's create a new bureaucrat!" << RESET << std::endl;
+		std::cout << YELLOW "Let's create a new bureaucrat!" RESET << std::endl;
 		std::cout << "> Enter a name: ";
 		std::getline(std::cin, name);
 		std::cout << "> Enter a grade: ";
@@ -61,7 +63,7 @@ int	main(void)
 			break;
 		std::cout << std::endl;
 	}
-	std::cout << YELLOW << "Goodbye!" << RESET << std::endl;
+	std::cout << YELLOW "Goodbye!" RESET << std::endl;
 	
 	return 0;
 }
