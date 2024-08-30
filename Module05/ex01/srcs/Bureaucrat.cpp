@@ -6,10 +6,9 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 22:41:41 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/28 02:59:17 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/30 21:40:32 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "Bureaucrat.hpp"
 #include <iostream>
@@ -70,7 +69,6 @@ void	Bureaucrat::decrementGrade(void)
 	_grade++;
 }
 
-//pas d'erreur de compilation + pas de pb qud include "Form.hpp" est dans Bureaucrat.cpp au lieu de Bureaucrat.hpp..?
 void	Bureaucrat::signForm(Form &form) const 
 {
 	try
