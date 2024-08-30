@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 21:45:58 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/30 22:33:18 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/30 23:09:56 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,45 +36,43 @@ Intern::~Intern()
 	std::cout << GREY "[Intern] Destructor called" RESET << std::endl;
 }
 
-static int getFormNb(std::string formName)
+AForm	*Intern::makeShrubberyCreationForm(std::string target) const
 {
-	std::string formNames[3] = {"shrubbery creation", "robotomy request", "presidential pardon"};
-	for (int i = 0; i < 3; i++)
-	{
-		if (formNames[i] == formName)
-			return i;
-	}
-	throw Intern::FormNotFoundException();
+	return new ShrubberyCreationForm(target);
+}
+
+AForm	*Intern::makeRobotomyRequestForm(std::string target) const
+{
+	return new RobotomyRequestForm(target);
+}
+
+AForm	*Intern::makePresidentialPardonForm(std::string target) const
+{
+	return new PresidentialPardonForm(target);
 }
 
 AForm	*Intern::makeForm(std::string formName, std::string target) const
 {
-	AForm *form;
-
-	try
+	AForm* (Intern::*ptr[3])(std::string target) const = {
+		&Intern::makeShrubberyCreationForm,
+		&Intern::makeRobotomyRequestForm,
+		&Intern::makePresidentialPardonForm
+	};
+	std::string formNames[3] = {"shrubbery creation", "robotomy request", "presidential pardon"};
+	AForm *form = NULL;
+	int i;
+	for (i = 0; i < 3; i++)
 	{
-		switch (getFormNb(formName))
+		if (formNames[i] == formName)
 		{
-			case 0:
-				form = new ShrubberyCreationForm(target);
-				break;
-			case 1:
-				form = new RobotomyRequestForm(target);
-				break;
-			case 2:
-				form = new PresidentialPardonForm(target);
-				break;
+			form = (this->*ptr[i])(target);
+			break;
 		}
 	}
-	catch (std::exception &e)
+	if (i == 3)
 	{
-		if (e.what() == std::string("Form not found"))
-		{
-			std::cout << RED "Intern doesn't know how to make the form '" << formName
+		std::cout << RED "Intern doesn't know how to make the form '" << formName
 				<< "'... He can only create shrubbery creation, robotomy request or presidential pardon forms" << RESET << std::endl;
-		}
-		else
-			std::cout << RED "Intern can't make the form" << RESET << std::endl;
 		return NULL;
 	}
 	std::cout << GREEN "Intern creates a " << formName << " form" << RESET << std::endl;

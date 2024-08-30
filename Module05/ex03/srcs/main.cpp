@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 22:56:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/30 22:39:59 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/30 23:15:11 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,18 @@ int	main(void)
 	
 	std::cout << YELLOW "THE INTERN TRIES TO CREATE AN UNKNOWN FORM" RESET << std::endl;
 	forms[3] = someRandomIntern.makeForm("unknown form", "unknown target");
+	std::cout << std::endl;
+
+	std::cout << YELLOW "A BUREAUCRAT EXECUTE THE FORMS" RESET << std::endl;
+	Bureaucrat	bureaucrat("Bureaucrat", 1);
+	for (int i = 0; i < 4; i++)
+	{
+		std::cout << YELLOW "- Form " << i + 1 << RESET << std::endl;
+		if (!forms[i])
+			continue ;
+		bureaucrat.signForm(*forms[i]);
+		bureaucrat.executeForm(*forms[i]);
+	}
 	std::cout << std::endl;
 
 	std::cout << YELLOW "DELETE THE FORMS" RESET << std::endl;

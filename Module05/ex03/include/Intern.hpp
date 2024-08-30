@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 21:46:03 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/30 22:08:46 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/30 23:09:13 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 class Intern
 {
 	private:
-		
+		AForm* makeShrubberyCreationForm(std::string target) const;
+		AForm* makeRobotomyRequestForm(std::string target) const;
+		AForm* makePresidentialPardonForm(std::string target) const;
+
 	public:
 		Intern();
 		Intern(const Intern &src);
