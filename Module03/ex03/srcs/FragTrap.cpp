@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:43:40 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 13:11:58 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/30 17:38:50 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 FragTrap::FragTrap(void) : ClapTrap()
 {
 	std::cout << GREY << "A default FragTrap is created" << RESET << std::endl;
+	_hitPoints = 100;
+	_energyPoints = 100;
+	_attackDamage = 30;
+	_maxHitPoints = 100;
 }
 
 FragTrap::FragTrap(std::string name) : ClapTrap(name)

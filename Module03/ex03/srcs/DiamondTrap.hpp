@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 17:20:06 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 13:12:07 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/30 17:30:37 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 class DiamondTrap : public FragTrap, public ScavTrap
 {
-	protected:
+	private:
 		std::string	_name;
 
 	public:
