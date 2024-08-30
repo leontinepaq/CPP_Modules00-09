@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:56:55 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/08 13:07:41 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/08/30 17:04:51 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 ScavTrap::ScavTrap(void) : ClapTrap()
 {
 	std::cout << GREY << "A default ScavTrap is created" << RESET << std::endl;
+	_hitPoints = 100;
+	_energyPoints = 50;
+	_attackDamage = 20;
+	_maxHitPoints = 100;
 }
 
 ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
