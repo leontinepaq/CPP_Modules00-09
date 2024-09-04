@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:35:54 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/13 03:04:16 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:43:41 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include "Brain.hpp"
 #include "Animal.hpp"
 
+#define MAIN_NB 0
+
+#if MAIN_NB == 0
 int main(void)
 {
 	std::cout << YELLOW "CREATING ANIMALS" RESET << std::endl;
@@ -68,24 +71,27 @@ int main(void)
 	std::cout << grosminet.getIdea(0) << std::endl;
 	return 0;
 }
+#endif
 
-// int main(void)
-// {
-// 	unsigned int N = 6;
-// 	const Animal *animals[N];
+#if MAIN_NB == 1
+int main(void)
+{
+	unsigned int N = 6;
+	const Animal *animals[N];
 	
-// 	for (unsigned int i = 0; i < N; i++)
-// 	{
-// 		if (i % 2 == 0)
-// 			animals[i] = new Dog();
-// 		else
-// 			animals[i] = new Cat();
-// 	}
-// 	std::cout << std::endl;
+	for (unsigned int i = 0; i < N; i++)
+	{
+		if (i % 2 == 0)
+			animals[i] = new Dog();
+		else
+			animals[i] = new Cat();
+	}
+	std::cout << std::endl;
 
-// 	for (unsigned int i = 0; i < N; i++)
-// 	{
-// 		delete animals[i];
-// 	}
+	for (unsigned int i = 0; i < N; i++)
+	{
+		delete animals[i];
+	}
 	
-// }
+}
+#endif
