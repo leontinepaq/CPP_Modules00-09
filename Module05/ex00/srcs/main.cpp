@@ -6,12 +6,15 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 22:56:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/28 01:26:05 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:55:30 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
 
+#define MAIN_NB 1
+
+#if MAIN_NB == 0
 void	followBureaucratCareer(std::string name, int initGrade)
 {
 	try
@@ -67,3 +70,41 @@ int	main(void)
 	
 	return 0;
 }
+#endif
+
+#if MAIN_NB == 1
+int main(void)
+{
+	try
+	{
+		std::string name = "John";
+		int grade = 42; //try with 0, 1, 150, 151
+		std::cout << YELLOW "Create a new bureaucrat:" RESET << std::endl;
+		std::cout << WHITE "Name : " << name << std::endl
+			<<"Grade : " << grade << RESET << std::endl;
+		Bureaucrat bureaucrat(name, grade);
+		std::cout << WHITE "Status: " << bureaucrat << RESET << std::endl;
+		std::cout << std::endl;
+
+		std::cout << YELLOW "Increment the grade:" RESET << std::endl;
+		bureaucrat.incrementGrade();
+		std::cout << WHITE "Status: " << bureaucrat << RESET << std::endl;
+		std::cout << std::endl;
+		
+		std::cout << YELLOW "Decrement the grade:" RESET << std::endl;
+		bureaucrat.decrementGrade();
+		std::cout << WHITE "Status: " << bureaucrat << RESET << std::endl;
+		std::cout << std::endl;
+		
+		std::cout << YELLOW "Decrement the grade again:" RESET << std::endl;
+		bureaucrat.decrementGrade();
+		std::cout << WHITE "Status: " << bureaucrat << RESET << std::endl;
+		std::cout << std::endl;
+	}
+	catch (std::exception & e)
+	{
+		std::cerr << RED "Exception catched: " << e.what() << RESET << std::endl;
+	}
+	return 0;
+}
+#endif
