@@ -6,9 +6,15 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:34:18 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/06 15:45:24 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:39:54 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+types of casting
+https://stackoverflow.com/questions/332030/when-should-static-cast-dynamic-cast-const-cast-and-reinterpret-cast-be-used
+static_cast is the first cast you should attempt to use. It does things like implicit conversions between types (such as int to float, or pointer to void*), and it can also call explicit conversion functions (or implicit ones).
+*/
 
 #include "ScalarConverter.hpp"
 
