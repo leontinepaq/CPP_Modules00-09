@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 21:45:58 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/08/30 23:09:56 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:30:22 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ AForm	*Intern::makeForm(std::string formName, std::string target) const
 	if (i == 3)
 	{
 		std::cout << RED "Intern doesn't know how to make the form '" << formName
-				<< "'... He can only create shrubbery creation, robotomy request or presidential pardon forms" << RESET << std::endl;
+				<< "'... He can only create 'shrubbery creation', 'robotomy request' or 'presidential pardon' forms" << RESET << std::endl;
 		return NULL;
 	}
 	std::cout << GREEN "Intern creates a " << formName << " form" << RESET << std::endl;
