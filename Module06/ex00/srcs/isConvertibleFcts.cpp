@@ -6,11 +6,19 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 18:14:56 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/03 18:22:08 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/06 13:41:10 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
+
+bool	isPseudoLiteral(std::string input)
+{
+	if (input == "nanf" || input == "-inff" || input == "+inff" 
+		|| input == "nan" || input == "-inf" || input == "+inf")
+		return (true);
+	return (false);
+}
 
 bool	isChar(std::string input)
 {
@@ -26,10 +34,8 @@ bool	isInt(std::string input)
 	if (input.length() > 1 && (isdigit(input[0]) || input[0] == '-' || input[0] == '+'))
 	{
 		for (size_t i = 1; i < input.length(); i++)
-		{
 			if (!isdigit(input[i]))
 				return (false);
-		}
 		if (input.length() > 11 
 			|| atoll(input.c_str()) > std::numeric_limits<int>::max()
 			|| atoll(input.c_str()) <  std::numeric_limits<int>::min())
@@ -69,12 +75,21 @@ bool isDouble(std::string input)
 		posE = input.find('E');
 	if (posE != std::string::npos)
 	{
-		std::string exponentPart = input.substr(posE + 1, input.length() - posE - 2);
+		std::string exponentPart = input.substr(posE + 1, input.length() - posE - 1);
 		if (isInt(exponentPart) == false)
+		{
 			return (false);
+		}
 		decimalPart = input.substr(0, posE);
 	}
 	if (isDecimal(decimalPart) == false)
+	{
+		return (false);
+	}
+	double value;
+	std::stringstream ss(input);
+	ss >> value;
+	if (value != atof(input.c_str()))
 		return (false);
 	return (true);
 }
@@ -85,9 +100,13 @@ bool	isFloat(std::string input)
 		return (false);
 	if (input[input.length() - 1] != 'F' && input[input.length() - 1] != 'f')
 		return (false);
-	std::string withoutF = input.substr(0, input.length() - 1);
-	if (isDouble(withoutF) == false)
+	std::string beforeF = input.substr(0, input.length() - 1);
+	if (isDouble(beforeF) == false)
 		return (false);
-	//no overflow check for float ? put it as +/-inff
+	double value;
+	std::stringstream ss(input);
+	ss >> value;
+	if (value > std::numeric_limits<float>::max() || value < -std::numeric_limits<float>::max())
+		return (false);
 	return (true);
 }

@@ -1,5 +1,7 @@
 NAME =						convert
 SRCS_F =					main.cpp \
+							isConvertibleFcts.cpp \
+							printFcts.cpp \
 							ScalarConverter.cpp
 OBJS_F = 					$(SRCS_F:.cpp=.o)
 SRCS_D = 					./srcs/
