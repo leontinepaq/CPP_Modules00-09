@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:46:31 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/13 18:10:08 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:57:03 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ class NotFoundException: public std::exception
 	}
 };
 
-template < typename T > typename T::iterator easyfind(T container, int value)
+template < typename T > typename T::iterator easyfind(T &container, int value)
 {
 	typename T::iterator it;
 	it = std::find(container.begin(), container.end(), value);
