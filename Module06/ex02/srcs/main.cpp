@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:59:07 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/06 17:33:58 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:54:01 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int main()
 		identify(base);
 		std::cout << CYAN "Identify by reference: " RESET;
 		identify(*base);
-		delete base;
+		if (base)
+			delete base;
 		std::cout << std::endl;
 	}
 	return 0;

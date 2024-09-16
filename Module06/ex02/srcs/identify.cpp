@@ -6,10 +6,11 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:12:55 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/06 17:22:03 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:54:48 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <iostream>
 #include "Base.hpp"
 #include "A.hpp"
 #include "B.hpp"
@@ -29,5 +30,29 @@ void	identify(Base *p)
 
 void	identify(Base &p)
 {
-	identify(&p);
+	try
+	{
+		(void) dynamic_cast<A&>(p);
+		std::cout << "A" << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		try
+		{
+			(void) dynamic_cast<B&>(p);
+			std::cout << "B" << std::endl;
+		}
+		catch (std::exception &e)
+		{
+			try
+			{
+				(void) dynamic_cast<C&>(p);
+				std::cout << "C" << std::endl;
+			}
+			catch (std::exception &e)
+			{
+				std::cout << "Unknown" << std::endl;
+			}
+		}
+	}
 }
