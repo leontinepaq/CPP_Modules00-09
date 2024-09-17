@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:12:55 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/16 15:54:48 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/17 22:23:52 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,3 +56,9 @@ void	identify(Base &p)
 		}
 	}
 }
+
+// //en utilisant un pointeur
+// void	identify(Base &p)
+// {
+// 	identify(&p);
+// }
