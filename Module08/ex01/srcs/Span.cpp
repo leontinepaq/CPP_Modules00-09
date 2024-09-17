@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:34:10 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/16 18:53:07 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:44:11 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #include "Colors.hpp"
 #include <iostream>
 
-Span::Span() : _numbers(0), _maxValues(0)
+Span::Span() : _maxValues(0)
 {
 	std::cout << GREY << "[Span] Default constructor called" << RESET << std::endl;
 }
 
-Span::Span(unsigned int maxValues) :_numbers(0), _maxValues(maxValues)
+Span::Span(unsigned int maxValues) : _maxValues(maxValues)
 {
-	std::cout << GREY << "[Span] Parametric constructor called" << RESET << std::endl;
+	std::cout << GREY << "[Span] Constructor called" << RESET << std::endl;
 }
 
 Span::Span(const Span &src) : _numbers(src._numbers), _maxValues(src._maxValues)
@@ -42,33 +42,72 @@ Span::~Span()
 	std::cout << GREY << "[Span] Destructor called" << RESET << std::endl;
 }
 
-unsigned int Span::getLengthNumber()
-{
-	return (_numbers.end() - _numbers.begin());
-}
 
+void	Span::printNumbers()
+{
+	std::multiset<int>::iterator itr;
+
+
+	int i = 0;
+	std::cout << "Numbers: [ ";
+	if (_numbers.size() < 10)
+	{
+		for (itr = _numbers.begin(); (itr != _numbers.end()); ++itr)
+			std::cout << *itr << " ";
+	}
+	else
+	{
+		for (itr = _numbers.begin(); (itr != _numbers.end()) && i < 5; ++itr)
+		{
+			std::cout << *itr << " ";
+			i++;
+		}
+		std::cout << "... ";
+		std::cout << *_numbers.rbegin() << " ";
+	}
+	std::cout << "]" << std::endl;
+}
 
 void	Span::addNumber(int number)
 {
-	if (getLengthNumber() >= _maxValues)
+	if (_numbers.size() >= _maxValues)
 		throw(TooManyNumbersException());
-	_numbers.push_back(number);
+	_numbers.insert(number);
+}
+
+static int	distance(int a, int b)
+{
+	return abs(a - b);
 }
 
 int Span::longuestSpan()
 {
-	if (getLengthNumber() < 2)
+	if (_numbers.size() < 2)
 		throw (NotEnoughNumbersException());
-	int maxNumber = *_numbers.begin();
-	int minNumber = *_numbers.begin();
-	for (std::vector<int>::iterator it = _numbers.begin() + 1; it != _numbers.end(); ++it)
+	return distance(*_numbers.begin(), *_numbers.rbegin());
+}
+
+int Span::shortestSpan()
+{
+	if (_numbers.size() < 2)
+		throw (NotEnoughNumbersException());
+	int minSpan = distance(*_numbers.begin(), *_numbers.rbegin());
+	std::multiset<int>::iterator itr;
+	std::multiset<int>::iterator nextItr = _numbers.begin();
+	nextItr++;
+	for (itr = _numbers.begin(); nextItr != _numbers.end(); ++itr) 
 	{
-		if (*it < minNumber)
-			minNumber = *it;
-		if (*it > maxNumber)
-			maxNumber=*it;
+		int dist = distance(*itr, *nextItr);
+		if (dist < minSpan)
+		{
+			minSpan = dist;
+			if (minSpan == 0)
+				return 0;
+		}
+		nextItr++;
 	}
-	return maxNumber - minNumber;
+	return minSpan;
+	
 }
 
 const char* Span::TooManyNumbersException::what() const throw()

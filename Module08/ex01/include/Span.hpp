@@ -6,14 +6,16 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:34:19 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/16 18:47:01 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:34:12 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SPAN_HPP
 # define SPAN_HPP
 
-#include <vector>
+#include <set>
+#include <iterator>
+#include <cmath>
 
 class Span 
 {
@@ -24,13 +26,13 @@ class Span
 		Span& operator=(const Span &src);
 		~Span();
 		void	addNumber(int number);
+		void	printNumbers();
 		int		shortestSpan();
 		int		longuestSpan();
 
 	private:
-		std::vector<int>	_numbers;
+		std::multiset<int>	_numbers;
 		unsigned int		_maxValues;
-		unsigned int	getLengthNumber();
 		class TooManyNumbersException: public std::exception
 		{
 			virtual const char* what() const throw();
