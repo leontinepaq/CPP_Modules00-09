@@ -6,14 +6,15 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:34:18 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/06 16:39:54 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/17 22:11:27 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 types of casting
 https://stackoverflow.com/questions/332030/when-should-static-cast-dynamic-cast-const-cast-and-reinterpret-cast-be-used
-static_cast is the first cast you should attempt to use. It does things like implicit conversions between types (such as int to float, or pointer to void*), and it can also call explicit conversion functions (or implicit ones).
+static_cast is the first cast you should attempt to use. It does things like implicit conversions between types 
+(such as int to float, or pointer to void*), and it can also call explicit conversion functions (or implicit ones).
 */
 
 #include "ScalarConverter.hpp"
@@ -86,5 +87,19 @@ int main(void)
 	test("42.42.42");
 	test("abcd");
 	test("");
+}
+#endif
+
+#if MAIN_NB == 2
+int main(void)
+{
+	for (int i = -129; i < 400; i++)
+	{
+		std::cout << "--------- " << i << " ---------" << std::endl;
+		std::stringstream ss;
+		ss << i;
+		ScalarConverter::convert(ss.str().c_str());
+		std::cout << std::endl;
+	}
 }
 #endif
