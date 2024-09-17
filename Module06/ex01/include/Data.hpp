@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:08:47 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/06 16:20:30 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/17 22:17:27 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ class Data
 		Data(const Data &src);
 		Data& operator=(const Data &src);
 		~Data();
-		void setValue(int value);
-		int getValue() const;
-		void setStr(std::string str);
-		std::string getStr() const;
+		void		setValue(int value);
+		int			getValue() const;
+		void		setStr(std::string str);
+		std::string	getStr() const;
 };
 
 #endif
