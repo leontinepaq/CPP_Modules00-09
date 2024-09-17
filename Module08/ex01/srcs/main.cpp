@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:50:04 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/17 16:49:59 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:30:17 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,16 @@ int	main(void)
 	}
 	std::cout << std::endl;
 
-	std::cout << YELLOW << "VERY BIG SPAN" << RESET << std::endl;
+	std::cout << YELLOW << "VERY BIG SPAN (100K+ VALUES)" << RESET << std::endl;
 	try
 	{
+		std::multiset<int> values;
+		for (int i = 1; i <= 100000; ++i)
+        	values.insert(i * 10);
 		Span bigSpan(100002);
-		for (int i = 0; i < 100000; i++)
-			bigSpan.addNumber(i * 10);
-		// bigSpan.addNumber(3);
-		// bigSpan.addNumber(10);
+		bigSpan.addNumber(values.begin(), values.end());
+		// bigSpan.addNumber(42);
+		// bigSpan.addNumber(20);
 		std::cout << CYAN ;
 		bigSpan.printNumbers();
 		std::cout << WHITE << "> longuest span: " << bigSpan.longuestSpan() << RESET << std::endl;
@@ -120,3 +122,4 @@ int	main(void)
 		std::cout << RED << "Exception catched: " << e.what() << RESET << '\n';
 	}
 }
+
