@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:34:18 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/17 22:11:27 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:30:55 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,19 +87,5 @@ int main(void)
 	test("42.42.42");
 	test("abcd");
 	test("");
-}
-#endif
-
-#if MAIN_NB == 2
-int main(void)
-{
-	for (int i = -129; i < 400; i++)
-	{
-		std::cout << "--------- " << i << " ---------" << std::endl;
-		std::stringstream ss;
-		ss << i;
-		ScalarConverter::convert(ss.str().c_str());
-		std::cout << std::endl;
-	}
 }
 #endif
