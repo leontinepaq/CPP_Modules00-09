@@ -6,14 +6,14 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:10:57 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/20 17:38:39 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/25 00:15:53 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 #include <iostream>
 
-PmergeMe::PmergeMe()
+PmergeMe::PmergeMe() : _nbElements(0), _lastElement(0)
 {
 	// std::cout << "[PmergeMe] Default constructor called" << std::endl;
 }
@@ -45,106 +45,68 @@ static int putError(std::string mess)
 
 int	PmergeMe::insertElements(char ** elements)
 {
-	//vider les list et vector
 	if (!elements || !elements[0])
 		return putError("no element to sort");
+	_list.clear();
+	_vector.clear();
 	int i = 0;
 	while (elements[i])
 	{
 		std::stringstream	ss(elements[i]);
-		unsigned int		value;
+		t_unsInt			value;
 		ss >> std::noskipws >> value;
 		if (ss.fail() || ss.peek() != std::stringstream::traits_type::eof())
-			return putError("invalid element (all elements must be unsigned int)");
+			return putError("invalid element (all elements must be t_unsInt)");
 		_list.push_back(value);
 		_vector.push_back(value);
+		_nbElements++;
 		i++;
 	}
+	if (_nbElements %2 == 1)
+		_lastElement = _list.back();
 	return 0;
 }
 
-bool	PmergeMe::isListSorted(void)
+
+
+std::ostream  &operator<<(std::ostream &os, std::vector<size_t> vect)
 {
-	std::list<unsigned int>::iterator it = _list.begin();
-	std::list<unsigned int>::iterator itNext = _list.begin();
-	itNext++;
-	for (it = _list.begin(); it != _list.end(); ++it)
-	{
-		if (*it > *itNext)
-			return false;
-		itNext++;
-	}
-	return true;
-}
-
-std::list<unsigned int> PmergeMe::merge (std::list<unsigned int> listA, std::list<unsigned int> listB)
-{
-	std::list<unsigned int> list;
-
-	while (!listA.empty() && !listB.empty())
-	{
-		if (*listA.begin() > *listB.begin())
-		{
-			list.push_back(*listB.begin());
-			listB.pop_front();
-		}
-		else
-		{
-			list.push_back(*listA.begin());
-			listA.pop_front();
-		}
-	}
-	while (!listA.empty())
-	{
-		list.push_back(*listA.begin());
-		listA.pop_front();
-	}
-	while (!listB.empty())
-	{
-		list.push_back(*listB.begin());
-		listB.pop_front();
-	}
-	return list;
-}
-
-std::list<unsigned int>	PmergeMe::mergeSortList(std::list<unsigned int> list)
-{
-	if (list.size() == 1)
-		return list;
-
-	std::list<unsigned int> 			listA;
-	std::list<unsigned int> 			listB;
-	std::list<unsigned int>::iterator	it = list.begin();
-	size_t								i = 0;
+	std::vector<size_t>::iterator	it = vect.begin();
 	
- 	for (it = list.begin(); it != list.end(); ++it)
+ 	for (it = vect.begin(); it != vect.end(); ++it)
 	{
-		if (i++ < list.size() / 2)
-			listA.push_back(*it);
-		else
-			listB.push_back(*it);
+		os << *it;
+		if (it != --vect.end())
+			os << " ";
 	}
-	listA = mergeSortList(listA);
-	listB = mergeSortList(listB);
-	
-	return merge(listA, listB);	
+	return os;
 }
 
-int PmergeMe::sortList(void)
+
+
+void	generateJacobsthalSequence(std::vector<size_t> &vect, size_t size)
 {
-	if (_list.empty())
-		return 0;
-	if (isListSorted())
-		return 0;
-	_list = mergeSortList(_list);
-	std::list<unsigned int>::iterator	it = _list.begin();
+	size_t	prev = 0;
+	size_t	curr = 1;
+	size_t	next = 0;
 	
- 	for (it = _list.begin(); it != _list.end(); ++it)
+	vect.clear();
+	vect.push_back(prev);
+	if (size == 1)
+		return;
+	while (next < size)
 	{
-		std::cout << *it << std::endl;
+		next = curr + 2 * prev;
+		if (next > size)
+			break ;
+		vect.push_back(next);
+		prev = curr;
+		curr = next;
 	}
-	return 0;
+	vect.push_back(size);
 }
+
+
 
 
 int PmergeMe::sort(char **elements, size_t size)
@@ -153,6 +115,11 @@ int PmergeMe::sort(char **elements, size_t size)
 	PmergeMe PM;
 	if (PM.insertElements(elements))
 		return 1;
-	PM.sortList(); //erreur possible ?
+	std::clock_t start = std::clock();
+	PM.sortList();
+	std::clock_t end = std::clock();
+	double duration = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
+	std::cout << "PM.sortList() took " << duration << " ms." << std::endl;
+
 	return 0;
 }

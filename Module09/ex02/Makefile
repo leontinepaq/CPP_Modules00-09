@@ -1,6 +1,7 @@
 NAME =						PmergeMe
 SRCS_F =					main.cpp \
-							PmergeMe.cpp
+							PmergeMe.cpp \
+							PmergeMeListFcts.cpp
 OBJS_F = 					$(SRCS_F:.cpp=.o)
 SRCS_D = 					./srcs/
 OBJS_D =					./objs/

@@ -1,0 +1,16 @@
+D'ailleurs vous avez une idee des temps qu'il faut viser ? 
+Pour 3000 nombres j'ai 2.9ms en Vector, 
+27ms en List et 
+1.68ms en Deque
+[16:46]
+Ca me semble coherent en terme de perf (selon les cas Vector va dan les 800us donc ca depend, mais Deque reste le plus constant en etant tout le temps atour de 1.6ms) (modifié)
+[16:49]
+Par contre pour des tris a 30k nombres par exemple, les Vector sont toujours devant ce qui est coherent
+
+@lquehec (Loup)
+Je n'ai pas compris pourquoi. Je l'ai fais avec de templates afin justement de gerer plus de container (pas seulement 2) puisque les vector et deque par exemple partagent le meme acces a la memoire (j'entends l'utilisation d'index) (modifié)
+
+
+5001 elements
+vector 292.34 ms
+list 55384.8 ms
