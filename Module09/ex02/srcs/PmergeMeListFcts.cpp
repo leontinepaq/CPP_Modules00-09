@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:13:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/25 00:16:13 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/25 03:53:24 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,198 +14,138 @@
 
 bool	PmergeMe::isListSorted(void)
 {
-	t_list::iterator it = _list.begin();
-	t_list::iterator itNext = _list.begin();
+	if (_list.empty())
+		return true;
+
+	t_list::const_iterator it = _list.begin();
+	t_list::const_iterator itNext = it;
 	itNext++;
-	for (it = _list.begin(); itNext != _list.end(); ++it)
+	while (itNext != _list.end())
 	{
 		if (*it > *itNext)
 			return false;
+		it++;
 		itNext++;
 	}
 	return true;
 }
 
-std::ostream  &operator<<(std::ostream &os, t_list list)
-{
-	t_list::iterator	it = list.begin();
-	
-	int i = 0;
- 	for (it = list.begin(); it != list.end(); ++it)
-	{
-		os << *it;
-		if (it != --list.end())
-			os << " ";
-		if (i++ > 20)
-		{
-			os << "[...]";
-			break ;
-		}		
-	}
-	return os;
-}
-
-std::ostream  &operator<<(std::ostream &os, t_pairsList list)
-{
-	t_pairsList::iterator	it = list.begin();
-	int i = 0;
- 	for (it = list.begin(); it != list.end(); ++it)
-	{
-		os << WHITE  << "[ " << CYAN << it->first << " " << MAGENTA << it->second << WHITE << " ]" << RESET;
-		if (it != --list.end())
-			os << " ";
-				if (i++ > 10)
-		{
-			os << "[...]";
-			break ;
-		}	
-	}
-	return os;
-}
-
-
 void	PmergeMe::fillPairsList(void)
 {
-	t_unsInt	a;
-	t_unsInt	b;
-	t_pair		pair;
-	
 	_pairsList.clear();
-	size_t	size = _list.size();
+	const size_t		size = _list.size();
 	t_list::iterator	it = _list.begin();
 	
-	for (size_t i = 0; i < size / 2; i++)
+	for (size_t i = 0; i < size / 2; ++i)
 	{
-		a = *(it++);
-		b = *(it++);
-		pair.first = std::min(a,b);
-		pair.second = std::max(a,b);
-		_pairsList.push_back(pair);
+		const t_unsInt		a = *(it++);
+		const t_unsInt		b = *(it++);
+		_pairsList.push_back(std::make_pair(std::min(a, b), std::max(a, b)));
 	}
 }
 
-t_pairsList PmergeMe::merge(t_pairsList listA, t_pairsList listB)
+t_pairsList PmergeMe::merge(const t_pairsList listA, const t_pairsList listB)
 {
-	t_pairsList list;
+	t_pairsList listRes;
+	t_pairsList::const_iterator itA = listA.begin();
+	t_pairsList::const_iterator itB = listB.begin();
 
-	while (!listA.empty() && !listB.empty())
+	while (itA != listA.end() && itB != listB.end())
 	{
-		if (listA.begin()->second > listB.begin()->second)
+		if (itA->second < itB->second)
 		{
-			list.push_back(*listB.begin());
-			listB.pop_front();
+			listRes.push_back(*itA);
+			itA++;
 		}
 		else
 		{
-			list.push_back(*listA.begin());
-			listA.pop_front();
+			listRes.push_back(*itB);
+			itB++;
 		}
 	}
-	while (!listA.empty())
-	{
-		list.push_back(*listA.begin());
-		listA.pop_front();
-	}
-	while (!listB.empty())
-	{
-		list.push_back(*listB.begin());
-		listB.pop_front();
-	}
-	return list;
+	listRes.insert(listRes.end(), itA, listA.end());
+	listRes.insert(listRes.end(), itB, listB.end());
+	return listRes;
 }
 
-t_pairsList	PmergeMe::mergeSortPairsList(t_pairsList &list)
+t_pairsList	PmergeMe::mergeSortPairsList(const t_pairsList &list)
 {
-	if (list.size() == 1)
+	if (list.size() <= 1)
 		return list;
 	
-	t_pairsList				listA;
-	t_pairsList				listB;
-	t_pairsList::iterator	it;
-	size_t					mid = list.size() / 2;
-	size_t					i = 0;
+	t_pairsList					listA, listB;
+	t_pairsList::const_iterator	it = list.begin();
+	size_t						mid = list.size() / 2;
 
- 	for (it = list.begin(); it != list.end(); ++it)
-	{
-		if (i++ < mid)
-			listA.push_back(*it);
-		else
-			listB.push_back(*it);
-	}
+	std::advance(it, mid);
+	listA.insert(listA.end(), list.begin(), it);
+	listB.insert(listB.end(), it, list.end());
+
 	listA = mergeSortPairsList(listA);
 	listB = mergeSortPairsList(listB);
+
 	return merge(listA, listB);
 }
 
-size_t	binarySearchList(t_list list, t_unsInt element, size_t low, size_t high)
+size_t	PmergeMe::binarySearchList(const t_list &list, t_unsInt element, size_t low, size_t high)
 {
 	if (low >= high)
 	{
-		t_list::iterator	it = list.begin();
-		for (size_t i = 0; i < low; i++)
-			it++;
-		if (element > *it)
-			return low +1;
-		return low;
+		t_list::const_iterator	it = list.begin();
+		std::advance(it, low);
+		return (element > *it) ? low +1 : low;
 	}
-	
+
 	size_t	mid = (low + high) / 2;
-	t_list::iterator	it = list.begin();
-	for (size_t i = 0; i < mid; i++)
-		it++;
+	t_list::const_iterator	it = list.begin();
+	std::advance(it, mid);
 	if (element == *it)
-		return mid + 1;
-	
-	if (element < *it)
+		return mid;
+	else if (element < *it)
 		return binarySearchList(list, element, low, mid - 1);
 	return binarySearchList(list, element, mid + 1, high);
 }
 
-
 void	PmergeMe::binaryInsertList(t_unsInt element, size_t size)
 {
+	if (size > _list.size())
+		size = _list.size();
 	size_t loc = binarySearchList(_list, element, 0, size);
 	t_list::iterator	it = _list.begin();
-	for (size_t i = 0; i < loc && it != _list.end() ; i++)
-		it++;
-	if (it == _list.end())
-		_list.push_back(element);
-	else
-		_list.insert(it , element);
-	if (COMMENTS_ON)
-		std::cout << GREY << "	  > element to insert = "<< CYAN << element << GREY <<  " -> inserted at position " << loc << RESET << std::endl;
+	std::advance(it, loc);
+	_list.insert(it, element);
+	LOG(GREY << "	  > element to insert = "<< CYAN << element << GREY <<  " -> inserted at position " << loc << RESET);
 }
 
 void	PmergeMe::insertSortList(void)
 {
-	_list.clear();
 	if (_pairsList.empty())
 		return ;
+
+	_list.clear();
 	_list.push_back(_pairsList.begin()->first);
 
 	for (t_pairsList::iterator it = _pairsList.begin(); it != _pairsList.end(); it++)
 		_list.push_back(it->second);
-	if (COMMENTS_ON)
-		std::cout << WHITE << "	1rst sorted list:	" << _list << RESET << " (first value and biggest number of each pair, before insertion of smallest values)" << std::endl;
-	std::vector<size_t> vectJacobsthal;
-	generateJacobsthalSequence(vectJacobsthal, _pairsList.size());
-	size_t sizeToCheck = 3;
-	size_t	n = 2;
+	LOG(WHITE << "	1rst sorted list:	" << _list << RESET << " (first value and biggest number of each pair, before insertion of smallest values)");
+
+	std::vector<size_t> jacobsthalSeq;
+	generateJacobsthalSequence(jacobsthalSeq, _pairsList.size());
+
+	size_t	currLevel = 2;
+	size_t	maxElementsToSort = 3;
 	t_pairsList::iterator it = _pairsList.begin();
-	while (sizeToCheck <= _nbElements)
+
+	while (maxElementsToSort <= _nbElements)
 	{
-		for (size_t i = vectJacobsthal[n - 1]; i < vectJacobsthal[n]; i++)
-			it++;
-		for (size_t i = vectJacobsthal[n]; i > vectJacobsthal[n-1]; i--)
-			binaryInsertList((it--)->first, sizeToCheck);
-		for (size_t i = vectJacobsthal[n - 1]; i < vectJacobsthal[n]; i++)
-			it++;
-		if (COMMENTS_ON)
-			std::cout << WHITE << "	" << n << "th sorted list:	" << _list << RESET 
-				<< " (after insertion of small elements from pairs " << vectJacobsthal[n]- 1 << " to " << vectJacobsthal[n - 1]
-				<< " within the first " << sizeToCheck << " elements of the list)" << std::endl;
-		n++;
-		sizeToCheck = std::pow(2, n) - 1;
+		std::advance(it, jacobsthalSeq[currLevel] - jacobsthalSeq[currLevel - 1]);
+		for (size_t i = jacobsthalSeq[currLevel]; i > jacobsthalSeq[currLevel - 1]; i--)
+			binaryInsertList((it--)->first, maxElementsToSort);
+		std::advance(it, jacobsthalSeq[currLevel] - jacobsthalSeq[currLevel - 1]);
+		LOG(WHITE << "	" << currLevel << "th sorted list:	" << _list << RESET 
+				<< " (after insertion of small elements from pairs " << jacobsthalSeq[currLevel]- 1 << " to " << jacobsthalSeq[currLevel - 1] << " within the first " << maxElementsToSort << " elements of the list)");
+		++currLevel;
+		maxElementsToSort = pow(2, currLevel) - 1;
 	}
 	if (_nbElements % 2 == 1)
 		binaryInsertList(_lastElement, _nbElements);
@@ -217,32 +157,56 @@ int PmergeMe::sortList(void)
 		return 0;
 	if (isListSorted())
 		return 0;
-	if (COMMENTS_ON)
-		std::cout << WHITE << "Unsorted list: 		" << _list << RESET << std::endl;
+	LOG(WHITE << "Unsorted list: 		" << _list << RESET);
 	fillPairsList();
-	if (COMMENTS_ON)
-	{
-		std::cout << WHITE << "Pairs list: 		" << _pairsList << RESET << " (list into pairs whose second element is the biggest)" << std::endl;	
-		std::cout << YELLOW << "-- Merge sort --" << RESET << std::endl;
-	}
+	LOG(WHITE << "Pairs list: 		" << _pairsList << RESET << " (list into pairs whose second element is the biggest)");
+	LOG(YELLOW << "-- Merge sort --" << RESET);
 	_pairsList = mergeSortPairsList(_pairsList);
-	if (COMMENTS_ON)
-	{
-		std::cout << WHITE << "Sorted pairs list: 	" << _pairsList << RESET << " (pairs sorted by their second element with a merge sort)" << std::endl;
-		std::cout << YELLOW << "-- Insertion sort --" << RESET << std::endl;
-	}
+	LOG(WHITE << "Sorted pairs list: 	" << _pairsList << RESET << " (pairs sorted by their second element with a merge sort)");
+	LOG(YELLOW << "-- Insertion sort --" << RESET);
 	insertSortList();
-	if (COMMENTS_ON)
-	{
-		std::cout << WHITE << "Sorted list: 		" << _list << RESET << std::endl;
-		if (isListSorted() == false)
-			std::cout << RED << "Error: list is not sorted" << RESET << std::endl;
-		else
-			std::cout << GREEN << "List is sorted !" << RESET << std::endl;
-	}
-	// if (isListSorted() == false)
-	// 	std::cout << RED << "Error: list is not sorted" << RESET << std::endl;
-	// else
-	// 	std::cout << GREEN << "List is sorted !" << RESET << std::endl;
+	LOG(WHITE << "Sorted list: 		" << _list << RESET);
+	if (isListSorted() == false)
+		std::cout << RED << "Error: list is not sorted" << RESET << std::endl;
+	else
+		std::cout << GREEN << "List is sorted !" << RESET << std::endl;
 	return 0;
+}
+
+std::ostream  &operator<<(std::ostream &os, t_list &list)
+{
+	t_list::iterator	it = list.begin();
+	
+	int i = 0;
+ 	for (; it != list.end(); ++it)
+	{
+		os << *it;
+		if (it != --list.end())
+			os << " ";
+		if (i++ > 20)
+		{
+			os << "[...]";
+			break ;
+		}
+		os << " ";
+	}
+	return os;
+}
+
+std::ostream  &operator<<(std::ostream &os, t_pairsList &list)
+{
+	t_pairsList::iterator	it = list.begin();
+	int i = 0;
+ 	for (it = list.begin(); it != list.end(); ++it)
+	{
+		os << WHITE  << "[ " << CYAN << it->first << " " << MAGENTA << it->second << WHITE << " ]" << RESET;
+		if (it != --list.end())
+			os << " ";
+		if (i++ > 10)
+		{
+			os << "[...]";
+			break ;
+		}
+	}
+	return os;
 }

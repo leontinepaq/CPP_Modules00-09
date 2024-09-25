@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:04:01 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/16 18:39:20 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/25 03:33:57 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static const std::string ORANGE = "\033[1;38;5;208m";
 static const std::string PURPLE = "\033[1;38;5;129m";
 static const std::string BLUE = "\033[1;34m";
 static const std::string RESET = "\033[0m";
+
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:10:57 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/25 00:15:53 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/25 03:50:51 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static int putError(std::string mess)
 	return 1;
 }
 
-
 int	PmergeMe::insertElements(char ** elements)
 {
 	if (!elements || !elements[0])
@@ -67,8 +66,6 @@ int	PmergeMe::insertElements(char ** elements)
 	return 0;
 }
 
-
-
 std::ostream  &operator<<(std::ostream &os, std::vector<size_t> vect)
 {
 	std::vector<size_t>::iterator	it = vect.begin();
@@ -81,8 +78,6 @@ std::ostream  &operator<<(std::ostream &os, std::vector<size_t> vect)
 	}
 	return os;
 }
-
-
 
 void	generateJacobsthalSequence(std::vector<size_t> &vect, size_t size)
 {
@@ -98,7 +93,7 @@ void	generateJacobsthalSequence(std::vector<size_t> &vect, size_t size)
 	{
 		next = curr + 2 * prev;
 		if (next > size)
-			break ;
+			next = size;
 		vect.push_back(next);
 		prev = curr;
 		curr = next;
@@ -106,20 +101,34 @@ void	generateJacobsthalSequence(std::vector<size_t> &vect, size_t size)
 	vect.push_back(size);
 }
 
-
-
-
 int PmergeMe::sort(char **elements, size_t size)
 {
 	(void) size;
-	PmergeMe PM;
-	if (PM.insertElements(elements))
+	PmergeMe PM1;
+	if (PM1.insertElements(elements))
 		return 1;
 	std::clock_t start = std::clock();
-	PM.sortList();
+	PM1.sortList();
 	std::clock_t end = std::clock();
-	double duration = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
-	std::cout << "PM.sortList() took " << duration << " ms." << std::endl;
+	double duration1 = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
+	std::cout << "PM.sortList() took " << duration1 << " ms." << std::endl;
 
+	PmergeMe PM2;
+	if (PM2.insertElements(elements))
+		return 1;
+	start = std::clock();
+	PM2._list.sort();
+	if (PM2.isListSorted())
+		std::cout << GREEN << "List is sorted !" << RESET << std::endl;
+	else
+		std::cout << RED << "Error: list is not sorted" << RESET << std::endl;
+	end = std::clock();
+	double duration2 = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
+	std::cout << "PM._list.sort() took " << duration2 << " ms." << std::endl;
+
+	if (duration1 < duration2)
+		std::cout << GREEN << "PM.sortList() is faster than PM._list.sort()" << RESET << std::endl;
+	else
+		std::cout << ORANGE << "PM.sortList() is slower than PM._list.sort()" << RESET << std::endl;
 	return 0;
 }

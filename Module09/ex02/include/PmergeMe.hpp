@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 13:49:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/25 00:16:03 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/25 03:33:27 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 # define PMERGEME
 
 # define COMMENTS_ON 0
+# if COMMENTS_ON
+    # define LOG(x) std::cout << x << std::endl
+#  else
+    #define LOG(x)
+# endif
 
 #include "Colors.hpp"
 
@@ -44,13 +49,15 @@ class PmergeMe
 		size_t		_nbElements;
 		t_unsInt	_lastElement;
 		int			insertElements(char ** elements);
+		
 		bool		isListSorted(void);
 		void		fillPairsList(void);
-		int			sortList(void);
-		t_pairsList merge(t_pairsList listA, t_pairsList listB);
-		t_pairsList	mergeSortPairsList(t_pairsList &list);
+		t_pairsList merge(const t_pairsList listA, const t_pairsList listB);
+		t_pairsList	mergeSortPairsList(const t_pairsList &list);
+		size_t		binarySearchList(const t_list &list, t_unsInt element, size_t low, size_t high);
 		void		binaryInsertList(t_unsInt element, size_t size);
 		void		insertSortList(void);
+		int			sortList(void);
 		
 	public:
 		static int	sort(char **elements, size_t size);
@@ -58,5 +65,7 @@ class PmergeMe
 
 void	generateJacobsthalSequence(std::vector<size_t> &vect, size_t size);
 
+std::ostream  &operator<<(std::ostream &os, t_list &list);
+std::ostream  &operator<<(std::ostream &os, t_pairsList &list);
 
 #endif
