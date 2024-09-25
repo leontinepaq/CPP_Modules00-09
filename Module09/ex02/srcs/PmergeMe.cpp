@@ -6,12 +6,13 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:10:57 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/25 03:50:51 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:53:55 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 #include <iostream>
+#include <algorithm> 
 
 PmergeMe::PmergeMe() : _nbElements(0), _lastElement(0)
 {
@@ -19,17 +20,27 @@ PmergeMe::PmergeMe() : _nbElements(0), _lastElement(0)
 }
 
 
-// PmergeMe::PmergeMe(const PmergeMe &src)
-// {
-// 	std::cout << "[PmergeMe] Copy constructor called" << std::endl;
-// }
+PmergeMe::PmergeMe(const PmergeMe &src) :
+	_nbElements(src._nbElements), _lastElement(src._lastElement), _vector(src._vector),
+	_pairsVector(src._pairsVector), _list(src._list), _pairsList(src._pairsList)
+{
+	// std::cout << "[PmergeMe] Copy constructor called" << std::endl;
+}
 
 
-// PmergeMe& PmergeMe::operator=(const PmergeMe &src)
-// {
-// 	std::cout << "[PmergeMe] Assignment operator called" << std::endl;
-// }
-
+PmergeMe& PmergeMe::operator=(const PmergeMe &src)
+{
+	// std::cout << "[PmergeMe] Assignment operator called" << std::endl;
+	if (this == &src)
+		return *this;
+	_nbElements = src._nbElements;
+	_lastElement = src._lastElement;
+	_vector = src._vector;
+	_list = src._list;
+	_pairsVector = src._pairsVector;
+	_pairsList = src._pairsList;
+	return *this;
+}
 
 PmergeMe::~PmergeMe()
 {
@@ -52,10 +63,10 @@ int	PmergeMe::insertElements(char ** elements)
 	while (elements[i])
 	{
 		std::stringstream	ss(elements[i]);
-		t_unsInt			value;
+		unsigned int			value;
 		ss >> std::noskipws >> value;
 		if (ss.fail() || ss.peek() != std::stringstream::traits_type::eof())
-			return putError("invalid element (all elements must be t_unsInt)");
+			return putError("invalid element (all elements must be unsigned int)");
 		_list.push_back(value);
 		_vector.push_back(value);
 		_nbElements++;
@@ -101,34 +112,63 @@ void	generateJacobsthalSequence(std::vector<size_t> &vect, size_t size)
 	vect.push_back(size);
 }
 
-int PmergeMe::sort(char **elements, size_t size)
+int PmergeMe::sort(char **elements)
 {
-	(void) size;
+	std::clock_t start;
+	std::clock_t end;
+
 	PmergeMe PM1;
 	if (PM1.insertElements(elements))
 		return 1;
-	std::clock_t start = std::clock();
+	
+	std::cout << MAGENTA << "Sorting " << PM1._nbElements << " elements" << RESET << std::endl;
+	std::cout << MAGENTA << "> PmergeMe sorts" << RESET << std::endl;
+	start = std::clock();
 	PM1.sortList();
-	std::clock_t end = std::clock();
+	end = std::clock();
 	double duration1 = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
 	std::cout << "PM.sortList() took " << duration1 << " ms." << std::endl;
-
+	
+	start = std::clock();
+	PM1.sortVector();
+	end = std::clock();
+	double duration3 = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
+	std::cout << "PM.sortVector() took " << duration3 << " ms." << std::endl;
+	std::cout << std::endl;
+	
 	PmergeMe PM2;
 	if (PM2.insertElements(elements))
 		return 1;
+	std::cout << MAGENTA << "> Standard sorts" << RESET << std::endl;
 	start = std::clock();
 	PM2._list.sort();
+	end = std::clock();
 	if (PM2.isListSorted())
 		std::cout << GREEN << "List is sorted !" << RESET << std::endl;
 	else
-		std::cout << RED << "Error: list is not sorted" << RESET << std::endl;
-	end = std::clock();
+		std::cout << RED << "Error: list is not sorted" << RESET << std::endl;	
 	double duration2 = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
 	std::cout << "PM._list.sort() took " << duration2 << " ms." << std::endl;
 
-	if (duration1 < duration2)
-		std::cout << GREEN << "PM.sortList() is faster than PM._list.sort()" << RESET << std::endl;
+	start = std::clock();
+	std::sort(PM2._vector.begin(), PM2._vector.end());
+	end = std::clock();
+	if (PM2.isVectorSorted())
+		std::cout << GREEN << "Vector is sorted !" << RESET << std::endl;
 	else
-		std::cout << ORANGE << "PM.sortList() is slower than PM._list.sort()" << RESET << std::endl;
+		std::cout << RED << "Error: vector is not sorted" << RESET << std::endl;
+	double duration4 = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
+	std::cout << "std::sort() took " << duration4 << " ms." << std::endl;
+	std::cout << std::endl;
+
+	if (duration1 < duration2)
+		std::cout << GREEN << "PM.sortList() is " << (int)(duration2 / duration1) << " times faster than PM._list.sort()" << RESET << std::endl;
+	else
+		std::cout << ORANGE << "PM.sortList() is " << (int)(duration1 / duration2) << " times slower than PM._list.sort()" << RESET << std::endl;
+
+	if (duration3 < duration4)
+		std::cout << GREEN << "PM.sortVector() is " << (int)(duration4 / duration3) << " times faster than std::sort()" << RESET << std::endl;
+	else
+		std::cout << ORANGE << "PM.sortVector() is " << (int)(duration3 / duration4) << " times slower than std::sort()" << RESET << std::endl;
 	return 0;
 }

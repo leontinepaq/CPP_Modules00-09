@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 13:49:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/25 03:33:27 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:54:10 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,42 +30,54 @@
 #include <cmath>
 #include <ctime>
 
-typedef unsigned int t_unsInt;
-typedef std::list <t_unsInt> t_list;
-typedef std::pair <t_unsInt, t_unsInt> t_pair;
-typedef std::list <std::pair <t_unsInt, t_unsInt> > t_pairsList;
-
+typedef std::pair <unsigned int, unsigned int> t_pair;
+typedef std::list <unsigned int> t_list;
+typedef std::list <std::pair <unsigned int, unsigned int> > t_pairsList;
+typedef std::vector <unsigned int> t_vector;
+typedef std::vector <std::pair <unsigned int, unsigned int> > t_pairsVector;
 
 class PmergeMe
 {
 	private:
 		PmergeMe();
-		// PmergeMe(const PmergeMe &src);
-		// PmergeMe& operator=(const PmergeMe &src);
+		PmergeMe(const PmergeMe &src);
+		PmergeMe& operator=(const PmergeMe &src);
 		~PmergeMe();
-		std::vector<t_unsInt>		_vector;
-		t_list		_list;
-		t_pairsList	_pairsList;
-		size_t		_nbElements;
-		t_unsInt	_lastElement;
-		int			insertElements(char ** elements);
-		
-		bool		isListSorted(void);
-		void		fillPairsList(void);
-		t_pairsList merge(const t_pairsList listA, const t_pairsList listB);
-		t_pairsList	mergeSortPairsList(const t_pairsList &list);
-		size_t		binarySearchList(const t_list &list, t_unsInt element, size_t low, size_t high);
-		void		binaryInsertList(t_unsInt element, size_t size);
-		void		insertSortList(void);
-		int			sortList(void);
-		
+		size_t			_nbElements;
+		unsigned int	_lastElement;
+		t_vector		_vector;
+		t_pairsVector	_pairsVector;
+		t_list			_list;
+		t_pairsList		_pairsList;
+		int				insertElements(char ** elements);
+			
+		bool			isVectorSorted(void);
+		void			fillPairsVector(void);
+		t_pairsVector 	merge(const t_pairsVector &vectorA, const t_pairsVector &vectorB);
+		t_pairsVector	mergeSortPairsVector(const t_pairsVector &vector);
+		size_t			binarySearchVector(const t_vector &vector, unsigned int element, size_t low, size_t high);
+		void			binaryInsertVector(unsigned int element, size_t size);
+		void			insertSortVector(void);
+		void			sortVector(void);
+
+		bool			isListSorted(void);
+		void			fillPairsList(void);
+		t_pairsList 	merge(const t_pairsList &listA, const t_pairsList &listB);
+		t_pairsList		mergeSortPairsList(const t_pairsList &list);
+		size_t			binarySearchList(const t_list &list, unsigned int element, size_t low, size_t high);
+		void			binaryInsertList(unsigned int element, size_t size);
+		void			insertSortList(void);
+		void			sortList(void);
+
 	public:
-		static int	sort(char **elements, size_t size);
+		static int	sort(char **elements);
 };
 
 void	generateJacobsthalSequence(std::vector<size_t> &vect, size_t size);
 
 std::ostream  &operator<<(std::ostream &os, t_list &list);
 std::ostream  &operator<<(std::ostream &os, t_pairsList &list);
+std::ostream  &operator<<(std::ostream &os, t_vector &vector);
+std::ostream  &operator<<(std::ostream &os, t_pairsVector &vector);
 
 #endif

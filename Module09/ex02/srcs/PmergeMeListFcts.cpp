@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:13:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/25 03:53:24 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:53:55 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ void	PmergeMe::fillPairsList(void)
 	
 	for (size_t i = 0; i < size / 2; ++i)
 	{
-		const t_unsInt		a = *(it++);
-		const t_unsInt		b = *(it++);
+		const unsigned int		a = *(it++);
+		const unsigned int		b = *(it++);
 		_pairsList.push_back(std::make_pair(std::min(a, b), std::max(a, b)));
 	}
 }
 
-t_pairsList PmergeMe::merge(const t_pairsList listA, const t_pairsList listB)
+t_pairsList PmergeMe::merge(const t_pairsList &listA, const t_pairsList &listB)
 {
 	t_pairsList listRes;
 	t_pairsList::const_iterator itA = listA.begin();
@@ -87,7 +87,7 @@ t_pairsList	PmergeMe::mergeSortPairsList(const t_pairsList &list)
 	return merge(listA, listB);
 }
 
-size_t	PmergeMe::binarySearchList(const t_list &list, t_unsInt element, size_t low, size_t high)
+size_t	PmergeMe::binarySearchList(const t_list &list, unsigned int element, size_t low, size_t high)
 {
 	if (low >= high)
 	{
@@ -106,7 +106,7 @@ size_t	PmergeMe::binarySearchList(const t_list &list, t_unsInt element, size_t l
 	return binarySearchList(list, element, mid + 1, high);
 }
 
-void	PmergeMe::binaryInsertList(t_unsInt element, size_t size)
+void	PmergeMe::binaryInsertList(unsigned int element, size_t size)
 {
 	if (size > _list.size())
 		size = _list.size();
@@ -151,12 +151,12 @@ void	PmergeMe::insertSortList(void)
 		binaryInsertList(_lastElement, _nbElements);
 }
 
-int PmergeMe::sortList(void)
+void PmergeMe::sortList(void)
 {
 	if (_list.empty())
-		return 0;
+		return ;
 	if (isListSorted())
-		return 0;
+		return ;
 	LOG(WHITE << "Unsorted list: 		" << _list << RESET);
 	fillPairsList();
 	LOG(WHITE << "Pairs list: 		" << _pairsList << RESET << " (list into pairs whose second element is the biggest)");
@@ -170,7 +170,7 @@ int PmergeMe::sortList(void)
 		std::cout << RED << "Error: list is not sorted" << RESET << std::endl;
 	else
 		std::cout << GREEN << "List is sorted !" << RESET << std::endl;
-	return 0;
+	return ;
 }
 
 std::ostream  &operator<<(std::ostream &os, t_list &list)
