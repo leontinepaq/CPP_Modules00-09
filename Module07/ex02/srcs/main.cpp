@@ -82,7 +82,7 @@ int main(int, char**)
 			std::cerr << RED "It modified another array !!" RESET << std::endl;
 			return 1;
 		}
-		std::cout << GREEN "The value of the third element of the second and third arrays have note been modified" RESET << std::endl;		
+		std::cout << GREEN "The value of the third element of the second and third arrays have not been modified" RESET << std::endl;		
 	}
 	std::cout << std::endl;
 
@@ -182,7 +182,7 @@ int main(void)
 			std::cerr << RED "It modified another array !!" RESET << std::endl;
 			return 1;
 		}
-		std::cout << GREEN "The value of the third element of the second and third arrays have note been modified" RESET << std::endl;		
+		std::cout << GREEN "The value of the third element of the second and third arrays have not been modified" RESET << std::endl;		
 	}
 	std::cout << std::endl;
 
