@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:16:59 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/19 17:28:06 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:28:40 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ class RPN
 		RPN(const RPN &src);
 		RPN& operator=(const RPN &src);
 		~RPN();
-		std::stack<int>		_exprStack;
+		std::stack<float>		_exprStack;
 		std::string			_expr;
 		void	checkOperation(std::string &operation);
-		int		calculate(int operand1, int operand2, char op);
+		float		calculate(float operand1, float operand2, char op);
 		void	executeOperation(unsigned char op);
 		void	executeRPN(void);
 		class invalidInputException: public std::exception
@@ -44,7 +44,7 @@ class RPN
 		};
 
 	public:
-		static int	executeExpression(std::string);
+		static float	executeExpression(std::string);
 };
 
 #endif

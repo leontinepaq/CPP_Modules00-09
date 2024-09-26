@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:27:52 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/19 17:28:44 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:28:56 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	RPN::checkOperation(std::string &operation)
 		throw invalidInputException();
 }
 
-int	RPN::calculate(int operand1, int operand2, char op)
+float	RPN::calculate(float operand1, float operand2, char op)
 {
-	long	res;
+	double	res;
 	
 	if (op == '+')
 		res = operand1 + operand2;
@@ -66,11 +66,11 @@ int	RPN::calculate(int operand1, int operand2, char op)
 			throw (impossibleToExecuteException());
 		res = operand1 / operand2;
 	}
-	if (res > std::numeric_limits<int>::max() 
-		|| res < std::numeric_limits<int>::min())
+	if (res > std::numeric_limits<float>::max() 
+		|| res < std::numeric_limits<float>::min())
 		throw (impossibleToExecuteException());
 
-	return static_cast<int>(res);
+	return static_cast<float>(res);
 }
 
 void	RPN::executeOperation(unsigned char op)
@@ -78,9 +78,9 @@ void	RPN::executeOperation(unsigned char op)
 	if (_exprStack.size() < 2)
 		throw (impossibleToExecuteException());
 
-	int	operand2 = _exprStack.top();
+	float	operand2 = _exprStack.top();
 	_exprStack.pop();
-	int	operand1 = _exprStack.top();
+	float	operand1 = _exprStack.top();
 	_exprStack.pop();
 	_exprStack.push(calculate(operand1, operand2, op));
 }
@@ -107,7 +107,7 @@ void	RPN::executeRPN(void)
 	std::cout << _exprStack.top() << std::endl;
 }
 
-int	RPN::executeExpression(std::string expr)
+float	RPN::executeExpression(std::string expr)
 {
 	try
 	{
@@ -135,7 +135,7 @@ const char* RPN::invalidInputException::what() const throw()
 	return "Invalid input";
 }
 
-//int overflow, division by 0, not enough operands, not enough operators
+//float overflow, division by 0, not enough operands, not enough operators
 const char* RPN::impossibleToExecuteException::what() const throw()
 {
 	return "Impossible to execute the expression";
