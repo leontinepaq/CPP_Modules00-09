@@ -6,40 +6,40 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:13:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/25 16:53:55 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:12:07 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
-bool	PmergeMe::isVectorSorted(void)
+bool	PmergeMe::isVectorSorted(t_vector &vector)
 {
-	if (_vector.empty())
+	if (vector.size() < 2)
 		return true;
 
-	for (size_t i = 1; i < _vector.size(); i++)
+	for (size_t i = 1; i < vector.size(); i++)
 	{
-		if (_vector[i - 1] > _vector[i])
+		if (vector[i - 1] > vector[i])
 			return false;
 	}
 	return true;
 }
 
-void	PmergeMe::fillPairsVector(void)
+static void	fillPairsVector(t_vector &vector, t_pairsVector &pairsVector)
 {
-	_pairsVector.clear();
-	const size_t		size = _vector.size();
-	t_vector::iterator	it = _vector.begin();
+	pairsVector.clear();
+	const size_t		size = vector.size();
+	t_vector::iterator	it = vector.begin();
 	
 	for (size_t i = 0; i < size / 2; ++i)
 	{
 		const unsigned int		a = *(it++);
 		const unsigned int		b = *(it++);
-		_pairsVector.push_back(std::make_pair(std::min(a, b), std::max(a, b)));
+		pairsVector.push_back(std::make_pair(std::min(a, b), std::max(a, b)));
 	}
 }
 
-t_pairsVector PmergeMe::merge(const t_pairsVector &vectorA, const t_pairsVector &vectorB)
+static t_pairsVector merge(const t_pairsVector &vectorA, const t_pairsVector &vectorB)
 {
 	t_pairsVector vectorRes;
 	vectorRes.reserve(vectorA.size() + vectorB.size()); //avoid reallocations
@@ -65,14 +65,14 @@ t_pairsVector PmergeMe::merge(const t_pairsVector &vectorA, const t_pairsVector 
 	return vectorRes;
 }
 
-t_pairsVector	PmergeMe::mergeSortPairsVector(const t_pairsVector &vector)
+static t_pairsVector	mergeSortPairsVector(const t_pairsVector &vector)
 {
 	if (vector.size() <= 1)
 		return vector;
 	
-	size_t							mid = vector.size() / 2;
+	size_t			mid = vector.size() / 2;
 
-	t_pairsVector					vectorA, vectorB;
+	t_pairsVector	vectorA, vectorB;
 	vectorA.reserve(mid);
 	vectorB.reserve(vector.size() - mid);
 
@@ -85,7 +85,7 @@ t_pairsVector	PmergeMe::mergeSortPairsVector(const t_pairsVector &vector)
 	return merge(vectorA, vectorB);
 }
 
-size_t	PmergeMe::binarySearchVector(const t_vector &vector, unsigned int element, size_t low, size_t high)
+static size_t	binarySearchVector(const t_vector &vector, unsigned int element, size_t low, size_t high)
 {
 	if (low >= high)
 	{
@@ -100,108 +100,72 @@ size_t	PmergeMe::binarySearchVector(const t_vector &vector, unsigned int element
 	if (element == *it)
 		return mid;
 	else if (element < *it)
+	{
+		if (mid == 0)
+			return 0;
 		return binarySearchVector(vector, element, low, mid - 1);
+	}
 	return binarySearchVector(vector, element, mid + 1, high);
 }
 
-void	PmergeMe::binaryInsertVector(unsigned int element, size_t size)
+static void	binaryInsertVector(t_vector &vector, unsigned int element, size_t size)
 {
-	if (size > _vector.size())
-		size = _vector.size();
-	size_t loc = binarySearchVector(_vector, element, 0, size);
-	_vector.insert(_vector.begin() + loc, element);
+	if (size > vector.size())
+		size = vector.size();
+	size_t loc = binarySearchVector(vector, element, 0, size);
+	vector.insert(vector.begin() + loc, element);
 	LOG(GREY << "	  > element to insert = "<< CYAN << element << GREY <<  " -> inserted at position " << loc << RESET);
 }
 
-void	PmergeMe::insertSortVector(void)
+static void	insertSortVector(t_vector &vector, t_pairsVector &pairsVector, size_t nbElements)
 {
-	if (_pairsVector.empty())
+	if (pairsVector.empty())
 		return ;
 
-	_vector.clear();
-	_vector.reserve(_nbElements);
+	vector.clear();
+	vector.reserve(nbElements);
 
-	_vector.push_back(_pairsVector.begin()->first);
+	vector.push_back(pairsVector.begin()->first);
 
-	for (t_pairsVector::iterator it = _pairsVector.begin(); it != _pairsVector.end(); it++)
-		_vector.push_back(it->second);
-	LOG(WHITE << "	1rst sorted vector:	" << _vector << RESET << " (first value and biggest number of each pair, before insertion of smallest values)");
+	for (t_pairsVector::iterator it = pairsVector.begin(); it != pairsVector.end(); it++)
+		vector.push_back(it->second);
+	LOG(WHITE << "	1rst sorted vector:	" << vector << RESET << " (first value and biggest number of each pair, before insertion of smallest values)");
 
+	size_t nbPairs = pairsVector.size();
 	std::vector<size_t> jacobsthalSeq;
-	generateJacobsthalSequence(jacobsthalSeq, _pairsVector.size());
+	generateJacobsthalSequence(jacobsthalSeq, nbPairs);
 
 	size_t	currLevel = 2;
 	size_t	maxElementsToSort = 3;
 
-	while (maxElementsToSort <= _nbElements)
+	while (jacobsthalSeq[currLevel - 1] < nbPairs)
 	{
-		for (size_t i = jacobsthalSeq[currLevel]; i > jacobsthalSeq[currLevel - 1]; i--)
-			binaryInsertVector(_pairsVector[i].first, maxElementsToSort);
-		LOG(WHITE << "	" << currLevel << "th sorted vector:	" << _vector << RESET 
-				<< " (after insertion of small elements from pairs " << jacobsthalSeq[currLevel]- 1 << " to " << jacobsthalSeq[currLevel - 1] << " within the first " << maxElementsToSort << " elements of the vector)");
+		for (size_t i = jacobsthalSeq[currLevel] - 1; i >= jacobsthalSeq[currLevel - 1]; i--)
+			binaryInsertVector(vector, pairsVector[i].first, maxElementsToSort);
+		LOG(WHITE << "	" << currLevel << "th sorted vector:	" << vector << RESET 
+				<< " (after insertion of small elements from pairs " << jacobsthalSeq[currLevel] - 1 << " to " << jacobsthalSeq[currLevel - 1] << " within the first " << maxElementsToSort << " elements of the vector)");
 		++currLevel;
 		maxElementsToSort = pow(2, currLevel) - 1;
+		if (maxElementsToSort > nbElements)
+			maxElementsToSort = nbElements;
 	}
-	if (_nbElements % 2 == 1)
-		binaryInsertVector(_lastElement, _nbElements);
 }
 
-void PmergeMe::sortVector(void)
+void PmergeMe::sortVector(t_vector &vector)
 {
-	if (_vector.empty())
-		return ;
-	if (isVectorSorted())
-		return ;
-	LOG(WHITE << "Unsorted vector: 		" << _vector << RESET);
-	fillPairsVector();
-	LOG(WHITE << "Pairs vector: 		" << _pairsVector << RESET << " (vector into pairs whose second element is the biggest)");
-	LOG(YELLOW << "-- Merge sort --" << RESET);
-	_pairsVector = mergeSortPairsVector(_pairsVector);
-	LOG(WHITE << "Sorted pairs vector: 	" << _pairsVector << RESET << " (pairs sorted by their second element with a merge sort)");
-	LOG(YELLOW << "-- Insertion sort --" << RESET);
-	insertSortVector();
-	LOG(WHITE << "Sorted vector: 		" << _vector << RESET);
-	if (isVectorSorted() == false)
-		std::cout << RED << "Error: vector is not sorted" << RESET << std::endl;
-	else
-		std::cout << GREEN << "Vector is sorted !" << RESET << std::endl;
-	return ;
-}
-
-std::ostream  &operator<<(std::ostream &os, t_vector &vector)
-{
-	t_vector::iterator	it = vector.begin();
+	t_pairsVector	pairsVector;
 	
-	int i = 0;
- 	for (; it != vector.end(); ++it)
-	{
-		os << *it;
-		if (it != --vector.end())
-			os << " ";
-		if (i++ > 20)
-		{
-			os << "[...]";
-			break ;
-		}
-		os << " ";
-	}
-	return os;
-}
-
-std::ostream  &operator<<(std::ostream &os, t_pairsVector &vector)
-{
-	t_pairsVector::iterator	it = vector.begin();
-	int i = 0;
- 	for (it = vector.begin(); it != vector.end(); ++it)
-	{
-		os << WHITE  << "[ " << CYAN << it->first << " " << MAGENTA << it->second << WHITE << " ]" << RESET;
-		if (it != --vector.end())
-			os << " ";
-		if (i++ > 10)
-		{
-			os << "[...]";
-			break ;
-		}
-	}
-	return os;
+	LOG(WHITE  << std::endl << "---------------------------------------COMMENTS---------------------------------------" << RESET << std::endl);
+	LOG(WHITE << "Unsorted vector: 	" << vector << RESET);
+	fillPairsVector(vector, pairsVector);
+	LOG(WHITE << "Pairs vector: 		" << pairsVector << RESET << " (vector into pairs whose second element is the biggest)");
+	LOG(YELLOW << "-- Merge sort --" << RESET);
+	pairsVector = mergeSortPairsVector(pairsVector);
+	LOG(WHITE << "Sorted pairs vector: 	" << pairsVector << RESET << " (pairs sorted by their second element with a merge sort)");
+	LOG(YELLOW << "-- Insertion sort --" << RESET);
+	insertSortVector(vector, pairsVector, _nbElements);
+	if (_nbElements % 2 == 1)
+		binaryInsertVector(vector, _lastElement, _nbElements);
+	LOG(WHITE << "Sorted vector: 		" << vector << RESET);
+	LOG(WHITE << "--------------------------------------------------------------------------------------" << RESET << std::endl);
 }

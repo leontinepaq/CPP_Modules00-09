@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 13:49:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/25 16:54:10 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:10:52 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 #include "Colors.hpp"
 
-
+#include <algorithm> 
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -40,37 +40,22 @@ class PmergeMe
 {
 	private:
 		PmergeMe();
+		PmergeMe(t_vector &vector);
+		PmergeMe(t_list &list);
 		PmergeMe(const PmergeMe &src);
 		PmergeMe& operator=(const PmergeMe &src);
 		~PmergeMe();
 		size_t			_nbElements;
 		unsigned int	_lastElement;
-		t_vector		_vector;
-		t_pairsVector	_pairsVector;
-		t_list			_list;
-		t_pairsList		_pairsList;
-		int				insertElements(char ** elements);
-			
-		bool			isVectorSorted(void);
-		void			fillPairsVector(void);
-		t_pairsVector 	merge(const t_pairsVector &vectorA, const t_pairsVector &vectorB);
-		t_pairsVector	mergeSortPairsVector(const t_pairsVector &vector);
-		size_t			binarySearchVector(const t_vector &vector, unsigned int element, size_t low, size_t high);
-		void			binaryInsertVector(unsigned int element, size_t size);
-		void			insertSortVector(void);
-		void			sortVector(void);
-
-		bool			isListSorted(void);
-		void			fillPairsList(void);
-		t_pairsList 	merge(const t_pairsList &listA, const t_pairsList &listB);
-		t_pairsList		mergeSortPairsList(const t_pairsList &list);
-		size_t			binarySearchList(const t_list &list, unsigned int element, size_t low, size_t high);
-		void			binaryInsertList(unsigned int element, size_t size);
-		void			insertSortList(void);
-		void			sortList(void);
+		void			sortVector(t_vector &vector);
+		void			sortList(t_list &list);
 
 	public:
-		static int	sort(char **elements);
+		static int		sort(t_vector &vector);
+		static int		sort(t_list &list);
+		static bool		isVectorSorted(t_vector &vector);
+		static bool		isListSorted(t_list &list);
+
 };
 
 void	generateJacobsthalSequence(std::vector<size_t> &vect, size_t size);

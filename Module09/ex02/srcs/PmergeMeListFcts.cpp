@@ -6,21 +6,21 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:13:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/25 16:53:55 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:19:06 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
-bool	PmergeMe::isListSorted(void)
+bool	PmergeMe::isListSorted(t_list &list)
 {
-	if (_list.empty())
+	if (list.empty())
 		return true;
 
-	t_list::const_iterator it = _list.begin();
+	t_list::const_iterator it = list.begin();
 	t_list::const_iterator itNext = it;
 	itNext++;
-	while (itNext != _list.end())
+	while (itNext != list.end())
 	{
 		if (*it > *itNext)
 			return false;
@@ -30,21 +30,21 @@ bool	PmergeMe::isListSorted(void)
 	return true;
 }
 
-void	PmergeMe::fillPairsList(void)
+static void	fillPairsList(t_list &list, t_pairsList &pairsList)
 {
-	_pairsList.clear();
-	const size_t		size = _list.size();
-	t_list::iterator	it = _list.begin();
+	pairsList.clear();
+	const size_t		size = list.size();
+	t_list::iterator	it = list.begin();
 	
 	for (size_t i = 0; i < size / 2; ++i)
 	{
 		const unsigned int		a = *(it++);
 		const unsigned int		b = *(it++);
-		_pairsList.push_back(std::make_pair(std::min(a, b), std::max(a, b)));
+		pairsList.push_back(std::make_pair(std::min(a, b), std::max(a, b)));
 	}
 }
 
-t_pairsList PmergeMe::merge(const t_pairsList &listA, const t_pairsList &listB)
+static t_pairsList merge(const t_pairsList &listA, const t_pairsList &listB)
 {
 	t_pairsList listRes;
 	t_pairsList::const_iterator itA = listA.begin();
@@ -68,7 +68,7 @@ t_pairsList PmergeMe::merge(const t_pairsList &listA, const t_pairsList &listB)
 	return listRes;
 }
 
-t_pairsList	PmergeMe::mergeSortPairsList(const t_pairsList &list)
+static t_pairsList	mergeSortPairsList(const t_pairsList &list)
 {
 	if (list.size() <= 1)
 		return list;
@@ -87,7 +87,7 @@ t_pairsList	PmergeMe::mergeSortPairsList(const t_pairsList &list)
 	return merge(listA, listB);
 }
 
-size_t	PmergeMe::binarySearchList(const t_list &list, unsigned int element, size_t low, size_t high)
+static size_t	binarySearchList(const t_list &list, unsigned int element, size_t low, size_t high)
 {
 	if (low >= high)
 	{
@@ -102,111 +102,76 @@ size_t	PmergeMe::binarySearchList(const t_list &list, unsigned int element, size
 	if (element == *it)
 		return mid;
 	else if (element < *it)
+	{
+		if (mid == 0)
+			return 0;
 		return binarySearchList(list, element, low, mid - 1);
+	}
 	return binarySearchList(list, element, mid + 1, high);
 }
 
-void	PmergeMe::binaryInsertList(unsigned int element, size_t size)
+static void	binaryInsertList(t_list &list, unsigned int element, size_t size)
 {
-	if (size > _list.size())
-		size = _list.size();
-	size_t loc = binarySearchList(_list, element, 0, size);
-	t_list::iterator	it = _list.begin();
+	if (size > list.size())
+		size = list.size();
+	size_t loc = binarySearchList(list, element, 0, size);
+	t_list::iterator	it = list.begin();
 	std::advance(it, loc);
-	_list.insert(it, element);
+	list.insert(it, element);
 	LOG(GREY << "	  > element to insert = "<< CYAN << element << GREY <<  " -> inserted at position " << loc << RESET);
 }
 
-void	PmergeMe::insertSortList(void)
+static void	insertSortList(t_list &list, t_pairsList &pairsList, size_t nbElements)
 {
-	if (_pairsList.empty())
+	if (pairsList.empty())
 		return ;
 
-	_list.clear();
-	_list.push_back(_pairsList.begin()->first);
+	list.clear();
+	list.push_back(pairsList.begin()->first);
 
-	for (t_pairsList::iterator it = _pairsList.begin(); it != _pairsList.end(); it++)
-		_list.push_back(it->second);
-	LOG(WHITE << "	1rst sorted list:	" << _list << RESET << " (first value and biggest number of each pair, before insertion of smallest values)");
+	for (t_pairsList::iterator it = pairsList.begin(); it != pairsList.end(); it++)
+		list.push_back(it->second);
+	LOG(WHITE << "	1rst sorted list:	" << list << RESET << " (first value and biggest number of each pair, before insertion of smallest values)");
 
+	size_t nbPairs = pairsList.size();
 	std::vector<size_t> jacobsthalSeq;
-	generateJacobsthalSequence(jacobsthalSeq, _pairsList.size());
+	generateJacobsthalSequence(jacobsthalSeq, nbPairs);
 
 	size_t	currLevel = 2;
 	size_t	maxElementsToSort = 3;
-	t_pairsList::iterator it = _pairsList.begin();
+	t_pairsList::iterator it = pairsList.begin();
 
-	while (maxElementsToSort <= _nbElements)
+	while (jacobsthalSeq[currLevel] < nbPairs)
 	{
 		std::advance(it, jacobsthalSeq[currLevel] - jacobsthalSeq[currLevel - 1]);
 		for (size_t i = jacobsthalSeq[currLevel]; i > jacobsthalSeq[currLevel - 1]; i--)
-			binaryInsertList((it--)->first, maxElementsToSort);
+			binaryInsertList(list, (it--)->first, maxElementsToSort);
 		std::advance(it, jacobsthalSeq[currLevel] - jacobsthalSeq[currLevel - 1]);
-		LOG(WHITE << "	" << currLevel << "th sorted list:	" << _list << RESET 
+		LOG(WHITE << "	" << currLevel << "th sorted list:	" << list << RESET 
 				<< " (after insertion of small elements from pairs " << jacobsthalSeq[currLevel]- 1 << " to " << jacobsthalSeq[currLevel - 1] << " within the first " << maxElementsToSort << " elements of the list)");
 		++currLevel;
 		maxElementsToSort = pow(2, currLevel) - 1;
+		if (maxElementsToSort > nbElements)
+			maxElementsToSort = nbElements;
 	}
-	if (_nbElements % 2 == 1)
-		binaryInsertList(_lastElement, _nbElements);
 }
 
-void PmergeMe::sortList(void)
+void PmergeMe::sortList(t_list &list)
 {
-	if (_list.empty())
-		return ;
-	if (isListSorted())
-		return ;
-	LOG(WHITE << "Unsorted list: 		" << _list << RESET);
-	fillPairsList();
-	LOG(WHITE << "Pairs list: 		" << _pairsList << RESET << " (list into pairs whose second element is the biggest)");
-	LOG(YELLOW << "-- Merge sort --" << RESET);
-	_pairsList = mergeSortPairsList(_pairsList);
-	LOG(WHITE << "Sorted pairs list: 	" << _pairsList << RESET << " (pairs sorted by their second element with a merge sort)");
-	LOG(YELLOW << "-- Insertion sort --" << RESET);
-	insertSortList();
-	LOG(WHITE << "Sorted list: 		" << _list << RESET);
-	if (isListSorted() == false)
-		std::cout << RED << "Error: list is not sorted" << RESET << std::endl;
-	else
-		std::cout << GREEN << "List is sorted !" << RESET << std::endl;
-	return ;
-}
-
-std::ostream  &operator<<(std::ostream &os, t_list &list)
-{
-	t_list::iterator	it = list.begin();
+	t_pairsList	pairsList;
 	
-	int i = 0;
- 	for (; it != list.end(); ++it)
-	{
-		os << *it;
-		if (it != --list.end())
-			os << " ";
-		if (i++ > 20)
-		{
-			os << "[...]";
-			break ;
-		}
-		os << " ";
-	}
-	return os;
+	LOG(WHITE  << std::endl << "---------------------------------------COMMENTS---------------------------------------" << RESET << std::endl);
+	LOG(WHITE << "Unsorted list: 	" << list << RESET);
+	fillPairsList(list, pairsList);
+	LOG(WHITE << "Pairs list: 		" << pairsList << RESET << " (list into pairs whose second element is the biggest)");
+	LOG(YELLOW << "-- Merge sort --" << RESET);
+	pairsList = mergeSortPairsList(pairsList);
+	LOG(WHITE << "Sorted pairs list: 	" << pairsList << RESET << " (pairs sorted by their second element with a merge sort)");
+	LOG(YELLOW << "-- Insertion sort --" << RESET);
+	insertSortList(list, pairsList, _nbElements);
+	if (_nbElements % 2 == 1)
+		binaryInsertList(list, _lastElement, _nbElements);
+	LOG(WHITE << "Sorted list: 		" << list << RESET);
+	LOG(WHITE << "--------------------------------------------------------------------------------------" << RESET << std::endl);
 }
 
-std::ostream  &operator<<(std::ostream &os, t_pairsList &list)
-{
-	t_pairsList::iterator	it = list.begin();
-	int i = 0;
- 	for (it = list.begin(); it != list.end(); ++it)
-	{
-		os << WHITE  << "[ " << CYAN << it->first << " " << MAGENTA << it->second << WHITE << " ]" << RESET;
-		if (it != --list.end())
-			os << " ";
-		if (i++ > 10)
-		{
-			os << "[...]";
-			break ;
-		}
-	}
-	return os;
-}

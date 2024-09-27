@@ -6,27 +6,34 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:10:57 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/25 16:53:55 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:14:55 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 #include <iostream>
-#include <algorithm> 
+
 
 PmergeMe::PmergeMe() : _nbElements(0), _lastElement(0)
 {
 	// std::cout << "[PmergeMe] Default constructor called" << std::endl;
 }
 
+PmergeMe::PmergeMe(t_vector &vector) : _nbElements(vector.size()), _lastElement(vector.back())
+{
+	// std::cout << "[PmergeMe] Parametric constructor called" << std::endl;
+}
+
+PmergeMe::PmergeMe(t_list &list) : _nbElements(list.size()), _lastElement(list.back())
+{
+	// std::cout << "[PmergeMe] Parametric constructor called" << std::endl;
+}
 
 PmergeMe::PmergeMe(const PmergeMe &src) :
-	_nbElements(src._nbElements), _lastElement(src._lastElement), _vector(src._vector),
-	_pairsVector(src._pairsVector), _list(src._list), _pairsList(src._pairsList)
+	_nbElements(src._nbElements), _lastElement(src._lastElement)
 {
 	// std::cout << "[PmergeMe] Copy constructor called" << std::endl;
 }
-
 
 PmergeMe& PmergeMe::operator=(const PmergeMe &src)
 {
@@ -35,10 +42,6 @@ PmergeMe& PmergeMe::operator=(const PmergeMe &src)
 		return *this;
 	_nbElements = src._nbElements;
 	_lastElement = src._lastElement;
-	_vector = src._vector;
-	_list = src._list;
-	_pairsVector = src._pairsVector;
-	_pairsList = src._pairsList;
 	return *this;
 }
 
@@ -49,32 +52,8 @@ PmergeMe::~PmergeMe()
 
 static int putError(std::string mess)
 {
-	std::cerr << "Error: " << mess << std::endl;
+	std::cerr << RED << "Error: " << mess << RESET << std::endl;
 	return 1;
-}
-
-int	PmergeMe::insertElements(char ** elements)
-{
-	if (!elements || !elements[0])
-		return putError("no element to sort");
-	_list.clear();
-	_vector.clear();
-	int i = 0;
-	while (elements[i])
-	{
-		std::stringstream	ss(elements[i]);
-		unsigned int			value;
-		ss >> std::noskipws >> value;
-		if (ss.fail() || ss.peek() != std::stringstream::traits_type::eof())
-			return putError("invalid element (all elements must be unsigned int)");
-		_list.push_back(value);
-		_vector.push_back(value);
-		_nbElements++;
-		i++;
-	}
-	if (_nbElements %2 == 1)
-		_lastElement = _list.back();
-	return 0;
 }
 
 std::ostream  &operator<<(std::ostream &os, std::vector<size_t> vect)
@@ -112,63 +91,111 @@ void	generateJacobsthalSequence(std::vector<size_t> &vect, size_t size)
 	vect.push_back(size);
 }
 
-int PmergeMe::sort(char **elements)
+int PmergeMe::sort(t_list &list)
 {
-	std::clock_t start;
-	std::clock_t end;
-
-	PmergeMe PM1;
-	if (PM1.insertElements(elements))
-		return 1;
+	PmergeMe	pmergeMe(list);
 	
-	std::cout << MAGENTA << "Sorting " << PM1._nbElements << " elements" << RESET << std::endl;
-	std::cout << MAGENTA << "> PmergeMe sorts" << RESET << std::endl;
-	start = std::clock();
-	PM1.sortList();
-	end = std::clock();
-	double duration1 = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
-	std::cout << "PM.sortList() took " << duration1 << " ms." << std::endl;
-	
-	start = std::clock();
-	PM1.sortVector();
-	end = std::clock();
-	double duration3 = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
-	std::cout << "PM.sortVector() took " << duration3 << " ms." << std::endl;
-	std::cout << std::endl;
-	
-	PmergeMe PM2;
-	if (PM2.insertElements(elements))
-		return 1;
-	std::cout << MAGENTA << "> Standard sorts" << RESET << std::endl;
-	start = std::clock();
-	PM2._list.sort();
-	end = std::clock();
-	if (PM2.isListSorted())
-		std::cout << GREEN << "List is sorted !" << RESET << std::endl;
-	else
-		std::cout << RED << "Error: list is not sorted" << RESET << std::endl;	
-	double duration2 = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
-	std::cout << "PM._list.sort() took " << duration2 << " ms." << std::endl;
-
-	start = std::clock();
-	std::sort(PM2._vector.begin(), PM2._vector.end());
-	end = std::clock();
-	if (PM2.isVectorSorted())
+	if (pmergeMe.isListSorted(list))
+	{
 		std::cout << GREEN << "Vector is sorted !" << RESET << std::endl;
-	else
-		std::cout << RED << "Error: vector is not sorted" << RESET << std::endl;
-	double duration4 = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
-	std::cout << "std::sort() took " << duration4 << " ms." << std::endl;
-	std::cout << std::endl;
-
-	if (duration1 < duration2)
-		std::cout << GREEN << "PM.sortList() is " << (int)(duration2 / duration1) << " times faster than PM._list.sort()" << RESET << std::endl;
-	else
-		std::cout << ORANGE << "PM.sortList() is " << (int)(duration1 / duration2) << " times slower than PM._list.sort()" << RESET << std::endl;
-
-	if (duration3 < duration4)
-		std::cout << GREEN << "PM.sortVector() is " << (int)(duration4 / duration3) << " times faster than std::sort()" << RESET << std::endl;
-	else
-		std::cout << ORANGE << "PM.sortVector() is " << (int)(duration3 / duration4) << " times slower than std::sort()" << RESET << std::endl;
+		return 0;
+	}
+	pmergeMe.sortList(list);
+	if (pmergeMe.isListSorted(list) == false)
+		return putError("list is not sorted");
+	std::cout << GREEN << "List is sorted !" << RESET << std::endl;
 	return 0;
+}
+
+
+int PmergeMe::sort(t_vector &vector)
+{
+	PmergeMe	pmergeMe(vector);
+	
+	if (pmergeMe.isVectorSorted(vector))
+	{
+		std::cout << GREEN << "Vector is sorted !" << RESET << std::endl;
+		return 0;
+	}
+	pmergeMe.sortVector(vector);
+	if (pmergeMe.isVectorSorted(vector) == false)
+		return putError("vector is not sorted");
+	std::cout << GREEN << "Vector is sorted !" << RESET << std::endl;
+	return 0;
+}
+
+std::ostream  &operator<<(std::ostream &os, t_vector &vector)
+{
+	t_vector::iterator	it = vector.begin();
+	
+	int i = 0;
+ 	for (; it != vector.end(); ++it)
+	{
+		os << *it;
+		if (it != --vector.end())
+			os << " ";
+		if (i++ > 20)
+		{
+			os << "[...]";
+			break ;
+		}
+		os << " ";
+	}
+	return os;
+}
+
+std::ostream  &operator<<(std::ostream &os, t_pairsVector &vector)
+{
+	t_pairsVector::iterator	it = vector.begin();
+	int i = 0;
+ 	for (it = vector.begin(); it != vector.end(); ++it)
+	{
+		os << WHITE  << "[ " << CYAN << it->first << " " << MAGENTA << it->second << WHITE << " ]" << RESET;
+		if (it != --vector.end())
+			os << " ";
+		if (i++ > 10)
+		{
+			os << "[...]";
+			break ;
+		}
+	}
+	return os;
+}
+
+std::ostream  &operator<<(std::ostream &os, t_list &list)
+{
+	t_list::iterator	it = list.begin();
+	
+	int i = 0;
+ 	for (; it != list.end(); ++it)
+	{
+		os << *it;
+		if (it != --list.end())
+			os << " ";
+		if (i++ > 20)
+		{
+			os << "[...]";
+			break ;
+		}
+		os << " ";
+	}
+	return os;
+}
+
+std::ostream  &operator<<(std::ostream &os, t_pairsList &list)
+{
+	t_pairsList::iterator	it = list.begin();
+	int i = 0;
+ 	for (it = list.begin(); it != list.end(); ++it)
+	{
+		os << WHITE  << "[ " << CYAN << it->first << " " << MAGENTA << it->second << WHITE << " ]" << RESET;
+		if (it != --list.end())
+			os << " ";
+		if (i++ > 10)
+		{
+			os << "[...]";
+			break ;
+		}
+	}
+	return os;
 }
