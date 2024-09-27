@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:27:52 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/26 13:28:56 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:03:29 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ float	RPN::calculate(float operand1, float operand2, char op)
 		res = operand1 / operand2;
 	}
 	if (res > std::numeric_limits<float>::max() 
-		|| res < std::numeric_limits<float>::min())
+		|| res < -std::numeric_limits<float>::max()
+		)
 		throw (impossibleToExecuteException());
 
 	return static_cast<float>(res);
