@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:10:57 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/10/01 18:11:15 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:05:12 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,53 +86,15 @@ int PmergeMe::sort(t_list &list)
 	
 	if (pmergeMe.isListSorted(list))
 	{
-		std::cout << GREEN << "Vector is sorted !" << RESET << std::endl;
+		std::cout << GREEN << "List is sorted !" << RESET << std::endl;
 		return 0;
 	}
-	pmergeMe.sortList(list);
+	pmergeMe.fusionInsertSort(list, 0);
 	if (pmergeMe.isListSorted(list) == false)
 		return putError("list is not sorted");
 	std::cout << GREEN << "List is sorted !" << RESET << std::endl;
 	return 0;
 }
-
-// static size_t	nextPow2(size_t size)
-// {
-// 	size_t	pow2 = 1;
-// 	while (pow2 < size)
-// 		pow2 *= 2;
-// 	return pow2;
-// }
-
-
-// static void	fillMatrix(t_vectMatrix &matrix, t_vector &vector)
-// {
-// 	size_t	size = vector.size();
-// 	matrix.reserve(size);
-// 	for (size_t i = 0; i < size; i++)
-// 	{
-// 		t_vector	tmp;
-// 		tmp.push_back(vector[i]);
-// 		matrix.push_back(tmp);
-// 	}
-// 	// size_t	pow2 = nextPow2(size);
-// 	// //padding
-// 	// for (size_t i = size; i < pow2; i++)
-// 	// {
-// 	// 	t_vector	tmp;
-// 	// 	tmp.push_back(std::numeric_limits<unsigned int>::max());
-// 	// 	matrix.push_back(tmp);
-// 	// }
-// }
-
-// static void	putToVector(t_vector &vector, t_vectMatrix &matrix)
-// {
-// 	size_t	size = vector.size();
-// 	vector.clear();
-// 	vector.reserve(size);
-// 	for (size_t i = 0; i < size; i++)
-// 		vector.push_back(matrix[i][0]);
-// }
 
 int PmergeMe::sort(t_vector &vector)
 {
@@ -144,6 +106,7 @@ int PmergeMe::sort(t_vector &vector)
 		return 0;
 	}
 	pmergeMe.fusionInsertSort(vector, 0);
+	LOG("");
 	if (isVectorSorted(vector) == false)
 		return putError("vector is not sorted");
 	std::cout << GREEN << "Vector is sorted !" << RESET << std::endl;

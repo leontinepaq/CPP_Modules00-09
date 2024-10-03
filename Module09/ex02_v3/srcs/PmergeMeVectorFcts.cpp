@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:13:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/10/01 18:12:36 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:41:43 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,63 +24,6 @@ bool	PmergeMe::isVectorSorted(t_vector &vector)
 	}
 	return true;
 }
-
-// void	sortPairs(t_vector &vector, t_vector &S ,size_t size, unsigned int level)
-// {
-	
-// 	S.clear();
-// 	S.reserve(size);
-// 	size_t		sizeS = size / (int)pow(2, level + 1);
-// 	t_vector	swapTrack;
-	
-// 	std::cout << ORANGE << "Test >\tsize  = " << size << RESET << std::endl;
-// 	std::cout << ORANGE << "\tsizeS  = " << sizeS << RESET << std::endl;
-	
-// 	for (size_t i = 0; i < 2 * sizeS; i++)
-// 		swapTrack.push_back(i);
-
-// 	//sort main chain
-// 	for (size_t i = 0; i + 1 < 2 * sizeS; i += 2)
-// 	{
-// 		if (vector[i] < vector[i + 1])
-// 		{
-// 			unsigned int tmp;
-// 			tmp = vector[i];
-// 			vector[i] = vector[i + 1];
-// 			vector[i + 1] = tmp;
-// 			swapTrack[i / 2] = i + 1;
-// 			swapTrack[sizeS + i / 2] = i;			
-// 		}
-// 		else
-// 		{
-// 			swapTrack[i / 2] = i;
-// 			swapTrack[sizeS + i / 2] = i + 1;	
-// 		}
-// 		S.push_back(vector[i]);		
-// 	}
-// 	for (size_t i = 0; i < 2 * sizeS; i+= 2)
-// 		S.push_back(vector[i + 1]);
-// 	//sort pend
-// 	for (size_t i = 2 * sizeS; i < size; i ++)
-// 		S.push_back(vector[i - i % (2 * sizeS) + swapTrack[ i % (2  *sizeS)]]);
-// }
-
-// void	insertSort(t_vector &vector, t_vector &S, size_t size, unsigned int level)
-// {
-// 	size_t	sizeS = size / (int)pow(2, level + 1);
-
-// 	std::cout << ORANGE << "test >\tS = " << S
-// 		<< "\n\tsizeS = " << sizeS << std::endl;
-
-// 	if (sizeS == 1)
-// 	{
-// 		vector = S;
-// 		return;
-// 	}
-// 	vector.clear();
-// 	vector.reserve(size);
-// 	(void) level;
-// }
 
 void	swap(t_vector &vector, size_t i, size_t j)
 {
@@ -120,43 +63,16 @@ static size_t	binaryInsertVector(t_vector &vector, unsigned int element, size_t 
 {
 	if (size > vector.size())
 		size = vector.size();
-	size_t loc = binarySearchVector(vector, element, vector.size() - size,  vector.size());
+	size_t loc = binarySearchVector(vector, element, vector.size() - size,  vector.size() -1);
 	vector.insert(vector.begin() + loc, element);
 	LOG(GREY << "	  > element to insert = "<< CYAN << element << GREY <<  " -> inserted at position " << loc << RESET);
 	return loc;
 }
 
-t_vector PmergeMe::fusionInsertSort(t_vector &vector, unsigned int level)
+static void sortPairs(t_vector &vector, t_vector &S, t_vector &pend, t_vector &swapTrack)
 {
-	LOG(WHITE << std::endl << "-------------------------------------MERGE INSERT LEVEL " << level << "-------------------------------------" << RESET << std::endl);
-	LOG(WHITE << "0 - Unsorted vector : " << RESET << vector);
-	
 	size_t size = vector.size();
-	
-	t_vector swapTrack;
-	for (size_t i = 0; i < size; i++)
-		swapTrack.push_back(i);
 
-	if (size <= 1)
-		return swapTrack;
-	else if (size == 2)
-	{
-		if (vector[0] < vector[1])
-		{
-			swap(vector, 0, 1);
-			swap(swapTrack, 0, 1);
-		}
-		LOG(GREEN << std::endl << "-----------------------------------------EXIT LEVEL " << level << "-----------------------------------------" << std::endl
-			<< "Sorted vector:\t" << vector << std::endl
-			<< "SwapTrack: " << swapTrack<< std::endl
-			<< "----------------------------------------------------------------------------------------------");
-		return swapTrack;
-	}
-
-	t_vector 	S, pend;
-	S.reserve(size / 2);
-
-	LOG(CYAN << "> Constructing S");
 	for (size_t i = 0; i < size; i += 2)
 	{
 		if (i + 1 < size)
@@ -172,56 +88,127 @@ t_vector PmergeMe::fusionInsertSort(t_vector &vector, unsigned int level)
 			pend.push_back(vector[i]);
 	}
 	LOG(WHITE << "1 + 2 - Sorted big elements by pairs :\t" << RESET << vector);
-	LOG(CYAN << "S = " << S << std::endl
-		<< "swapTrack = " << swapTrack);
+	LOG(CYAN << "S = " << S);
+}
 
-	t_vector swapTrackRec = fusionInsertSort(S, level + 1);
-	LOG(WHITE << std::endl << "----------------------------------------BACK TO LEVEL " << level << "---------------------------------------" << RESET);
-	LOG(WHITE << "3 - Sorted S vector: 	" << RESET << S);
+static void smallSort(t_vector &vector, t_vector &swapTrack, unsigned int level)
+{
+	size_t	size = vector.size();
 
-	size_t	sizeS = S.size();
-	for (size_t i = 0; i < sizeS; i++)
-		pend.push_back(vector[2 * swapTrackRec[i] + 1]);
+	if (size == 2)
+	{
+		if (vector[0] < vector[1])
+		{
+			swap(vector, 0, 1);
+			swap(swapTrack, 0, 1);
+		}
+	}
+	(void) level;
+	LOG(GREEN << std::endl << "-----------------------------------------EXIT LEVEL " << level << "-----------------------------------------" << std::endl
+		<< "Sorted vector:\t" << vector << std::endl
+		<< "SwapTrack: " << swapTrack<< std::endl
+		<< "----------------------------------------------------------------------------------------------");
+}
 
-	t_vector	combinedSwapTrack;
-	combinedSwapTrack.reserve(size);
-	
-	for (size_t i = 0; i < sizeS; i++)
-		combinedSwapTrack.push_back(swapTrack[2 * swapTrackRec[i]]);
-	std::cout << ORANGE << "CombinedSwapTrack: " << combinedSwapTrack << std::endl;
-		
-	S.push_back(pend.back());
-	// pend.pop_back();
-	combinedSwapTrack.push_back(swapTrack[2 * swapTrackRec[sizeS - 1] + 1]);
-	LOG(WHITE << "4 - Add the smallest element to S: 	" << RESET << S);
-	std::cout << ORANGE << "CombinedSwapTrack: " << combinedSwapTrack << std::endl;
-	std::cout << ORANGE << "pend: " << pend << std::endl;
+static unsigned int	indexMoved(t_tracking &swapTrack, size_t index, bool odd)
+{
+	return swapTrack.v[2 * swapTrack.rec[index] + odd];
+}
 
+static void trackMovement(t_tracking &swapTrack, size_t loc, size_t index, int odd)
+{
+	if (odd == -1)
+		swapTrack.combined.insert(swapTrack.combined.begin() + loc, index);
+	else
+		swapTrack.combined.insert(swapTrack.combined.begin() + loc, indexMoved(swapTrack, index, odd));
+}
+
+static void insertSort(t_vector &S, t_vector &pend, t_tracking &swapTrack)
+{
+	// ADD THE SMALLEST ELEMENT TO S	
+	size_t sizeS = S.size();
 	size_t sizePend = pend.size();
-	
-	LOG(WHITE << "	1rst sorted vector:	" << S << RESET << " (first value and biggest number of each pair, before insertion of smallest values)");
+	S.push_back(pend.back());
+	trackMovement(swapTrack, sizeS, sizeS - 1, 1);
+	LOG(WHITE << "4 - Added the smallest element to S: 	" << RESET << S);
+
+	// GENERATE JACOBSTHAL SEQUENCE
 	t_vector jacobsthalSeq;
 	size_t	currLevel = 1;
 	size_t	maxElementsToSort = 3;
 	generateJacobsthalSequence(jacobsthalSeq, sizePend);
-	std::cout << ORANGE << "JacobsthalSeq: " << jacobsthalSeq << std::endl;
+	LOG(BLUE << "JacobsthalSeq: " << jacobsthalSeq);
+	LOG(WHITE << "	1rst sorted vector:	" << S << RESET);
+
+	// INSERT EVERY ELEMENT OF PEND INTO S FOLLOWING THE JACOBSTHAL SEQUENCE
 	while (currLevel < jacobsthalSeq.size())
 	{
 		for (size_t i = jacobsthalSeq[currLevel]; i > jacobsthalSeq[currLevel - 1]; i--)
 		{
-			std::cout << ORANGE << "Inserting >> " << pend[sizePend - i - 1]<< RESET << std::endl;
-			size_t loc = binaryInsertVector(S, pend[sizePend - 1 - i], maxElementsToSort);
-			combinedSwapTrack.insert(combinedSwapTrack.begin() + loc, swapTrack[2 * swapTrackRec[sizePend - 1 - i] + 1]);
+			size_t	index = sizePend - 1 - i;
+			size_t loc = binaryInsertVector(S, pend[index], maxElementsToSort);
+			if ((sizeS + sizePend) % 2 == 0)
+				trackMovement(swapTrack, loc, index, 1);
+			else if (index == 0)
+				trackMovement(swapTrack, loc, sizeS + sizePend - 1, -1);
+			else
+				trackMovement(swapTrack, loc, index - 1, 1);
 		}
-		LOG(WHITE << "	" << currLevel + 1 << "th sorted vector:	" << S << RESET);
-				// << " (after insertion of small elements from pairs " << jacobsthalSeq[currLevel] - 1 << " to " << jacobsthalSeq[currLevel - 1] << " within the first " << maxElementsToSort << " elements of the vector)");
 		currLevel++;
-		maxElementsToSort = pow(2, currLevel) - 1;
-		if (maxElementsToSort > sizePend)
-			maxElementsToSort = sizePend;
-		// return combinedSwapTrack;
+		maxElementsToSort = pow(2, currLevel + 1) - 1;
+		if (maxElementsToSort > 2 * sizePend)
+			maxElementsToSort = 2 * sizePend;
 	}
+}
+
+t_vector PmergeMe::fusionInsertSort(t_vector &vector, unsigned int level)
+{
+	LOG(WHITE << std::endl << "-------------------------------------MERGE INSERT LEVEL " << level << "-------------------------------------" << RESET << std::endl);
+	LOG(WHITE << "0 - Unsorted vector : " << RESET << vector);
+	
+	size_t size = vector.size();
+	
+	// CREATE A VECTOR THAT WILL TRACK THE MOVEMENTS WHEN SORTING
+	t_tracking swapTrack;
+	for (size_t i = 0; i < size; i++)
+		swapTrack.v.push_back(i);
+
+	// LESS THAN 3 ELEMENTS -> BREAK THE RECURSION
+	if (size < 3)
+	{
+		smallSort(vector, swapTrack.v, level);
+		return (swapTrack.v);
+	}
+
+	// SORT BY PAIRS AND CREATE A S VECTOR TO RECURSIVELY SORT
+	t_vector 	S, pend;
+	S.reserve(size / 2);
+	sortPairs(vector, S, pend, swapTrack.v);
+
+	// RECURSIVELY SORT S
+	swapTrack.rec = fusionInsertSort(S, level + 1);
+	
+	LOG(WHITE << std::endl << "----------------------------------------BACK TO LEVEL " << level << "---------------------------------------" << RESET);
+	LOG(WHITE << "3 - Sorted S vector: 	" << RESET << S);
+	
+	size_t	sizeS = S.size();
+	
+	// PUSH SMALL ELEMENTS INTO PEND ACCORDINGLY TO THE MOVEMENTS OF THE BIG ELEMENT
+	for (size_t i = 0; i < sizeS; i++)
+		pend.push_back(vector[2 * swapTrack.rec[i] + 1]);
+	LOG(CYAN << "Pend = " << pend);
+
+	// COMBINE THE VECTORS TRACKING MOVEMENTS
+	swapTrack.combined.reserve(size);
+	for (size_t i = 0; i < sizeS; i++)
+		trackMovement(swapTrack, i, i, 0);
+	// INSERT SORT THE PEND VECTOR INTO THE S VECTOR
+	insertSort(S, pend, swapTrack);
 	
 	vector = S;
-	return combinedSwapTrack;
+	LOG(GREEN << std::endl << "-----------------------------------------EXIT LEVEL " << level << "-----------------------------------------" << std::endl
+		<< "Sorted vector:\t" << vector << std::endl
+		<< "SwapTrack:\t" << swapTrack.combined<< std::endl
+		<< "----------------------------------------------------------------------------------------------");
+	return swapTrack.combined;
 }

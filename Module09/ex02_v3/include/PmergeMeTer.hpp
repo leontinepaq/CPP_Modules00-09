@@ -6,16 +6,16 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 13:49:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/10/01 17:19:16 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:46:24 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PMERGEME
 # define PMERGEME
 
-# define COMMENTS_ON 1
+# define COMMENTS_ON 0
 # if COMMENTS_ON
-    # define LOG(x) std::cout << x << std::endl
+    # define LOG(x) std::cout << x << RESET << std::endl
 #  else
     #define LOG(x)
 # endif
@@ -37,7 +37,20 @@ typedef std::list <unsigned int> t_list;
 typedef std::list <std::pair <unsigned int, unsigned int> > t_pairsList;
 typedef std::vector <unsigned int> t_vector;
 
+typedef struct	s_trackingL 
+{
+	t_list		l;
+	t_list		rec;
+	t_list		combined;
+} 	t_trackingL;
 
+
+typedef struct	s_tracking 
+{
+	t_vector	v;
+	t_vector	rec;
+	t_vector	combined;
+} 	t_tracking;
 
 class PmergeMe
 {
@@ -52,7 +65,7 @@ class PmergeMe
 		unsigned int	_lastElement;
 		void			sortList(t_list &list);
 		t_vector 		fusionInsertSort(t_vector &vector, unsigned int level);
-
+		t_list		fusionInsertSort(t_list &list, unsigned int level);
 	public:
 		static int		sort(t_vector &vector);
 		static int		sort(t_list &list);

@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 12:55:42 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/30 18:25:16 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:55:13 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,14 @@ int main(int ac, char **av)
 	std::cout << WHITE << "Time to process a range of " << elementsVect.size() << " elements with std::vector: " << CYAN << durationVectSort << " ms." << RESET << std::endl;
 	std::cout << std::endl;
 
-	// double durationListSort;
-	// std::cout << MAGENTA << "> Sort list using PmergeMe" << RESET << std::endl;
-	// std::cout << WHITE << "Before:\t" << BLUE << elementsList << RESET << std::endl;
-	// if (measureSortList(durationListSort, elementsList))
-	// 	return 1;	
-	// std::cout << WHITE << "After:\t" << BLUE << elementsList << RESET << std::endl;
-	// std::cout << WHITE << "Time to process a range of " << elementsVect.size() << " elements with std::list: " << CYAN << durationListSort << " ms." << RESET << std::endl;
-	// std::cout << std::endl;
+	double durationListSort;
+	std::cout << MAGENTA << "> Sort list using PmergeMe" << RESET << std::endl;
+	std::cout << WHITE << "Before:\t" << BLUE << elementsList << RESET << std::endl;
+	if (measureSortList(durationListSort, elementsList))
+		return 1;	
+	std::cout << WHITE << "After:\t" << BLUE << elementsList << RESET << std::endl;
+	std::cout << WHITE << "Time to process a range of " << elementsVect.size() << " elements with std::list: " << CYAN << durationListSort << " ms." << RESET << std::endl;
+	std::cout << std::endl;
 	
 
 	return 0;

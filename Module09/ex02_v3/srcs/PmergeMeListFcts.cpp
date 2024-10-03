@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:13:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/10/01 17:19:44 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:48:33 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	PmergeMe::isListSorted(t_list &list)
 	itNext++;
 	while (itNext != list.end())
 	{
-		if (*it > *itNext)
+		if (*it < *itNext)
 			return false;
 		it++;
 		itNext++;
@@ -30,61 +30,84 @@ bool	PmergeMe::isListSorted(t_list &list)
 	return true;
 }
 
-static void	fillPairsList(t_list &list, t_pairsList &pairsList)
+static t_list::iterator	next(t_list::iterator it)
 {
-	pairsList.clear();
-	const size_t		size = list.size();
-	t_list::iterator	it = list.begin();
-	
-	for (size_t i = 0; i < size / 2; ++i)
-	{
-		const unsigned int		a = *(it++);
-		const unsigned int		b = *(it++);
-		pairsList.push_back(std::make_pair(std::min(a, b), std::max(a, b)));
-	}
+	it++;
+	return it;
 }
 
-static t_pairsList merge(const t_pairsList &listA, const t_pairsList &listB)
+static void sortPairs(t_list &list, t_list &S, t_list &pend, t_list &swapTrack)
 {
-	t_pairsList listRes;
-	t_pairsList::const_iterator itA = listA.begin();
-	t_pairsList::const_iterator itB = listB.begin();
-
-	while (itA != listA.end() && itB != listB.end())
+	t_list::iterator it = list.begin();
+	t_list::iterator itNext = it;
+	t_list::iterator itSwap = swapTrack.begin();
+	while (it != list.end())
 	{
-		if (itA->second < itB->second)
+		itNext = next(it);
+		if (itNext == list.end())
 		{
-			listRes.push_back(*itA);
-			itA++;
+			pend.push_back(*it);
+			break;
 		}
 		else
 		{
-			listRes.push_back(*itB);
-			itB++;
+			if (*it < *itNext)
+			{
+				std::iter_swap(it, itNext);
+				t_list::iterator itSwapNext = next(itSwap);
+				std::iter_swap(itSwap, itSwapNext);
+			}
+			S.push_back(*it);
 		}
+		++++itSwap;
+		it = next(itNext);
 	}
-	listRes.insert(listRes.end(), itA, listA.end());
-	listRes.insert(listRes.end(), itB, listB.end());
-	return listRes;
+	LOG(WHITE << "1 + 2 - Sorted big elements by pairs :\t" << RESET << list);
+	LOG(CYAN << "S = " << S);
 }
 
-static t_pairsList	mergeSortPairsList(const t_pairsList &list)
+static void smallSort(t_list &list, t_list &swapTrack, unsigned int level)
 {
-	if (list.size() <= 1)
-		return list;
-	
-	t_pairsList					listA, listB;
-	t_pairsList::const_iterator	it = list.begin();
-	size_t						mid = list.size() / 2;
+	size_t	size = list.size();
 
-	std::advance(it, mid);
-	listA.insert(listA.end(), list.begin(), it);
-	listB.insert(listB.end(), it, list.end());
+	if (size == 2)
+	{
+		t_list::iterator it1 = list.begin();
+		t_list::iterator it2 = list.begin();
+		it2++;
+		if (*it1 < *it2)
+		{
+			std::iter_swap(it1, it2);
+			swapTrack.push_back(0);
+			swapTrack.pop_front();
+		}
+	}
+	(void) level;
+	LOG(GREEN << std::endl << "-----------------------------------------EXIT LEVEL " << level << "-----------------------------------------" << std::endl
+		<< "Sorted list:\t" << list << std::endl
+		<< "SwapTrack: " << swapTrack<< std::endl
+		<< "----------------------------------------------------------------------------------------------");
+}
 
-	listA = mergeSortPairsList(listA);
-	listB = mergeSortPairsList(listB);
+static unsigned int	indexMoved(t_trackingL &swapTrack, size_t index, bool odd)
+{
+	t_list::iterator itRec = swapTrack.rec.begin();
+	std::advance(itRec, index);
+	size_t indexSwap = 2 * *itRec + odd;
+	t_list::iterator itSwap = swapTrack.l.begin();
+	std::advance(itSwap, indexSwap);
+	return *itSwap;
+}
 
-	return merge(listA, listB);
+static void trackMovement(t_trackingL &swapTrack, size_t loc, size_t index, int odd)
+{	
+	t_list::iterator it = swapTrack.combined.begin();
+	std::advance(it, loc);
+
+	if (odd == -1)
+		swapTrack.combined.insert(it, index);
+	else
+		swapTrack.combined.insert(it, indexMoved(swapTrack, index, odd));
 }
 
 static size_t	binarySearchList(const t_list &list, unsigned int element, size_t low, size_t high)
@@ -93,7 +116,7 @@ static size_t	binarySearchList(const t_list &list, unsigned int element, size_t 
 	{
 		t_list::const_iterator	it = list.begin();
 		std::advance(it, low);
-		return (element > *it) ? low +1 : low;
+		return (element < *it) ? low +1 : low;
 	}
 
 	size_t	mid = (low + high) / 2;
@@ -101,7 +124,7 @@ static size_t	binarySearchList(const t_list &list, unsigned int element, size_t 
 	std::advance(it, mid);
 	if (element == *it)
 		return mid;
-	else if (element < *it)
+	else if (element > *it)
 	{
 		if (mid == 0)
 			return 0;
@@ -110,67 +133,107 @@ static size_t	binarySearchList(const t_list &list, unsigned int element, size_t 
 	return binarySearchList(list, element, mid + 1, high);
 }
 
-static void	binaryInsertList(t_list &list, unsigned int element, size_t size)
+static size_t	binaryInsertList(t_list &list, unsigned int element, size_t size)
 {
 	if (size > list.size())
 		size = list.size();
-	size_t loc = binarySearchList(list, element, 0, size);
-	t_list::iterator	it = list.begin();
+	size_t loc = binarySearchList(list, element, list.size() - size,  list.size() -1);
+	t_list::iterator it = list.begin();
 	std::advance(it, loc);
 	list.insert(it, element);
 	LOG(GREY << "	  > element to insert = "<< CYAN << element << GREY <<  " -> inserted at position " << loc << RESET);
+	return loc;
 }
 
-static void	insertSortList(t_list &list, t_pairsList &pairsList, size_t nbElements)
+static void insertSort(t_list &S, t_list &pend, t_trackingL &swapTrack)
 {
-	if (pairsList.empty())
-		return ;
+	// ADD THE SMALLEST ELEMENT TO S	
+	size_t sizeS = S.size();
+	size_t sizePend = pend.size();
+	S.push_back(pend.back());
+	trackMovement(swapTrack, sizeS, sizeS - 1, 1);
+	LOG(WHITE << "4 - Added the smallest element to S: 	" << RESET << S);
 
-	list.clear();
-	list.push_back(pairsList.begin()->first);
-
-	for (t_pairsList::iterator it = pairsList.begin(); it != pairsList.end(); it++)
-		list.push_back(it->second);
-	LOG(WHITE << "	1rst sorted list:	" << list << RESET << " (first value and biggest number of each pair, before insertion of smallest values)");
-
-	size_t nbPairs = pairsList.size();
+	// GENERATE JACOBSTHAL SEQUENCE
 	t_vector jacobsthalSeq;
-	generateJacobsthalSequence(jacobsthalSeq, nbPairs);
-
-	size_t	currLevel = 2;
+	size_t	currLevel = 1;
 	size_t	maxElementsToSort = 3;
-	t_pairsList::iterator it = pairsList.begin();
+	generateJacobsthalSequence(jacobsthalSeq, sizePend);
+	LOG(BLUE << "JacobsthalSeq: " << jacobsthalSeq);
+	LOG(WHITE << "	1rst sorted list:	" << S << RESET);
 
-	while (jacobsthalSeq[currLevel] < nbPairs)
+	// INSERT EVERY ELEMENT OF PEND INTO S FOLLOWING THE JACOBSTHAL SEQUENCE
+	while (currLevel < jacobsthalSeq.size())
 	{
-		std::advance(it, jacobsthalSeq[currLevel] - jacobsthalSeq[currLevel - 1]);
 		for (size_t i = jacobsthalSeq[currLevel]; i > jacobsthalSeq[currLevel - 1]; i--)
-			binaryInsertList(list, (it--)->first, maxElementsToSort);
-		std::advance(it, jacobsthalSeq[currLevel] - jacobsthalSeq[currLevel - 1]);
-		LOG(WHITE << "	" << currLevel << "th sorted list:	" << list << RESET 
-				<< " (after insertion of small elements from pairs " << jacobsthalSeq[currLevel]- 1 << " to " << jacobsthalSeq[currLevel - 1] << " within the first " << maxElementsToSort << " elements of the list)");
-		++currLevel;
-		maxElementsToSort = pow(2, currLevel) - 1;
-		if (maxElementsToSort > nbElements)
-			maxElementsToSort = nbElements;
+		{
+			size_t	index = sizePend - 1 - i;
+			t_list::iterator it = pend.begin();
+			std::advance(it, index);
+			size_t loc = binaryInsertList(S, *it, maxElementsToSort);
+			if ((sizeS + sizePend) % 2 == 0)
+				trackMovement(swapTrack, loc, index, 1);
+			else if (index == 0)
+				trackMovement(swapTrack, loc, sizeS + sizePend - 1, -1);
+			else
+				trackMovement(swapTrack, loc, index - 1, 1);
+		}
+		currLevel++;
+		maxElementsToSort = pow(2, currLevel + 1) - 1;
+		if (maxElementsToSort > 2 * sizePend)
+			maxElementsToSort = 2 * sizePend;
 	}
 }
 
-void PmergeMe::sortList(t_list &list)
+t_list PmergeMe::fusionInsertSort(t_list &list, unsigned int level)
 {
-	t_pairsList	pairsList;
+	LOG(WHITE << std::endl << "-------------------------------------MERGE INSERT LEVEL " << level << "-------------------------------------" << RESET << std::endl);
+	LOG(WHITE << "0 - Unsorted list : " << RESET << list);
 	
-	LOG(WHITE  << std::endl << "---------------------------------------COMMENTS---------------------------------------" << RESET << std::endl);
-	LOG(WHITE << "Unsorted list: 	" << list << RESET);
-	fillPairsList(list, pairsList);
-	LOG(WHITE << "Pairs list: 		" << pairsList << RESET << " (list into pairs whose second element is the biggest)");
-	LOG(YELLOW << "-- Merge sort --" << RESET);
-	pairsList = mergeSortPairsList(pairsList);
-	LOG(WHITE << "Sorted pairs list: 	" << pairsList << RESET << " (pairs sorted by their second element with a merge sort)");
-	LOG(YELLOW << "-- Insertion sort --" << RESET);
-	insertSortList(list, pairsList, _nbElements);
-	if (_nbElements % 2 == 1)
-		binaryInsertList(list, _lastElement, _nbElements);
-	LOG(WHITE << "Sorted list: 		" << list << RESET);
-	LOG(WHITE << "--------------------------------------------------------------------------------------" << RESET << std::endl);
+	size_t size = list.size();
+	
+	// CREATE A VECTOR THAT WILL TRACK THE MOVEMENTS WHEN SORTING
+	t_trackingL swapTrack;
+	for (size_t i = 0; i < size; i++)
+		swapTrack.l.push_back(i);
+
+	// LESS THAN 3 ELEMENTS -> BREAK THE RECURSION
+	if (size < 3)
+	{
+		smallSort(list, swapTrack.l, level);
+		return (swapTrack.l);
+	}
+
+	// SORT BY PAIRS AND CREATE A S VECTOR TO RECURSIVELY SORT
+	t_list 	S, pend;
+	sortPairs(list, S, pend, swapTrack.l);
+
+	// RECURSIVELY SORT S
+	swapTrack.rec = fusionInsertSort(S, level + 1);
+	
+	LOG(WHITE << std::endl << "----------------------------------------BACK TO LEVEL " << level << "---------------------------------------" << RESET);
+	LOG(WHITE << "3 - Sorted S list: 	" << RESET << S);
+	
+	// PUSH SMALL ELEMENTS INTO PEND ACCORDINGLY TO THE MOVEMENTS OF THE BIG ELEMENT
+	for (t_list::iterator it = swapTrack.rec.begin(); it != swapTrack.rec.end(); it++)
+	{
+		t_list::iterator itList = list.begin();
+		advance(itList, 2 * *it + 1);
+		pend.push_back(*itList);
+	}
+	LOG(CYAN << "Pend = " << pend);
+
+	// COMBINE THE VECTORS TRACKING MOVEMENTS
+	for (size_t i = 0; i < S.size(); i++)
+		trackMovement(swapTrack, i, i, 0);
+	
+	// INSERT SORT THE PEND VECTOR INTO THE S VECTOR
+	insertSort(S, pend, swapTrack);
+	
+	list = S;
+	LOG(GREEN << std::endl << "-----------------------------------------EXIT LEVEL " << level << "-----------------------------------------" << std::endl
+		<< "Sorted list:\t" << list << std::endl
+		<< "SwapTrack:\t" << swapTrack.combined<< std::endl
+		<< "----------------------------------------------------------------------------------------------");
+	return swapTrack.combined;
 }
