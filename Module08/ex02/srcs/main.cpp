@@ -6,13 +6,12 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:47:06 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/17 23:12:15 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:35:45 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MutantStack.hpp"
 #include "Colors.hpp"
-
 #include <iostream>
 #include <list>
 
