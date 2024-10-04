@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:52:06 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/16 19:00:08 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:05:10 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 #include <iostream>
 #include <vector>
 #include <list>
-
-
-
 
 std::vector<int> valuesToVector (int values[], size_t n)
 {
@@ -67,11 +64,10 @@ int main()
 	}
 	std::cout << std::endl;
 
-	std::cout << CYAN << "TEST WITH LIST" << RESET << std::endl;
+	std::cout << CYAN << "TEST WITH INT LIST" << RESET << std::endl;
 	int values2[] = {0, 1, -1, 42, 50, 42};
 	n = sizeof(values2) / sizeof(values2[0]);
-	std::list<int> list = valuesToList(values, n);
-
+	std::list<int> list = valuesToList(values2, n);
 	std::cout << WHITE<< "list = [ ";
 	for (std::list<int>::iterator it = list.begin(); it != list.end(); ++it)
 		std::cout << *it << " ";
@@ -93,8 +89,6 @@ int main()
 		std::cerr << RED << "Exception caught: " << e.what() << RESET << std::endl;
 	}
 	std::cout << std::endl;
-}
-
 
 	// std::cout << CYAN << "TEST WITH STRING VECTOR" << RESET << std::endl;
 	// std::vector<std::string> tab2;
@@ -102,12 +96,12 @@ int main()
 	// tab2.push_back("World");
 	// tab2.push_back("42");
 	
-	// std::cout << WHITE "tab2 = [ ";
+	// std::cout << WHITE << "tab2 = [ ";
 	// for (std::vector<std::string>::iterator it = tab2.begin(); it != tab2.end(); ++it)
 	// 	std::cout << *it << " ";
-	// std::cout << "]" RESET << std::endl;
+	// std::cout << "]" << RESET << std::endl;
 	
-	// std::cout<< RED "> Does not compile <" RESET << std::endl;
+	// std::cout<< RED << "> Does not compile <" << RESET << std::endl;
 	// // try
 	// // {
 	// // 	std::cout << WHITE "> Trying to find 42 in the vector: " RESET;
@@ -117,5 +111,5 @@ int main()
 	// // {
 	// // 	std::cerr << RED "Exception caught: " << e.what() << RESET << std::endl;
 	// // }
-// }
+}
 
