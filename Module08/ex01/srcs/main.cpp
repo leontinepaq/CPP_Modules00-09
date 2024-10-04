@@ -6,13 +6,14 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:50:04 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/17 17:30:17 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:56:45 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Colors.hpp"
 #include "Span.hpp"
 #include <iostream>
+#include <vector>
 
 int	main(void)
 {
@@ -62,7 +63,7 @@ int	main(void)
 		span.printNumbers();
 		std::cout << WHITE << "> longuest span: " << span.longuestSpan() << RESET << std::endl;
 		std::cout << WHITE << "> shortest span: " << span.shortestSpan() << RESET << std::endl;
-	}
+	}	
 	catch(const std::exception& e)
 	{
 		std::cout << RED << "Exception catched: " << e.what() << RESET << '\n';
@@ -105,9 +106,10 @@ int	main(void)
 	std::cout << YELLOW << "VERY BIG SPAN (100K+ VALUES)" << RESET << std::endl;
 	try
 	{
-		std::multiset<int> values;
+		std::vector<int> values;
 		for (int i = 1; i <= 100000; ++i)
-        	values.insert(i * 10);
+        	values.push_back(i * 10);
+		
 		Span bigSpan(100002);
 		bigSpan.addNumber(values.begin(), values.end());
 		// bigSpan.addNumber(42);
@@ -122,4 +124,3 @@ int	main(void)
 		std::cout << RED << "Exception catched: " << e.what() << RESET << '\n';
 	}
 }
-

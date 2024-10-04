@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:34:19 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/17 17:36:38 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:00:00 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ class Span
 		Span& operator=(const Span &src);
 		~Span();
 		void	addNumber(int number);
-		void	addNumber(std::multiset<int>::iterator begin, std::multiset<int>::iterator end);
+		template <typename it>
+		void	addNumber(it begin, it end);
 		void	printNumbers();
 		int		shortestSpan();
 		int		longuestSpan();
@@ -43,5 +44,13 @@ class Span
 			virtual const char* what() const throw();
 		};
 };
+
+template <typename it>
+void	Span::addNumber(it begin, it end)
+{
+	if (_numbers.size() + std::distance(begin, end) > _maxValues)
+		throw(TooManyNumbersException());
+	_numbers.insert(begin, end);
+}
 
 #endif

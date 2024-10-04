@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:34:10 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/17 17:35:18 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:57:20 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	Span::printNumbers()
 {
 	std::multiset<int>::iterator itr;
 
-
 	int i = 0;
 	std::cout << "Numbers: [ ";
 	if (_numbers.size() < 10)
@@ -73,13 +72,6 @@ void	Span::addNumber(int number)
 	if (_numbers.size() >= _maxValues)
 		throw(TooManyNumbersException());
 	_numbers.insert(number);
-}
-
-void	Span::addNumber(std::multiset<int>::iterator begin, std::multiset<int>::iterator end)
-{
-	if (_numbers.size() + std::distance(begin, end) > _maxValues)
-		throw(TooManyNumbersException());
-	_numbers.insert(begin, end);
 }
 
 static int	distance(int a, int b)
