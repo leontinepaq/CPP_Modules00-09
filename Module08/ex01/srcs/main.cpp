@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:50:04 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/10/04 12:56:45 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:21:39 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(void)
 		span.addNumber(503);
 		std::cout << CYAN;
 		span.printNumbers();
-		std::cout << WHITE << "> longuest span: " << span.longuestSpan() << RESET << std::endl;
+		std::cout << WHITE << "> longuest span: " << span.longestSpan() << RESET << std::endl;
 		std::cout << WHITE << "> shortest span: " << span.shortestSpan() << RESET << std::endl;
 	}
 	catch(const std::exception& e)
@@ -44,7 +44,7 @@ int	main(void)
 		span.addNumber(1);
 		std::cout << CYAN;
 		span.printNumbers();
-		std::cout << WHITE << "> longuest span: " << span.longuestSpan() << RESET << std::endl;
+		std::cout << WHITE << "> longuest span: " << span.longestSpan() << RESET << std::endl;
 		std::cout << WHITE << "> shortest span: " << span.shortestSpan() << RESET << std::endl;
 	}
 	catch(const std::exception& e)
@@ -61,7 +61,7 @@ int	main(void)
 		span.addNumber(10);
 		std::cout << CYAN;
 		span.printNumbers();
-		std::cout << WHITE << "> longuest span: " << span.longuestSpan() << RESET << std::endl;
+		std::cout << WHITE << "> longuest span: " << span.longestSpan() << RESET << std::endl;
 		std::cout << WHITE << "> shortest span: " << span.shortestSpan() << RESET << std::endl;
 	}	
 	catch(const std::exception& e)
@@ -82,7 +82,7 @@ int	main(void)
 		span.addNumber(0);
 		std::cout << CYAN;
 		span.printNumbers();
-		std::cout << WHITE << "> longuest span: " << span.longuestSpan() << RESET << std::endl;
+		std::cout << WHITE << "> longuest span: " << span.longestSpan() << RESET << std::endl;
 		std::cout << WHITE << "> shortest span: " << span.shortestSpan() << RESET << std::endl;
 	}
 	catch(const std::exception& e)
@@ -116,7 +116,7 @@ int	main(void)
 		// bigSpan.addNumber(20);
 		std::cout << CYAN ;
 		bigSpan.printNumbers();
-		std::cout << WHITE << "> longuest span: " << bigSpan.longuestSpan() << RESET << std::endl;
+		std::cout << WHITE << "> longuest span: " << bigSpan.longestSpan() << RESET << std::endl;
 		std::cout << WHITE << "> shortest span: " << bigSpan.shortestSpan() << RESET << std::endl;
 	}
 	catch(const std::exception& e)

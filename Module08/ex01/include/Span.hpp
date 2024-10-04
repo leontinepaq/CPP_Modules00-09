@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:34:19 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/26 15:00:00 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:49:43 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ class Span
 		void	addNumber(it begin, it end);
 		void	printNumbers();
 		int		shortestSpan();
-		int		longuestSpan();
+		int		longestSpan();
 
 	private:
 		std::multiset<int>	_numbers;

@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:34:10 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/10/04 12:57:20 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:51:06 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	distance(int a, int b)
 	return abs(a - b);
 }
 
-int Span::longuestSpan()
+int Span::longestSpan()
 {
 	if (_numbers.size() < 2)
 		throw (NotEnoughNumbersException());
