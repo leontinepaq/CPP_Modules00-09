@@ -6,12 +6,13 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 23:51:23 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/18 15:14:50 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:29:42 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 #include "Colors.hpp"
+#include <algorithm>
 
 
 
@@ -94,17 +95,17 @@ static bool	validateValueFormat(std::string value)
 	ss >> std::noskipws >> valueFloat;
 	if (ss.fail() || ss.peek() != std::stringstream::traits_type::eof())
 	{
-		std::cout << "Error: bad input => " << value << std::endl;
+		std::cout << RED << "Error: bad input => " << value << RESET << std::endl;
 		return false;
 	}
 	if (valueFloat < 0)
 	{
-		std::cout << "Error: not a positive number." << std::endl;
+		std::cout << RED << "Error: not a positive number." << RESET << std::endl;
 		return false;
 	}
 	if (valueFloat > 1000)
 	{
-		std::cout << "Error: too large a number." << std::endl;
+		std::cout << RED << "Error: too large a number." << RESET << std::endl;
 		return false;
 	}
 	return true;
@@ -158,12 +159,13 @@ int 	BitcoinExchange::parseTransactionLine(std::string line, std::string &date, 
 		return 1;
 	std::istringstream lineStream(line);
 	std::string valueStr;
+	std::string	sep;
 	getline(lineStream, date, ' ');
-	lineStream.ignore(2);
+	getline(lineStream, sep, ' ');
 	getline(lineStream, valueStr);
-	if (validateDateFormat(date) == false)
+	if (sep != "|" || validateDateFormat(date) == false)
 	{
-		std::cout << "Error: bad input => " << date << std::endl;
+		std::cout << RED << "Error: bad input => " << date << RESET << std::endl;
 		return 1;
 	}
 	if (!validateValueFormat(valueStr))
@@ -176,7 +178,7 @@ int 	BitcoinExchange::parseTransactionLine(std::string line, std::string &date, 
 void	BitcoinExchange::printBitcoinRate(std::string date, float value)
 {
 	double btcRate = getBitcoinRateAtDate(date);
-	std::cout << date << " => " << value << " = " << btcRate * value << std::endl;
+	std::cout << date << " => " << value << " = " << std::abs(btcRate * value) << std::endl;
 }
 
 void	BitcoinExchange::processInputFile(std::ifstream &input)
@@ -205,17 +207,17 @@ int	BitcoinExchange::printBitcoinRatesFile(std::string file)
 	}
 	catch (BitcoinExchange::CantOpenFileException &e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << RED << e.what() << RESET << std::endl;
 		return 1;
 	}
 	catch (BitcoinExchange::InvalidFileFormatException &e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << RED << e.what() << RESET << std::endl;
 		return 1;
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << "Unexpected exception: " << e.what() << '\n';
+		std::cerr << RED << "Unexpected exception: " << e.what() << RESET << std::endl;
 		return 1;
 	}
 	return 0;          
