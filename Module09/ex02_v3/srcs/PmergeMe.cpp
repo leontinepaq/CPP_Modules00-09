@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:10:57 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/10/03 14:05:12 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:52:10 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,21 @@
 #include <iostream>
 
 
-PmergeMe::PmergeMe() : _nbElements(0), _lastElement(0)
+PmergeMe::PmergeMe()
 {
 	// std::cout << "[PmergeMe] Default constructor called" << std::endl;
 }
 
-PmergeMe::PmergeMe(t_vector &vector) : _nbElements(vector.size()), _lastElement(vector.back())
+PmergeMe::PmergeMe(const PmergeMe &src)
 {
-	// std::cout << "[PmergeMe] Parametric constructor called" << std::endl;
-}
-
-PmergeMe::PmergeMe(t_list &list) : _nbElements(list.size()), _lastElement(list.back())
-{
-	// std::cout << "[PmergeMe] Parametric constructor called" << std::endl;
-}
-
-PmergeMe::PmergeMe(const PmergeMe &src) :
-	_nbElements(src._nbElements), _lastElement(src._lastElement)
-{
-	// std::cout << "[PmergeMe] Copy constructor called" << std::endl;
+	(void) src;
+	// std::cout << "[PmergeMe] Copy constructor called" << std::end;
 }
 
 PmergeMe& PmergeMe::operator=(const PmergeMe &src)
 {
 	// std::cout << "[PmergeMe] Assignment operator called" << std::endl;
-	if (this == &src)
-		return *this;
-	_nbElements = src._nbElements;
-	_lastElement = src._lastElement;
+	(void) src;
 	return *this;
 }
 
@@ -82,7 +69,7 @@ void	generateJacobsthalSequence(t_vector &vect, size_t size)
 
 int PmergeMe::sort(t_list &list)
 {
-	PmergeMe	pmergeMe(list);
+	PmergeMe	pmergeMe;
 	
 	if (pmergeMe.isListSorted(list))
 	{
@@ -98,7 +85,7 @@ int PmergeMe::sort(t_list &list)
 
 int PmergeMe::sort(t_vector &vector)
 {
-	PmergeMe		pmergeMe(vector);
+	PmergeMe		pmergeMe;
 
 	if (isVectorSorted(vector))
 	{

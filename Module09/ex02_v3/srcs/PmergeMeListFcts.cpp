@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:13:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/10/03 15:48:33 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:52:47 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void sortPairs(t_list &list, t_list &S, t_list &pend, t_list &swapTrack)
 		++++itSwap;
 		it = next(itNext);
 	}
-	LOG(WHITE << "1 + 2 - Sorted big elements by pairs :\t" << RESET << list);
+	LOG(WHITE << "1 + 2 - Sorted big elements by pairs :\t" << list);
 	LOG(CYAN << "S = " << S);
 }
 
@@ -110,38 +110,34 @@ static void trackMovement(t_trackingL &swapTrack, size_t loc, size_t index, int 
 		swapTrack.combined.insert(it, indexMoved(swapTrack, index, odd));
 }
 
-static size_t	binarySearchList(const t_list &list, unsigned int element, size_t low, size_t high)
+static t_list::iterator binarySearchList(unsigned int element, t_list::iterator low, t_list::iterator high)
 {
-	if (low >= high)
+    t_list::iterator mid;
+	while (std::distance(low, high) > 0)
 	{
-		t_list::const_iterator	it = list.begin();
-		std::advance(it, low);
-		return (element < *it) ? low +1 : low;
-	}
-
-	size_t	mid = (low + high) / 2;
-	t_list::const_iterator	it = list.begin();
-	std::advance(it, mid);
-	if (element == *it)
-		return mid;
-	else if (element > *it)
-	{
-		if (mid == 0)
-			return 0;
-		return binarySearchList(list, element, low, mid - 1);
-	}
-	return binarySearchList(list, element, mid + 1, high);
+        mid = low;
+		std::advance(mid, std::distance(low, high) / 2);
+        if (element == *mid)
+            return mid;
+        else if (element < *mid)
+            low = next(mid);
+        else
+            high = mid;
+    }
+    return low;
 }
 
 static size_t	binaryInsertList(t_list &list, unsigned int element, size_t size)
 {
 	if (size > list.size())
 		size = list.size();
-	size_t loc = binarySearchList(list, element, list.size() - size,  list.size() -1);
-	t_list::iterator it = list.begin();
-	std::advance(it, loc);
+	t_list::iterator itLow = list.begin();
+	t_list::iterator itHigh = list.end();
+	std::advance(itLow, list.size() - size);
+	t_list::iterator it = binarySearchList(element, itLow, itHigh);
 	list.insert(it, element);
-	LOG(GREY << "	  > element to insert = "<< CYAN << element << GREY <<  " -> inserted at position " << loc << RESET);
+	size_t loc = std::distance(list.begin(), it) - 1;
+	LOG(GREY << "	  > element to insert = "<< CYAN << element << GREY <<  " -> inserted at position " << loc);
 	return loc;
 }
 
@@ -152,7 +148,7 @@ static void insertSort(t_list &S, t_list &pend, t_trackingL &swapTrack)
 	size_t sizePend = pend.size();
 	S.push_back(pend.back());
 	trackMovement(swapTrack, sizeS, sizeS - 1, 1);
-	LOG(WHITE << "4 - Added the smallest element to S: 	" << RESET << S);
+	LOG(WHITE << "4 - Added the smallest element to S: 	" << S);
 
 	// GENERATE JACOBSTHAL SEQUENCE
 	t_vector jacobsthalSeq;
@@ -187,8 +183,8 @@ static void insertSort(t_list &S, t_list &pend, t_trackingL &swapTrack)
 
 t_list PmergeMe::fusionInsertSort(t_list &list, unsigned int level)
 {
-	LOG(WHITE << std::endl << "-------------------------------------MERGE INSERT LEVEL " << level << "-------------------------------------" << RESET << std::endl);
-	LOG(WHITE << "0 - Unsorted list : " << RESET << list);
+	LOG(WHITE << std::endl << "-------------------------------------MERGE INSERT LEVEL " << level << "-------------------------------------" << std::endl);
+	LOG(WHITE << "0 - Unsorted list : " << list);
 	
 	size_t size = list.size();
 	
@@ -211,8 +207,8 @@ t_list PmergeMe::fusionInsertSort(t_list &list, unsigned int level)
 	// RECURSIVELY SORT S
 	swapTrack.rec = fusionInsertSort(S, level + 1);
 	
-	LOG(WHITE << std::endl << "----------------------------------------BACK TO LEVEL " << level << "---------------------------------------" << RESET);
-	LOG(WHITE << "3 - Sorted S list: 	" << RESET << S);
+	LOG(WHITE << std::endl << "----------------------------------------BACK TO LEVEL " << level << "---------------------------------------");
+	LOG(WHITE << "3 - Sorted S list: 	" << S);
 	
 	// PUSH SMALL ELEMENTS INTO PEND ACCORDINGLY TO THE MOVEMENTS OF THE BIG ELEMENT
 	for (t_list::iterator it = swapTrack.rec.begin(); it != swapTrack.rec.end(); it++)

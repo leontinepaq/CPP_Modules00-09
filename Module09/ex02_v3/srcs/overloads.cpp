@@ -6,22 +6,11 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:42:32 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/09/30 19:36:01 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:48:38 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMeTer.hpp"
-
-bool operator<(const t_vector &a, const t_vector &b)
-{
-	return a.back() < b.back();
-}
-
-bool operator>(const t_vector &a, const t_vector &b)
-{
-	return a.back() > b.back();
-}
-
 
 std::ostream  &operator<<(std::ostream &os, std::vector<size_t> vect)
 {
@@ -74,24 +63,6 @@ std::ostream  &operator<<(std::ostream &os, t_list &list)
 			break ;
 		}
 		os << " ";
-	}
-	return os;
-}
-
-std::ostream  &operator<<(std::ostream &os, t_pairsList &list)
-{
-	t_pairsList::iterator	it = list.begin();
-	int i = 0;
- 	for (it = list.begin(); it != list.end(); ++it)
-	{
-		os << WHITE  << "[ " << CYAN << it->first << " " << MAGENTA << it->second << WHITE << " ]" << RESET;
-		if (it != --list.end())
-			os << " ";
-		if (i++ > 10)
-		{
-			os << "[...]";
-			break ;
-		}
 	}
 	return os;
 }

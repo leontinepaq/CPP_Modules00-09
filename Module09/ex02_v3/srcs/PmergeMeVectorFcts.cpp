@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:13:05 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/10/03 15:41:43 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:54:25 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,12 @@ void	swap(t_vector &vector, size_t i, size_t j)
 static size_t	binarySearchVector(const t_vector &vector, unsigned int element, size_t low, size_t high)
 {
 	if (low >= high)
-	{
-		t_vector::const_iterator	it = vector.begin();
-		std::advance(it, low);
-		return (element < *it) ? low +1 : low;
-	}
+		return (element < vector[low]) ? low +1 : low;
 
 	size_t	mid = (low + high) / 2;
-	t_vector::const_iterator	it = vector.begin();
-	std::advance(it, mid);
-	if (element == *it)
+	if (element == vector[mid])
 		return mid;
-	else if (element > *it)
+	else if (element > vector[mid])
 	{
 		if (mid == 0)
 			return 0;
@@ -65,7 +59,7 @@ static size_t	binaryInsertVector(t_vector &vector, unsigned int element, size_t 
 		size = vector.size();
 	size_t loc = binarySearchVector(vector, element, vector.size() - size,  vector.size() -1);
 	vector.insert(vector.begin() + loc, element);
-	LOG(GREY << "	  > element to insert = "<< CYAN << element << GREY <<  " -> inserted at position " << loc << RESET);
+	LOG(GREY << "	  > element to insert = "<< CYAN << element << GREY <<  " -> inserted at position " << loc);
 	return loc;
 }
 
@@ -87,7 +81,7 @@ static void sortPairs(t_vector &vector, t_vector &S, t_vector &pend, t_vector &s
 		else
 			pend.push_back(vector[i]);
 	}
-	LOG(WHITE << "1 + 2 - Sorted big elements by pairs :\t" << RESET << vector);
+	LOG(WHITE << "1 + 2 - Sorted big elements by pairs :\t" << vector);
 	LOG(CYAN << "S = " << S);
 }
 
@@ -130,7 +124,7 @@ static void insertSort(t_vector &S, t_vector &pend, t_tracking &swapTrack)
 	size_t sizePend = pend.size();
 	S.push_back(pend.back());
 	trackMovement(swapTrack, sizeS, sizeS - 1, 1);
-	LOG(WHITE << "4 - Added the smallest element to S: 	" << RESET << S);
+	LOG(WHITE << "4 - Added the smallest element to S: 	" << S);
 
 	// GENERATE JACOBSTHAL SEQUENCE
 	t_vector jacobsthalSeq;
@@ -138,7 +132,7 @@ static void insertSort(t_vector &S, t_vector &pend, t_tracking &swapTrack)
 	size_t	maxElementsToSort = 3;
 	generateJacobsthalSequence(jacobsthalSeq, sizePend);
 	LOG(BLUE << "JacobsthalSeq: " << jacobsthalSeq);
-	LOG(WHITE << "	1rst sorted vector:	" << S << RESET);
+	LOG(WHITE << "	1rst sorted vector:	" << S);
 
 	// INSERT EVERY ELEMENT OF PEND INTO S FOLLOWING THE JACOBSTHAL SEQUENCE
 	while (currLevel < jacobsthalSeq.size())
@@ -163,8 +157,8 @@ static void insertSort(t_vector &S, t_vector &pend, t_tracking &swapTrack)
 
 t_vector PmergeMe::fusionInsertSort(t_vector &vector, unsigned int level)
 {
-	LOG(WHITE << std::endl << "-------------------------------------MERGE INSERT LEVEL " << level << "-------------------------------------" << RESET << std::endl);
-	LOG(WHITE << "0 - Unsorted vector : " << RESET << vector);
+	LOG(WHITE << std::endl << "-------------------------------------MERGE INSERT LEVEL " << level << "-------------------------------------" << std::endl);
+	LOG(WHITE << "0 - Unsorted vector : " << vector);
 	
 	size_t size = vector.size();
 	
@@ -188,8 +182,8 @@ t_vector PmergeMe::fusionInsertSort(t_vector &vector, unsigned int level)
 	// RECURSIVELY SORT S
 	swapTrack.rec = fusionInsertSort(S, level + 1);
 	
-	LOG(WHITE << std::endl << "----------------------------------------BACK TO LEVEL " << level << "---------------------------------------" << RESET);
-	LOG(WHITE << "3 - Sorted S vector: 	" << RESET << S);
+	LOG(WHITE << std::endl << "----------------------------------------BACK TO LEVEL " << level << "---------------------------------------");
+	LOG(WHITE << "3 - Sorted S vector: 	" << S);
 	
 	size_t	sizeS = S.size();
 	
